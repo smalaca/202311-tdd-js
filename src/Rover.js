@@ -1,5 +1,5 @@
 class Rover {
-    constructor(number, number2) {
+    constructor(x, y) {
 
     }
 
