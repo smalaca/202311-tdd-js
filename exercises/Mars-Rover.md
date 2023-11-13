@@ -1,6 +1,6 @@
 # Mars Rover
 A Rover is going to be dropped onto the surface of Mars, and will be controlled remotely from Earth. You are writing the software to control it as follows:
-* The Rover will be dropped at a known position on the planet
+* The Rover will be dropped at a known position [0, 0] on the planet
 * A planet is mapped as a grid of squares, each one being a Martian Cubit.
 * Due to design limitations, the Rover can only move forward. However, it can turn 90º to either the left or the right.
 * It is controlled by sending strings of characters as follows:
@@ -12,7 +12,7 @@ A Rover is going to be dropped onto the surface of Mars, and will be controlled 
     * Eg: RF -> [0,1] (y=y+1)
     * Eg: LF -> [0,100] (y=y-1)
     * Eg: RRF -> [100,0] (x=x-1)
-    * Eg: FLFFRF -> [2,-2]
+    * Eg: FLFFRF -> [2,99]
 * We know how large Mars is. Its surface area is 100x100 Cubits.
 * Planets are round… (so take this into account when trundling around).
 
