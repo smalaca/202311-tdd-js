@@ -14,4 +14,14 @@ describe("Rover", () => {
             expect(actual).toThrowError(new Error("Invalid x: -5"));
         })
     });
+
+    describe("moving", () => {
+        test("should move forward", () => {
+            let rover = new Rover(0, 0);
+
+            rover.execute("F");
+
+            expect(rover.actualPosition()).toStrictEqual({ x: 1, y: 0});
+        });
+    });
 });
