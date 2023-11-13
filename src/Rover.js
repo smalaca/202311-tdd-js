@@ -11,12 +11,12 @@ class Rover {
         return { x: this.x, y: this.y };
     }
 
-    execute(f) {
-        if (f === "F") {
+    execute(command) {
+        if (command === "F") {
             this.x = 1;
             return;
         }
-        if (f === "RF") {
+        if (command === "RF") {
             this.y = 1;
             return;
         }
