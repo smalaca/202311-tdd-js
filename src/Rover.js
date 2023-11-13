@@ -1,3 +1,8 @@
+const RIGHT = 0;
+const DOWN = 1;
+const LEFT = 2;
+const UP = 3;
+
 class Rover {
     constructor(x, y) {
         if (x < 0) {
@@ -5,6 +10,7 @@ class Rover {
         }
         this.x = 0;
         this.y = 0;
+        this.direction = RIGHT;
     }
 
     actualPosition() {
