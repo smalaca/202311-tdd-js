@@ -14,9 +14,13 @@ class Rover {
     execute(f) {
         if (f === "F") {
             this.x = 1;
-        } else {
-            this.y = 1;
+            return;
         }
+        if (f === "RF") {
+            this.y = 1;
+            return;
+        }
+        this.y = 100;
     }
 }
 
