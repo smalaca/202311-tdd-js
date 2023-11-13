@@ -23,5 +23,14 @@ describe("Rover", () => {
 
             expect(rover.actualPosition()).toStrictEqual({ x: 1, y: 0});
         });
+
+        test("should rotate and move forward", () => {
+            let rover = new Rover(0, 0);
+
+            rover.execute("RF");
+
+            expect(rover.actualPosition()).toStrictEqual({ x: 0, y: 1});
+        });
     });
+    
 });
