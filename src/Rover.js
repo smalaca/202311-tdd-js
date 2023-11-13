@@ -8,6 +8,10 @@ class Rover {
     actualPosition() {
         return { x: 0, y: 0};
     }
+
+    execute(f) {
+
+    }
 }
 
 module.exports = Rover;
