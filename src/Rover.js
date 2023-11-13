@@ -1,6 +1,8 @@
 class Rover {
     constructor(x, y) {
-
+        if (x < 0) {
+            throw new Error("Invalid x: -5");
+        }
     }
 
     actualPosition() {
