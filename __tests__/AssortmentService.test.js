@@ -51,6 +51,10 @@ describe("AssortmentService", () => {
 
             expect(actual).toThrowError("Missing product price");
         });
+
+        test('when additional attribute given', () => {
+            // TO BE DONE
+        });
     });
 
     function givenValidProductDto() {
