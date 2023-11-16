@@ -22,6 +22,15 @@ describe("AssortmentService", () => {
 
         expect(() => new AssortmentService(shopClient).addProduct(dto)).toThrow(INVALID.TYPE) 
     })
+    test("should throw error if code is not 30 chars", () => {
+        const dto = {
+            name: "book",
+            code: "asdf",
+            price: 123.45
+        }
+
+        expect(() => new AssortmentService(shopClient).addProduct(dto)).toThrow(INVALID.CODE) 
+    })
 })
 
 const VALID_PRODUCT = {
