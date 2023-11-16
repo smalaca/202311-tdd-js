@@ -20,7 +20,7 @@ class AssortmentService {
             throw new Error("Missing product price");
         }
 
-        this.#shopClient.addProduct(dto);
+        this.#shopClient.addProduct(dto, amount);
     }
 }
 
