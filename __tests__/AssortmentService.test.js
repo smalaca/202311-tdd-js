@@ -9,11 +9,13 @@ describe("AssortmentService", () => {
     const SHOP_CLIENT = {
         addProduct: jest.fn()
     };
-    const ASSORTMENT_SERVICE = new AssortmentService(SHOP_CLIENT);
 
-    const UI = {
+    const UI_CLIENT = {
         closeForm: jest.fn()
     };
+
+    const ASSORTMENT_SERVICE = new AssortmentService(SHOP_CLIENT, UI_CLIENT);
+
 
     describe('happy path', () => {
         test("should allow add product", () => {
@@ -31,7 +33,7 @@ describe("AssortmentService", () => {
     
             ASSORTMENT_SERVICE.addProduct(dto, amount);
     
-            expect(UI.closeForm).toHaveBeenCalled();
+            expect(UI_CLIENT.closeForm).toHaveBeenCalled();
         });
     });
 

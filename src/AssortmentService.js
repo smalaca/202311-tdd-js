@@ -2,9 +2,11 @@ const ShopClient = require("./ShopClient.js")
 
 class AssortmentService {
     #shopClient;
+    #uiClient;
 
-    constructor(shopClient) {
+    constructor(shopClient, uiClient) {
         this.#shopClient = shopClient;
+        this.#uiClient = uiClient;
     }
 
     addProduct(dto, amount) {
@@ -21,6 +23,7 @@ class AssortmentService {
         }
 
         this.#shopClient.addProduct(dto, amount);
+        this.#uiClient.closeForm();
     }
 }
 
