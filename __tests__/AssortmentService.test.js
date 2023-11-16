@@ -1,6 +1,8 @@
 const AssortmentService = require("../src/AssortmentService");
 
 describe("AssortmentService", () => {
+
+
     test("should allow add product", () => {
         let dto = givenValidProductDto();
         let shopClient = {
@@ -12,20 +14,26 @@ describe("AssortmentService", () => {
         expect(shopClient.addProduct).toHaveBeenCalledWith(dto);
     });
 
-    test("should not allow to add product without code", () => {
-        
-        let dto = {
-            name: "book",
-            price: 123.45
-        };
-
+    const invalidDtoTest = (dto, errorMessage) => {
         let shopClient = {
             addProduct: jest.fn()
         };
 
         const assortmentService = new AssortmentService(shopClient);
 
-        expect(() => assortmentService.addProduct(dto)).toThrow('Invalid product code');
+        expect(() => assortmentService.addProduct(dto)).toThrow(errorMessage);
+
+    }
+
+
+    test("should not allow to add product without code", () => {
+
+        let dto = {
+            name: "book",
+            price: 123.45
+        };
+
+        invalidDtoTest(dto, 'Invalid product code')
     });
 
     test("should not allow to add product without name", () => {
@@ -34,13 +42,7 @@ describe("AssortmentService", () => {
             price: 123.45
         };
 
-        let shopClient = {
-            addProduct: jest.fn()
-        };
-
-        const assortmentService = new AssortmentService(shopClient);
-
-        expect(() => assortmentService.addProduct(dto)).toThrow('Invalid product name');
+        invalidDtoTest(dto, 'Invalid product name')
     });
 
     test("should not allow to add product without price", () => {
@@ -48,14 +50,7 @@ describe("AssortmentService", () => {
             name: 'some name',
             code: "some code",
         };
-
-        let shopClient = {
-            addProduct: jest.fn()
-        };
-
-        const assortmentService = new AssortmentService(shopClient);
-
-        expect(() => assortmentService.addProduct(dto)).toThrow('Invalid product price');
+        invalidDtoTest(dto, 'Invalid product price')
     });
 
 
