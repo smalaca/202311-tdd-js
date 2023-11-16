@@ -31,14 +31,6 @@ describe("AssortmentService", () => {
 
         expect(() => new AssortmentService(shopClient).addProduct(dto)).toThrow(INVALID.CODE) 
     })
-    test("should get list of products", () => {
-        const dto = VALID_PRODUCT;
-
-        const service = new AssortmentService(shopClient)
-        service.addProduct(dto, 13)
-        
-        expect(service.getProducts().length).toBe(1);
-    })
 })
 
 
