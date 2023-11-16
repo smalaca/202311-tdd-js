@@ -1,6 +1,10 @@
 const AssortmentService = require("./AssortmentService");
 
 describe("AssortmentService", () => {
+    const VALID_NAME = "book";
+    const VALID_CODE = "some code";
+    const VALID_PRICE = 123.45;
+
     const SHOP_CLIENT = {
         addProduct: jest.fn()
     };
@@ -14,11 +18,24 @@ describe("AssortmentService", () => {
         expect(SHOP_CLIENT.addProduct).toHaveBeenCalledWith(dto);
     });
 
+    describe('should fail', () => {
+        test('when missing name', () => {
+            let dto = {
+                code: VALID_CODE,
+                price: VALID_PRICE
+            }
+
+            let actual = () => ASSORTMENT_SERVICE.addProduct(dto);
+
+            expect(actual).toThrowError("Missing product name");
+        });
+    });
+
     function givenValidProductDto() {
         return {
-            name: "book",
-            code: "some code",
-            price: 123.45
+            name: VALID_NAME,
+            code: VALID_CODE,
+            price: VALID_PRICE
         };
     }
 })
