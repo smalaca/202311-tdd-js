@@ -76,12 +76,12 @@ describe("AssortmentService", () => {
     test("should not allow to add product with invalid description", () => {
         let dto = {
             name:"some name",
-            describe: 555,
+            description: 555,
             code: 'some code',
             price: 1
         };
         
-        invalidDtoTest(dto, 'Invalid product name')
+        invalidDtoTest(dto, 'Invalid product description')
     });
 
 
