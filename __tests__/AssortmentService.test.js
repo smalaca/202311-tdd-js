@@ -64,7 +64,12 @@ describe("AssortmentService", () => {
         });
 
         test('when additional attribute given', () => {
-            // TO BE DONE
+            let dto = {...givenValidProductDto(), additional: "attribute"};
+
+            let actual = () => assortmentService.addProduct(dto, DUMMY_AMOUNT);
+
+            expect(actual).toThrowError("Attribute not expected");
+            expect(shopClient.addProduct).not.toHaveBeenCalled();
         });
     });
 
