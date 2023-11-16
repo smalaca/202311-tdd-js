@@ -22,9 +22,9 @@ describe("AssortmentService", () => {
             addProduct: jest.fn()
         };
 
-        new AssortmentService(shopClient).addProduct(dto);
+        const assortmentService = new AssortmentService(shopClient);
 
-        expect(() => shopClient.addProduct).toThrow('Invalid product code');
+        expect(() => assortmentService.addProduct(dto)).toThrow('Invalid product code');
     });
 
     function givenValidProductDto() {

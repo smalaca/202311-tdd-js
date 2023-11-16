@@ -4,6 +4,7 @@ class AssortmentService {
     }
 
     addProduct(dto) {
+        if (!dto.code) throw new Error("Invalid product code");
         this.shopClient.addProduct(dto);
     }
 }
