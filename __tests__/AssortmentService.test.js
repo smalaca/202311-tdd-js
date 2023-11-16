@@ -6,18 +6,24 @@ describe("AssortmentService", () => {
     const VALID_PRICE = 123.45;
     const DUMMY_AMOUNT = undefined;
 
-    const SHOP_CLIENT = {
-        addProduct: jest.fn()
-    };
-    const ASSORTMENT_SERVICE = new AssortmentService(SHOP_CLIENT);
+    let shopClient;
+    let assortmentService;
+
+    beforeEach(() => {
+        shopClient = {
+            addProduct: jest.fn()
+        };
+
+        assortmentService = new AssortmentService(shopClient);
+    });
 
     test("should allow add product", () => {
         let dto = givenValidProductDto();
         let amount = 13;
 
-        ASSORTMENT_SERVICE.addProduct(dto, amount);
+        assortmentService.addProduct(dto, amount);
 
-        expect(SHOP_CLIENT.addProduct).toHaveBeenCalledWith(dto, amount);
+        expect(shopClient.addProduct).toHaveBeenCalledWith(dto, amount);
     });
 
     describe('should fail', () => {
@@ -27,9 +33,10 @@ describe("AssortmentService", () => {
                 price: VALID_PRICE
             }
 
-            let actual = () => ASSORTMENT_SERVICE.addProduct(dto, DUMMY_AMOUNT);
+            let actual = () => assortmentService.addProduct(dto, DUMMY_AMOUNT);
 
             expect(actual).toThrowError("Missing product name");
+            expect(shopClient.addProduct).not.toHaveBeenCalled();
         });
 
         test('when missing code', () => {
@@ -38,9 +45,10 @@ describe("AssortmentService", () => {
                 price: VALID_PRICE
             }
 
-            let actual = () => ASSORTMENT_SERVICE.addProduct(dto, DUMMY_AMOUNT);
+            let actual = () => assortmentService.addProduct(dto, DUMMY_AMOUNT);
 
             expect(actual).toThrowError("Missing product code");
+            expect(shopClient.addProduct).not.toHaveBeenCalled();
         });
 
         test('when missing price', () => {
@@ -49,9 +57,10 @@ describe("AssortmentService", () => {
                 name: VALID_NAME
             }
 
-            let actual = () => ASSORTMENT_SERVICE.addProduct(dto, DUMMY_AMOUNT);
+            let actual = () => assortmentService.addProduct(dto, DUMMY_AMOUNT);
 
             expect(actual).toThrowError("Missing product price");
+            expect(shopClient.addProduct).not.toHaveBeenCalled();
         });
 
         test('when additional attribute given', () => {
