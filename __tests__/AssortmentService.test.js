@@ -2,6 +2,7 @@ const AssortmentService = require('../src/Assortment.service');
 const shopClient = {
     addProduct: jest.fn()
 };
+const INVALID = require('../src/Errors')
 
 describe("AssortmentService", () => {
     test("should allow add product", () => {
@@ -14,12 +15,12 @@ describe("AssortmentService", () => {
     test("should throw when required fields are not present", () => {
         const dto = INVALID_PRODUCT;
 
-        expect(() => new AssortmentService(shopClient).addProduct(dto)).toThrow("Invalid Product")
+        expect(() => new AssortmentService(shopClient).addProduct(dto)).toThrow(INVALID.PRODUCT)
     })
     test("should throw when required fields are not in the right type", () => {
         const dto = INVALID_TYPE
 
-        expect(() => new AssortmentService(shopClient).addProduct(dto)).toThrow("Invalid Type") 
+        expect(() => new AssortmentService(shopClient).addProduct(dto)).toThrow(INVALID.TYPE) 
     })
 })
 

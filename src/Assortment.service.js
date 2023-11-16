@@ -1,3 +1,5 @@
+const INVALID = require('./Errors')
+
 class AssortmentService {
     constructor(shopClient) {
         this.shopClient = shopClient;
@@ -16,10 +18,10 @@ class AssortmentService {
         }]
         requiredFields.forEach((validationField) => {
             if(!dto[validationField.name]) {
-                throw new Error("Invalid Product");
+                throw new Error(INVALID.PRODUCT);
             }
             if(typeof dto[validationField.name] !== validationField.type) {
-                throw new Error("Invalid Type")
+                throw new Error(INVALID.TYPE)
             }
         })
     }
