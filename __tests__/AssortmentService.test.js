@@ -13,6 +13,7 @@ describe("AssortmentService", () => {
     });
 
     test("should not allow to add product without code", () => {
+        
         let dto = {
             name: "book",
             price: 123.45
@@ -25,6 +26,21 @@ describe("AssortmentService", () => {
         const assortmentService = new AssortmentService(shopClient);
 
         expect(() => assortmentService.addProduct(dto)).toThrow('Invalid product code');
+    });
+
+    test("should not allow to add product without name", () => {
+        let dto = {
+            code: "some code",
+            price: 123.45
+        };
+
+        let shopClient = {
+            addProduct: jest.fn()
+        };
+
+        const assortmentService = new AssortmentService(shopClient);
+
+        expect(() => assortmentService.addProduct(dto)).toThrow('Invalid product name');
     });
 
     function givenValidProductDto() {
