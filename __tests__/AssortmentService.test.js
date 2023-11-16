@@ -1,15 +1,16 @@
 const AssortmentService = require("./AssortmentService");
 
 describe("AssortmentService", () => {
+    const SHOP_CLIENT = {
+        addProduct: jest.fn()
+    };
+
     test("should allow add product", () => {
         let dto = givenValidProductDto();
-        let shopClient = {
-            addProduct: jest.fn()
-        };
 
-        new AssortmentService(shopClient).addProduct(dto);
+        new AssortmentService(SHOP_CLIENT).addProduct(dto);
 
-        expect(shopClient.addProduct).toHaveBeenCalledWith(dto);
+        expect(SHOP_CLIENT.addProduct).toHaveBeenCalledWith(dto);
     });
 
     function givenValidProductDto() {
