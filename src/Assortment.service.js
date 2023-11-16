@@ -5,7 +5,9 @@ class AssortmentService {
         this.shopClient = shopClient;
     }
 
-    addProduct(dto) {
+
+
+    addProduct(dto, amount) {
         AssortmentValidator.validateProduct(dto);
         this.shopClient.addProduct(dto);
     }

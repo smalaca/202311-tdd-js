@@ -31,22 +31,37 @@ describe("AssortmentService", () => {
 
         expect(() => new AssortmentService(shopClient).addProduct(dto)).toThrow(INVALID.CODE) 
     })
+    test("should get list of products", () => {
+        const dto = VALID_PRODUCT;
+
+        const service = new AssortmentService(shopClient)
+        service.addProduct(dto, 13)
+        
+        expect(service.getProducts().length).toBe(1);
+    })
 })
+
+
+// W przypadku gdy uda się dodać produkt do asortymentu:
+// - zamknij formularz dodawania
+// - wyświetl informację o dodaniu produktu w odpowiednim komponencie
+// - zaktualizuj ilość produktów weryfikowanych
+// - zaktualizuj komponent wyświetlający listę produktów i dodaj nowy produkt
 
 const VALID_PRODUCT = {
     name: "book",
-    code: "some code",
+    code: "012345678901234567890123456789",
     price: 123.45,
     description: "some desc"
 }
 
 const INVALID_PRODUCT = {
-    code: "some code",
+    code: "012345678901234567890123456789",
     price: 123.45,
 }
 
 const INVALID_TYPE = {
     name: "book",
-    code: "some code",
+    code: "012345678901234567890123456789",
     price: "123.45",
 }
