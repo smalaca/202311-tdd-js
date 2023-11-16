@@ -1,6 +1,8 @@
 const ShopClient = require("./ShopClient.js")
 
+
 class AssortmentService {
+    static #ALLOWED_ATTRIBUTES = ["name", "code", "price"];
     #shopClient;
 
     constructor(shopClient) {
@@ -8,6 +10,10 @@ class AssortmentService {
     }
 
     addProduct(dto, amount) {
+        if (this.#hasNotExpectedAttribute(dto)) {
+            throw new Error("Attribute not expected");
+        }
+
         if (dto.name === undefined) {
             throw new Error("Missing product name");
         }
@@ -21,6 +27,12 @@ class AssortmentService {
         }
 
         this.#shopClient.addProduct(dto, amount);
+    }
+
+    #hasNotExpectedAttribute(dto) {
+        return !Object.keys(dto).every(attribute => {
+            return AssortmentService.#ALLOWED_ATTRIBUTES.includes(attribute);
+        });
     }
 }
 
