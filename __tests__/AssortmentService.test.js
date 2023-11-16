@@ -3,6 +3,7 @@ const AssortmentService = require("./AssortmentService");
 describe("AssortmentService", () => {
     const VALID_NAME = "book";
     const VALID_CODE = "some code";
+    const VALID_DESCRIPTION = "some description";
     const VALID_PRICE = 123.45;
     const DUMMY_AMOUNT = undefined;
 
@@ -17,16 +18,27 @@ describe("AssortmentService", () => {
         assortmentService = new AssortmentService(shopClient);
     });
 
-    test("should allow add product", () => {
-        let dto = givenValidProductDto();
-        let amount = 13;
+    describe("should add product", () => {
+        test("without description", () => {
+            let dto = givenValidProductDto();
+            let amount = 13;
 
-        assortmentService.addProduct(dto, amount);
+            assortmentService.addProduct(dto, amount);
 
-        expect(shopClient.addProduct).toHaveBeenCalledWith(dto, amount);
+            expect(shopClient.addProduct).toHaveBeenCalledWith(dto, amount);
+        });
+
+        test("with description", () => {
+            let dto = {...givenValidProductDto(), description: VALID_DESCRIPTION};
+            let amount = 13;
+
+            assortmentService.addProduct(dto, amount);
+
+            expect(shopClient.addProduct).toHaveBeenCalledWith(dto, amount);
+        });
     });
 
-    describe('should fail', () => {
+    describe('should not add product', () => {
         test('when missing name', () => {
             let dto = {
                 code: VALID_CODE,
