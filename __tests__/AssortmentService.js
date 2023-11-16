@@ -7,7 +7,7 @@ class AssortmentService {
         this.#shopClient = shopClient;
     }
 
-    addProduct(dto) {
+    addProduct(dto, amount) {
         if (dto.name === undefined) {
             throw new Error("Missing product name");
         }

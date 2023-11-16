@@ -4,6 +4,7 @@ describe("AssortmentService", () => {
     const VALID_NAME = "book";
     const VALID_CODE = "some code";
     const VALID_PRICE = 123.45;
+    const DUMMY_AMOUNT = undefined;
 
     const SHOP_CLIENT = {
         addProduct: jest.fn()
@@ -20,7 +21,7 @@ describe("AssortmentService", () => {
     });
 
     function addProduct(dto) {
-        ASSORTMENT_SERVICE.addProduct(dto);
+        ASSORTMENT_SERVICE.addProduct(dto, DUMMY_AMOUNT);
     }
 
     describe('should fail', () => {
