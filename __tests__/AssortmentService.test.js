@@ -29,6 +29,17 @@ describe("AssortmentService", () => {
 
             expect(actual).toThrowError("Missing product name");
         });
+
+        test('when missing code', () => {
+            let dto = {
+                name: VALID_NAME,
+                price: VALID_PRICE
+            }
+
+            let actual = () => ASSORTMENT_SERVICE.addProduct(dto);
+
+            expect(actual).toThrowError("Missing product code");
+        });
     });
 
     function givenValidProductDto() {
