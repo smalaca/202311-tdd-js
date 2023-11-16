@@ -54,3 +54,22 @@ Walidacja Ceny:
 
 Walidacja Ilości:
 - większa niż 0
+
+**Ćwiczenie 7.**
+
+- Dodanie produktu do asortymentu.
+- wyrzucenie wyjątku gdy źle
+
+**Ćwiczenie 8.**
+
+W przypadku gdy uda się dodać produkt do asortymentu:
+- zamknij formularz dodawania
+- wyświetl informację o dodaniu produktu w odpowiednim komponencie
+- zaktualizuj ilość produktów weryfikowanych
+- zaktualizuj komponent wyświetlający listę produktów i dodaj nowy produkt
+
+**Ćwiczenie 9.**
+
+W przypadku gdy nie uda się dodać produktu do asortymentu:
+- wyświetl informację o nieudanej operacji
+- zaznacz wszystkie pola, które mają nieprawidłowe informacje
