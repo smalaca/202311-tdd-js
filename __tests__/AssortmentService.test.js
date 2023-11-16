@@ -1,5 +1,7 @@
 const AssortmentService = require("../src/AssortmentService");
 
+const VALID_CODE = '123456789-123456789-1234567890';
+
 describe("AssortmentService", () => {
 
 
@@ -38,7 +40,7 @@ describe("AssortmentService", () => {
 
     test("should not allow to add product without name", () => {
         let dto = {
-            code: "some code",
+            code:VALID_CODE,
             price: 123.45
         };
 
@@ -48,7 +50,7 @@ describe("AssortmentService", () => {
     test("should not allow to add product without price", () => {
         let dto = {
             name: 'some name',
-            code: "some code",
+            code: VALID_CODE,
         };
         invalidDtoTest(dto, 'Invalid product price')
     });
@@ -66,7 +68,7 @@ describe("AssortmentService", () => {
     test("should not allow to add product with invalid name", () => {
         let dto = {
             name: 555,
-            code: 'some code',
+            code: VALID_CODE,
             price: 1
         };
         
@@ -77,23 +79,31 @@ describe("AssortmentService", () => {
         let dto = {
             name:"some name",
             description: 555,
-            code: 'some code',
+            code: VALID_CODE,
             price: 1
         };
         
         invalidDtoTest(dto, 'Invalid product description')
     });
 
-
-
     test("should not allow to add product with invalid prize", () => {
         let dto = {
             name: 'some name',
-            code: "some code",
+            code: VALID_CODE,
             price: "1"
         };
         
         invalidDtoTest(dto, 'Invalid product price')
+    });
+
+    test("should not allow to add product with code length different than 30 characters", () => {
+        let dto = {
+            name: 'some name',
+            code: 'invalid code',
+            price: 1
+        };
+        
+        invalidDtoTest(dto, 'Invalid product code')
     });
 
 
@@ -101,7 +111,7 @@ describe("AssortmentService", () => {
     function givenValidProductDto() {
         return {
             name: "book",
-            code: "some code",
+            code: VALID_CODE,
             price: 123.45
         };
     }
