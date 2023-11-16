@@ -12,6 +12,21 @@ describe("AssortmentService", () => {
         expect(shopClient.addProduct).toHaveBeenCalledWith(dto);
     });
 
+    test("should not allow to add product without code", () => {
+        let dto = {
+            name: "book",
+            price: 123.45
+        };
+
+        let shopClient = {
+            addProduct: jest.fn()
+        };
+
+        new AssortmentService(shopClient).addProduct(dto);
+
+        expect(() => shopClient.addProduct).toThrow('Invalid product code');
+    });
+
     function givenValidProductDto() {
         return {
             name: "book",
