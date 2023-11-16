@@ -18,3 +18,17 @@ W przypadku gdy uda się dodać produkt do asortymentu:
 W przypadku gdy nie uda się dodać produktu do asortymentu:
 - wyświetl informację o nieudanej operacji
 - zaznacz wszystkie pola, które mają nieprawidłowe informacje
+
+
+
+Ćwiczenie 1.
+Stwórzenie produktu:
+- kod - wymagany
+- nazwa - wymagana
+- opis - opcjonalny
+- cena - wymagana
+
+Uwagi:
+- brak dodatkowej walidacji. Zakładamy, że jeżeli dane są przekazane, to są poprawne
+- kod, nazwa, opis są stringami
+- cena jest wartością numeryczną
