@@ -8,6 +8,10 @@ class AssortmentService {
     }
 
     addProduct(dto) {
+        if (dto.name === undefined) {
+            throw new Error("Missing product name");
+        }
+
         this.#shopClient.addProduct(dto);
     }
 }
