@@ -32,3 +32,20 @@ Uwagi:
 - brak dodatkowej walidacji. Zakładamy, że jeżeli dane są przekazane, to są poprawne
 - kod, nazwa, opis są stringami
 - cena jest wartością numeryczną
+
+Ćwiczenie 2.
+Walidacja Kodu:
+- 30 znaków
+- akceptowane znaki numeryczne i "-"
+
+Ćwiczenie 3.
+Walidacja Nazwy:
+- 5-50 znaków
+
+Ćwiczenie 4.
+Walidacja Ceny:
+- większa niż 0
+
+Ćwiczenie 5.
+Walidacja Ilości:
+- większa niż 0
