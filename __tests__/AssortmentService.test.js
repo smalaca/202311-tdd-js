@@ -16,6 +16,11 @@ describe("AssortmentService", () => {
 
         expect(() => new AssortmentService(shopClient).addProduct(dto)).toThrow("Invalid Product")
     })
+    test("should throw when required fields are not in the right type", () => {
+        const dto = INVALID_TYPE
+
+        expect(() => new AssortmentService(shopClient).addProduct(dto)).toThrow("Invalid Type") 
+    })
 })
 
 const VALID_PRODUCT = {
@@ -27,4 +32,10 @@ const VALID_PRODUCT = {
 const INVALID_PRODUCT = {
     code: "some code",
     price: 123.45, 
+}
+
+const INVALID_TYPE = {
+    name: "book",
+    code: "some code",
+    price: "123.45",
 }

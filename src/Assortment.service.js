@@ -4,10 +4,22 @@ class AssortmentService {
     }
 
     validateProduct(dto) {
-        const requiredFields = ["name", "code", "price"]
+        const requiredFields = [{
+            name: "code",
+            type: "string"
+        }, {
+            name: "name",
+            type: "string",
+        }, {
+            name: "price",
+            type: "number"
+        }]
         requiredFields.forEach((ele) => {
-            if(!dto[ele]) {
+            if(!dto[ele.name]) {
                 throw new Error("Invalid Product");
+            }
+            if(typeof dto[ele.name] !== ele.type) {
+                throw new Error("Invalid Type")
             }
         })
     }
