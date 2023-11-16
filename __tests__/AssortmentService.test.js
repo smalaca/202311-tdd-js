@@ -48,14 +48,26 @@ describe("AssortmentService", () => {
                 .toHaveBeenCalledWith("Product added successfully");
         });
 
-        test("should update number of products under verification", () => {
+        test("should update number of products under verification from 4 to 5", () => {
             let dto = givenValidProductDto();
             let amount = 13;
+            const pendingProductsCount = 4;
     
             ASSORTMENT_SERVICE.addProduct(dto, amount);
     
             expect(UI_CLIENT.setPendingProductsCount)
                 .toHaveBeenCalledWith(5);
+        });
+
+        test("should update number of products under verification from 0 to 1", () => {
+            let dto = givenValidProductDto();
+            let amount = 13;
+            const pendingProductsCount = 0;
+    
+            ASSORTMENT_SERVICE.addProduct(dto, amount);
+    
+            expect(UI_CLIENT.setPendingProductsCount)
+                .toHaveBeenCalledWith(1);
         });
     });
 
