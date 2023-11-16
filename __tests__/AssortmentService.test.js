@@ -4,6 +4,12 @@ const shopClient = {
 };
 const INVALID = require('../src/Errors')
 
+const mockEmitter = {
+    emit(msg) {
+        return msg;
+    }
+}
+
 describe("AssortmentService", () => {
     test("should allow add product", () => {
         const dto = VALID_PRODUCT;
@@ -30,6 +36,13 @@ describe("AssortmentService", () => {
         }
 
         expect(() => new AssortmentService(shopClient).addProduct(dto)).toThrow(INVALID.CODE) 
+    })
+    test("should emit message once adding product", () => {
+        const dto = VALID_PRODUCT;
+
+        new AssortmentService(shopClient, emitter).addProduct(dto);
+
+        expect(emitter.emit).toHaveBeenCalledWith(dto);
     })
 })
 
