@@ -7,7 +7,16 @@ describe("AssortmentService", () => {
     const DUMMY_AMOUNT = undefined;
 
     const SHOP_CLIENT = {
-        addProduct: jest.fn()
+        pendingProductsCount: 0,
+        addProduct: jest.fn(() => {
+            this.pendingProductsCount++;
+            return {
+                pendingProductsCount: this.pendingProductsCount
+            }
+        }),
+        setPendingProductsCount: (count) => {
+            this.pendingProductsCount = count;
+        }
     };
 
     const UI_CLIENT = {
@@ -51,7 +60,7 @@ describe("AssortmentService", () => {
         test("should update number of products under verification from 4 to 5", () => {
             let dto = givenValidProductDto();
             let amount = 13;
-            const pendingProductsCount = 4;
+            SHOP_CLIENT.setPendingProductsCount(4);
     
             ASSORTMENT_SERVICE.addProduct(dto, amount);
     
@@ -62,7 +71,7 @@ describe("AssortmentService", () => {
         test("should update number of products under verification from 0 to 1", () => {
             let dto = givenValidProductDto();
             let amount = 13;
-            const pendingProductsCount = 0;
+            SHOP_CLIENT.setPendingProductsCount(0);
     
             ASSORTMENT_SERVICE.addProduct(dto, amount);
     

@@ -22,10 +22,10 @@ class AssortmentService {
             throw new Error("Missing product price");
         }
 
-        this.#shopClient.addProduct(dto, amount);
+        const response = this.#shopClient.addProduct(dto, amount);
         this.#uiClient.closeForm();
         this.#uiClient.showSuccessMessage("Product added successfully");
-        this.#uiClient.setPendingProductsCount(5);
+        this.#uiClient.setPendingProductsCount(response.pendingProductsCount);
     }
 }
 
