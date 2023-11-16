@@ -12,7 +12,8 @@ describe("AssortmentService", () => {
 
     const UI_CLIENT = {
         closeForm: jest.fn(),
-        showSuccessMessage: jest.fn()
+        showSuccessMessage: jest.fn(),
+        setPendingProductsCount: jest.fn()
     };
 
     const ASSORTMENT_SERVICE = new AssortmentService(SHOP_CLIENT, UI_CLIENT);
@@ -45,6 +46,16 @@ describe("AssortmentService", () => {
     
             expect(UI_CLIENT.showSuccessMessage)
                 .toHaveBeenCalledWith("Product added successfully");
+        });
+
+        test("should update number of products under verification", () => {
+            let dto = givenValidProductDto();
+            let amount = 13;
+    
+            ASSORTMENT_SERVICE.addProduct(dto, amount);
+    
+            expect(UI_CLIENT.setPendingProductsCount)
+                .toHaveBeenCalledWith(5);
         });
     });
 
