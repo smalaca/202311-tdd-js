@@ -4,11 +4,12 @@ describe("AssortmentService", () => {
     const SHOP_CLIENT = {
         addProduct: jest.fn()
     };
+    const ASSORTMENT_SERVICE = new AssortmentService(SHOP_CLIENT);
 
     test("should allow add product", () => {
         let dto = givenValidProductDto();
 
-        new AssortmentService(SHOP_CLIENT).addProduct(dto);
+        ASSORTMENT_SERVICE.addProduct(dto);
 
         expect(SHOP_CLIENT.addProduct).toHaveBeenCalledWith(dto);
     });
