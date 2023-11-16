@@ -14,11 +14,11 @@ class AssortmentService {
             name: "price",
             type: "number"
         }]
-        requiredFields.forEach((ele) => {
-            if(!dto[ele.name]) {
+        requiredFields.forEach((validationField) => {
+            if(!dto[validationField.name]) {
                 throw new Error("Invalid Product");
             }
-            if(typeof dto[ele.name] !== ele.type) {
+            if(typeof dto[validationField.name] !== validationField.type) {
                 throw new Error("Invalid Type")
             }
         })

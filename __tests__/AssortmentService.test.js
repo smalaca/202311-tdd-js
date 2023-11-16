@@ -27,11 +27,12 @@ const VALID_PRODUCT = {
     name: "book",
     code: "some code",
     price: 123.45,
+    description: "some desc"
 }
 
 const INVALID_PRODUCT = {
     code: "some code",
-    price: 123.45, 
+    price: 123.45,
 }
 
 const INVALID_TYPE = {
