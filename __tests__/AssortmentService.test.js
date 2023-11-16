@@ -1,4 +1,4 @@
-const AssortmentService = require("./AssortmentService");
+const AssortmentService = require("../src/AssortmentService");
 
 describe("AssortmentService", () => {
     const VALID_NAME = "book";
@@ -11,13 +11,28 @@ describe("AssortmentService", () => {
     };
     const ASSORTMENT_SERVICE = new AssortmentService(SHOP_CLIENT);
 
-    test("should allow add product", () => {
-        let dto = givenValidProductDto();
-        let amount = 13;
+    const UI = {
+        closeForm: jest.fn()
+    };
 
-        ASSORTMENT_SERVICE.addProduct(dto, amount);
+    describe('happy path', () => {
+        test("should allow add product", () => {
+            let dto = givenValidProductDto();
+            let amount = 13;
+    
+            ASSORTMENT_SERVICE.addProduct(dto, amount);
+    
+            expect(SHOP_CLIENT.addProduct).toHaveBeenCalledWith(dto, amount);
+        });
 
-        expect(SHOP_CLIENT.addProduct).toHaveBeenCalledWith(dto, amount);
+        test("should close the form", () => {
+            let dto = givenValidProductDto();
+            let amount = 13;
+    
+            ASSORTMENT_SERVICE.addProduct(dto, amount);
+    
+            expect(UI.closeForm).toHaveBeenCalled();
+        });
     });
 
     describe('should fail', () => {

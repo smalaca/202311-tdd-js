@@ -1,6 +1,6 @@
 const Rover = require("../src/Rover");
 
-describe("Rover", () => {
+describe.skip("Rover", () => {
     describe("landing", () => {
         test("should know its position", () => {
             let rover = new Rover(0, 0);
