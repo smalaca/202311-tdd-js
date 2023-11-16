@@ -1,4 +1,4 @@
-const AssortmentService = require("./AssortmentService");
+const AssortmentService = require("../src/AssortmentService");
 
 describe("AssortmentService", () => {
     test("should allow add product", () => {
