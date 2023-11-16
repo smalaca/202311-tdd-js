@@ -20,7 +20,11 @@ describe("AssortmentService", () => {
 
     describe("should add product", () => {
         test("without description", () => {
-            let dto = givenValidProductDto();
+            let dto = {
+                name: VALID_NAME,
+                code: VALID_CODE,
+                price: VALID_PRICE
+            };
             let amount = 13;
 
             assortmentService.addProduct(dto, amount);
@@ -29,7 +33,12 @@ describe("AssortmentService", () => {
         });
 
         test("with description", () => {
-            let dto = {...givenValidProductDto(), description: VALID_DESCRIPTION};
+            let dto = {
+                name: VALID_NAME,
+                code: VALID_CODE,
+                price: VALID_PRICE,
+                description: VALID_DESCRIPTION
+            };
             let amount = 13;
 
             assortmentService.addProduct(dto, amount);
@@ -76,7 +85,13 @@ describe("AssortmentService", () => {
         });
 
         test('when additional attribute given', () => {
-            let dto = {...givenValidProductDto(), additional: "attribute"};
+            let dto = {
+                ...({
+                    name: VALID_NAME,
+                    code: VALID_CODE,
+                    price: VALID_PRICE
+                }), additional: "attribute"
+            };
 
             let actual = () => assortmentService.addProduct(dto, DUMMY_AMOUNT);
 
@@ -85,11 +100,4 @@ describe("AssortmentService", () => {
         });
     });
 
-    function givenValidProductDto() {
-        return {
-            name: VALID_NAME,
-            code: VALID_CODE,
-            price: VALID_PRICE
-        };
-    }
 })

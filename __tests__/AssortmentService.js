@@ -2,7 +2,7 @@ const ShopClient = require("./ShopClient.js")
 
 
 class AssortmentService {
-    static #ALLOWED_ATTRIBUTES = ["name", "code", "price"];
+    static #ALLOWED_ATTRIBUTES = ["name", "code", "price", "description"];
     #shopClient;
 
     constructor(shopClient) {
