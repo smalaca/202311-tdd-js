@@ -25,6 +25,7 @@ class AssortmentService {
         this.#shopClient.addProduct(dto, amount);
         this.#uiClient.closeForm();
         this.#uiClient.showSuccessMessage("Product added successfully");
+        this.#uiClient.setPendingProductsCount(5);
     }
 }
 
