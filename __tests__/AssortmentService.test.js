@@ -35,6 +35,16 @@ describe("AssortmentService", () => {
     
             expect(UI_CLIENT.closeForm).toHaveBeenCalled();
         });
+
+        test("should show success message", () => {
+            let dto = givenValidProductDto();
+            let amount = 13;
+    
+            ASSORTMENT_SERVICE.addProduct(dto, amount);
+    
+            expect(UI_CLIENT.showSuccessMessage)
+                .toHaveBeenCalledWith("Product added successfully");
+        });
     });
 
     describe('should fail', () => {
