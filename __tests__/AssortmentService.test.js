@@ -11,7 +11,8 @@ describe("AssortmentService", () => {
     };
 
     const UI_CLIENT = {
-        closeForm: jest.fn()
+        closeForm: jest.fn(),
+        showSuccessMessage: jest.fn()
     };
 
     const ASSORTMENT_SERVICE = new AssortmentService(SHOP_CLIENT, UI_CLIENT);
