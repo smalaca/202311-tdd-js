@@ -16,6 +16,10 @@ class AssortmentService {
             throw new Error("Missing product code");
         }
 
+        if (dto.price === undefined) {
+            throw new Error("Missing product price");
+        }
+
         this.#shopClient.addProduct(dto);
     }
 }
