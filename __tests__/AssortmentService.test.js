@@ -15,14 +15,10 @@ describe("AssortmentService", () => {
         let dto = givenValidProductDto();
         let amount = 13;
 
-        addProduct(dto);
+        ASSORTMENT_SERVICE.addProduct(dto, amount);
 
         expect(SHOP_CLIENT.addProduct).toHaveBeenCalledWith(dto, amount);
     });
-
-    function addProduct(dto) {
-        ASSORTMENT_SERVICE.addProduct(dto, DUMMY_AMOUNT);
-    }
 
     describe('should fail', () => {
         test('when missing name', () => {
@@ -31,7 +27,7 @@ describe("AssortmentService", () => {
                 price: VALID_PRICE
             }
 
-            let actual = () => addProduct(dto);
+            let actual = () => ASSORTMENT_SERVICE.addProduct(dto, DUMMY_AMOUNT);
 
             expect(actual).toThrowError("Missing product name");
         });
@@ -42,7 +38,7 @@ describe("AssortmentService", () => {
                 price: VALID_PRICE
             }
 
-            let actual = () => addProduct(dto);
+            let actual = () => ASSORTMENT_SERVICE.addProduct(dto, DUMMY_AMOUNT);
 
             expect(actual).toThrowError("Missing product code");
         });
@@ -53,7 +49,7 @@ describe("AssortmentService", () => {
                 name: VALID_NAME
             }
 
-            let actual = () => addProduct(dto);
+            let actual = () => ASSORTMENT_SERVICE.addProduct(dto, DUMMY_AMOUNT);
 
             expect(actual).toThrowError("Missing product price");
         });
