@@ -189,5 +189,18 @@ describe("AssortmentService", () => {
             expect(actual).toThrowError("Invalid product amount");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
         })
+
+        test('when amount is not defined', () => {
+            let dto = {
+                code: VALID_CODE,
+                name: VALID_NAME,
+                price: VALID_PRICE
+            }
+
+            let actual = () => assortmentService.addProduct(dto);
+
+            expect(actual).toThrowError("Missing product amount");
+            expect(shopClient.addProduct).not.toHaveBeenCalled();
+        })
     });
 })
