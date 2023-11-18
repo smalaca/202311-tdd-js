@@ -124,5 +124,18 @@ describe("AssortmentService", () => {
             expect(actual).toThrowError("Invalid product code");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
         })
+
+        test('when code contains letters', () => {
+            let dto = {
+                code: "123456789-123456789-1234567ABC",
+                name: VALID_NAME,
+                price: VALID_PRICE
+            }
+
+            let actual = () => assortmentService.addProduct(dto, DUMMY_AMOUNT);
+
+            expect(actual).toThrowError("Invalid product code");
+            expect(shopClient.addProduct).not.toHaveBeenCalled();
+        })
     });
 })
