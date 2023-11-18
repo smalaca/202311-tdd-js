@@ -99,9 +99,22 @@ describe("AssortmentService", () => {
             expect(shopClient.addProduct).not.toHaveBeenCalled();
         });
 
-        test('when code contains less than 29 characters', () => {
+        test('when code contains 29 characters', () => {
             let dto = {
                 code: "123456789-123456789-123456789",
+                name: VALID_NAME,
+                price: VALID_PRICE
+            }
+
+            let actual = () => assortmentService.addProduct(dto, DUMMY_AMOUNT);
+
+            expect(actual).toThrowError("Invalid product code");
+            expect(shopClient.addProduct).not.toHaveBeenCalled();
+        })
+
+        test('when code contains 31 characters', () => {
+            let dto = {
+                code: "123456789-1234567890-1234567890",
                 name: VALID_NAME,
                 price: VALID_PRICE
             }
