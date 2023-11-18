@@ -34,7 +34,7 @@ class AssortmentService {
     }
 
     #isInvalid(code) {
-        return code.length !== 30;
+        return !code.match(/^[0-9-]{30}$/);
     }
 
     #hasNotExpectedAttribute(dto) {
