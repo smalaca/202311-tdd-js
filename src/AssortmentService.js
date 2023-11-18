@@ -34,6 +34,10 @@ class AssortmentService {
             throw new Error("Invalid product code");
         }
 
+        if (dto.price < 1) {
+            throw new Error("Invalid product price");
+        }
+
         this.#shopClient.addProduct(dto, amount);
     }
 
