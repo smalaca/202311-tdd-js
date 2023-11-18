@@ -42,7 +42,7 @@ class AssortmentService {
     }
 
     #isInvalidName(name) {
-        return name.length < 5;
+        return name.length < 5 || name.length > 50;
     }
 
     #hasNotExpectedAttribute(dto) {
