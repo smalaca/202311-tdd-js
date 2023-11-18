@@ -26,6 +26,10 @@ class AssortmentService {
             throw new Error("Missing product price");
         }
 
+        if (amount === undefined) {
+            throw new Error("Missing product amount");
+        }
+
         if (this.#isInvalidName(dto.name)) {
             throw new Error("Invalid product name");
         }
