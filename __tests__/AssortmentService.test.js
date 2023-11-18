@@ -5,7 +5,7 @@ describe("AssortmentService", () => {
     const VALID_CODE = "123456789-123456789-1234567890";
     const VALID_DESCRIPTION = "some description";
     const VALID_PRICE = 123.45;
-    const DUMMY_AMOUNT = undefined;
+    const VALID_AMOUNT = 13;
 
     let shopClient;
     let assortmentService;
@@ -54,7 +54,7 @@ describe("AssortmentService", () => {
                 price: VALID_PRICE
             }
 
-            let actual = () => assortmentService.addProduct(dto, DUMMY_AMOUNT);
+            let actual = () => assortmentService.addProduct(dto, VALID_AMOUNT);
 
             expect(actual).toThrowError("Missing product name");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
@@ -66,7 +66,7 @@ describe("AssortmentService", () => {
                 price: VALID_PRICE
             }
 
-            let actual = () => assortmentService.addProduct(dto, DUMMY_AMOUNT);
+            let actual = () => assortmentService.addProduct(dto, VALID_AMOUNT);
 
             expect(actual).toThrowError("Missing product code");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
@@ -78,7 +78,7 @@ describe("AssortmentService", () => {
                 name: VALID_NAME
             }
 
-            let actual = () => assortmentService.addProduct(dto, DUMMY_AMOUNT);
+            let actual = () => assortmentService.addProduct(dto, VALID_AMOUNT);
 
             expect(actual).toThrowError("Missing product price");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
@@ -93,7 +93,7 @@ describe("AssortmentService", () => {
                 }), additional: "attribute"
             };
 
-            let actual = () => assortmentService.addProduct(dto, DUMMY_AMOUNT);
+            let actual = () => assortmentService.addProduct(dto, VALID_AMOUNT);
 
             expect(actual).toThrowError("Attribute not expected");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
@@ -106,7 +106,7 @@ describe("AssortmentService", () => {
                 price: VALID_PRICE
             }
 
-            let actual = () => assortmentService.addProduct(dto, DUMMY_AMOUNT);
+            let actual = () => assortmentService.addProduct(dto, VALID_AMOUNT);
 
             expect(actual).toThrowError("Invalid product code");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
@@ -119,7 +119,7 @@ describe("AssortmentService", () => {
                 price: VALID_PRICE
             }
 
-            let actual = () => assortmentService.addProduct(dto, DUMMY_AMOUNT);
+            let actual = () => assortmentService.addProduct(dto, VALID_AMOUNT);
 
             expect(actual).toThrowError("Invalid product code");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
@@ -132,7 +132,7 @@ describe("AssortmentService", () => {
                 price: VALID_PRICE
             }
 
-            let actual = () => assortmentService.addProduct(dto, DUMMY_AMOUNT);
+            let actual = () => assortmentService.addProduct(dto, VALID_AMOUNT);
 
             expect(actual).toThrowError("Invalid product code");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
@@ -145,7 +145,7 @@ describe("AssortmentService", () => {
                 price: VALID_PRICE
             }
 
-            let actual = () => assortmentService.addProduct(dto, DUMMY_AMOUNT);
+            let actual = () => assortmentService.addProduct(dto, VALID_AMOUNT);
 
             expect(actual).toThrowError("Invalid product name");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
@@ -158,7 +158,7 @@ describe("AssortmentService", () => {
                 price: VALID_PRICE
             }
 
-            let actual = () => assortmentService.addProduct(dto, DUMMY_AMOUNT);
+            let actual = () => assortmentService.addProduct(dto, VALID_AMOUNT);
 
             expect(actual).toThrowError("Invalid product name");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
@@ -171,7 +171,7 @@ describe("AssortmentService", () => {
                 price: 0
             }
 
-            let actual = () => assortmentService.addProduct(dto, DUMMY_AMOUNT);
+            let actual = () => assortmentService.addProduct(dto, VALID_AMOUNT);
 
             expect(actual).toThrowError("Invalid product price");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
