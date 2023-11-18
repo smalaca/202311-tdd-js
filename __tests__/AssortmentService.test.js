@@ -163,5 +163,18 @@ describe("AssortmentService", () => {
             expect(actual).toThrowError("Invalid product name");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
         })
+
+        test('when price is zero', () => {
+            let dto = {
+                code: VALID_CODE,
+                name: VALID_NAME,
+                price: 0
+            }
+
+            let actual = () => assortmentService.addProduct(dto, DUMMY_AMOUNT);
+
+            expect(actual).toThrowError("Invalid product price");
+            expect(shopClient.addProduct).not.toHaveBeenCalled();
+        })
     });
 })
