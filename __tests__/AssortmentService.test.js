@@ -150,5 +150,18 @@ describe("AssortmentService", () => {
             expect(actual).toThrowError("Invalid product name");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
         })
+
+        test('when code contains 51 characters', () => {
+            let dto = {
+                code: VALID_CODE,
+                name: "a".repeat(51),
+                price: VALID_PRICE
+            }
+
+            let actual = () => assortmentService.addProduct(dto, DUMMY_AMOUNT);
+
+            expect(actual).toThrowError("Invalid product name");
+            expect(shopClient.addProduct).not.toHaveBeenCalled();
+        })
     });
 })
