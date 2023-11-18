@@ -34,7 +34,7 @@ class AssortmentService {
     }
 
     #isInvalid(code) {
-        return code.length < 30;
+        return code.length !== 30;
     }
 
     #hasNotExpectedAttribute(dto) {
