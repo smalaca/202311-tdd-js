@@ -26,15 +26,23 @@ class AssortmentService {
             throw new Error("Missing product price");
         }
 
-        if (this.#isInvalid(dto.code)) {
+        if (this.#isInvalidName(dto.name)) {
+            throw new Error("Invalid product name");
+        }
+
+        if (this.#isInvalidCode(dto.code)) {
             throw new Error("Invalid product code");
         }
 
         this.#shopClient.addProduct(dto, amount);
     }
 
-    #isInvalid(code) {
+    #isInvalidCode(code) {
         return !code.match(/^[0-9-]{30}$/);
+    }
+
+    #isInvalidName(name) {
+        return name.length < 5;
     }
 
     #hasNotExpectedAttribute(dto) {
