@@ -26,7 +26,15 @@ class AssortmentService {
             throw new Error("Missing product price");
         }
 
+        if (this.#isInvalid(dto.code)) {
+            throw new Error("Invalid product code");
+        }
+
         this.#shopClient.addProduct(dto, amount);
+    }
+
+    #isInvalid(code) {
+        return code.length < 30;
     }
 
     #hasNotExpectedAttribute(dto) {
