@@ -1,7 +1,7 @@
 const AssortmentService = require("../src/AssortmentService");
 
 describe("AssortmentService", () => {
-    const VALID_NAME = "book";
+    const VALID_NAME = "lecture";
     const VALID_CODE = "123456789-123456789-1234567890";
     const VALID_DESCRIPTION = "some description";
     const VALID_PRICE = 123.45;
