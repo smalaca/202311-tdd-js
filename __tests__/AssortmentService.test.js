@@ -82,6 +82,7 @@ describe("AssortmentService", () => {
             expect(actual.getName()).toBe(VALID_NAME);
             expect(actual.getCode()).toBe(VALID_CODE);
             expect(actual.getPrice()).toBe(VALID_PRICE);
+            expect(actual.getDescription()).toBeUndefined();
         })
     });
 

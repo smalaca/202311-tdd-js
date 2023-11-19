@@ -31,6 +31,10 @@ class ProductAdded {
     getPrice() {
         return this.#price;
     }
+
+    getDescription() {
+        return "";
+    }
 }
 
 module.exports = ProductAdded;
