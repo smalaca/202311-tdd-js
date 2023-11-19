@@ -1,5 +1,6 @@
 const ShopClient = require("./ShopClient.js")
 const ProductAdded = require("./ProductAdded");
+const ProductCouldNotBeAdded = require("./ProductCouldNotBeAdded");
 
 
 class AssortmentService {
@@ -60,6 +61,8 @@ class AssortmentService {
                 dto.price,
                 dto.description
             ))
+        } else {
+            this.#eventPublisher.publish(new ProductCouldNotBeAdded(status.errors))
         }
     }
 
