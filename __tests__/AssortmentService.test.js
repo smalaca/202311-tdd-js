@@ -76,6 +76,7 @@ describe("AssortmentService", () => {
 
             expect(eventPublisher.publish).toHaveBeenCalled();
             let actual = eventPublisher.publish.mock.calls[0][0];
+            expect(actual.constructor.name).toBe("ProductAdded");
             expect(actual.getProductId()).toBe(PRODUCT_ID);
             expect(actual.getAmount()).toBe(VALID_AMOUNT);
             expect(actual.getName()).toBe(VALID_NAME);
@@ -97,6 +98,7 @@ describe("AssortmentService", () => {
 
             expect(eventPublisher.publish).toHaveBeenCalled();
             let actual = eventPublisher.publish.mock.calls[0][0];
+            expect(actual.constructor.name).toBe("ProductAdded");
             expect(actual.getProductId()).toBe(PRODUCT_ID);
             expect(actual.getAmount()).toBe(VALID_AMOUNT);
             expect(actual.getName()).toBe(VALID_NAME);
