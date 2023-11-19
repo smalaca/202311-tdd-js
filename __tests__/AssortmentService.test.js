@@ -83,6 +83,27 @@ describe("AssortmentService", () => {
             expect(actual.getPrice()).toBe(VALID_PRICE);
             expect(actual.getDescription()).toBeUndefined();
         })
+
+        test("when product has description", () => {
+            givenProductAddedSuccessfully();
+            let dto = {
+                name: VALID_NAME,
+                code: VALID_CODE,
+                price: VALID_PRICE,
+                description: VALID_DESCRIPTION
+            };
+
+            assortmentService.addProduct(dto, VALID_AMOUNT);
+
+            expect(eventPublisher.publish).toHaveBeenCalled();
+            let actual = eventPublisher.publish.mock.calls[0][0];
+            expect(actual.getProductId()).toBe(PRODUCT_ID);
+            expect(actual.getAmount()).toBe(VALID_AMOUNT);
+            expect(actual.getName()).toBe(VALID_NAME);
+            expect(actual.getCode()).toBe(VALID_CODE);
+            expect(actual.getPrice()).toBe(VALID_PRICE);
+            expect(actual.getDescription()).toBe(VALID_DESCRIPTION);
+        })
     });
 
     describe('should not add product', () => {
