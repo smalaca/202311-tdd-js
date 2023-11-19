@@ -57,7 +57,8 @@ class AssortmentService {
                 amount,
                 dto.name,
                 dto.code,
-                dto.price
+                dto.price,
+                dto.description
             ))
         }
     }
