@@ -264,4 +264,39 @@ describe("AssortmentService", () => {
             expect(shopClient.addProduct).not.toHaveBeenCalled();
         })
     });
+
+    test('should publish ProductCouldNotBeAdded event when product could not be added', () => {
+        shopClient.addProduct.mockImplementation(() => {
+            return {
+                success: false,
+                errors: [{
+                    fieldName: "name",
+                    description: "something wrong with the name"
+                }, {
+                    fieldName: "amount",
+                    description: "I cannot handle such amount of products"
+                }]
+            }
+        })
+        let dto = {
+            name: VALID_NAME,
+            code: VALID_CODE,
+            price: VALID_PRICE
+        };
+
+        assortmentService.addProduct(dto, VALID_AMOUNT);
+
+        expect(eventPublisher.publish).toHaveBeenCalled();
+        let actual = eventPublisher.publish.mock.calls[0][0];
+        expect(actual.constructor.name).toBe("ProductCouldNotBeAdded");
+        expect(actual.getErrors()).toHaveLength(2);
+        expect(actual.getErrors()).toContainEqual({
+            fieldName: "name",
+            description: "something wrong with the name"
+        });
+        expect(actual.getErrors()).toContainEqual({
+            fieldName: "amount",
+            description: "I cannot handle such amount of products"
+        });
+    })
 })
