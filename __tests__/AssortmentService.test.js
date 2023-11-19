@@ -1,4 +1,5 @@
 const AssortmentService = require("../src/AssortmentService");
+const ProductAdded = require("../src/ProductAdded");
 
 describe("AssortmentService", () => {
     const VALID_NAME = "lecture";
@@ -6,8 +7,10 @@ describe("AssortmentService", () => {
     const VALID_DESCRIPTION = "some description";
     const VALID_PRICE = 123.45;
     const VALID_AMOUNT = 13;
+    const PRODUCT_ID = 42;
 
     let shopClient;
+    let eventPublisher;
     let assortmentService;
 
     beforeEach(() => {
@@ -15,36 +18,71 @@ describe("AssortmentService", () => {
             addProduct: jest.fn()
         };
 
-        assortmentService = new AssortmentService(shopClient);
+        eventPublisher = {
+            publish: jest.fn()
+        }
+
+        assortmentService = new AssortmentService(shopClient, eventPublisher);
     });
+
+    const givenProductAddedSuccessfully = function () {
+        shopClient.addProduct.mockImplementation(() => {
+            return {
+                success: true,
+                productId: PRODUCT_ID
+            }
+        });
+    };
 
     describe("should add product", () => {
         test("without description", () => {
+            givenProductAddedSuccessfully();
             let dto = {
                 name: VALID_NAME,
                 code: VALID_CODE,
                 price: VALID_PRICE
             };
-            let amount = 13;
 
-            assortmentService.addProduct(dto, amount);
+            assortmentService.addProduct(dto, VALID_AMOUNT);
 
-            expect(shopClient.addProduct).toHaveBeenCalledWith(dto, amount);
+            expect(shopClient.addProduct).toHaveBeenCalledWith(dto, VALID_AMOUNT);
         });
 
         test("with description", () => {
+            givenProductAddedSuccessfully();
             let dto = {
                 name: VALID_NAME,
                 code: VALID_CODE,
                 price: VALID_PRICE,
                 description: VALID_DESCRIPTION
             };
-            let amount = 13;
 
-            assortmentService.addProduct(dto, amount);
+            assortmentService.addProduct(dto, VALID_AMOUNT);
 
-            expect(shopClient.addProduct).toHaveBeenCalledWith(dto, amount);
+            expect(shopClient.addProduct).toHaveBeenCalledWith(dto, VALID_AMOUNT);
         });
+    });
+
+    describe('should publish ProductAdded event when product successfully added', () => {
+        test("when product has no description", () => {
+            givenProductAddedSuccessfully();
+            let dto = {
+                name: VALID_NAME,
+                code: VALID_CODE,
+                price: VALID_PRICE,
+                description: VALID_DESCRIPTION
+            };
+
+            assortmentService.addProduct(dto, VALID_AMOUNT);
+
+            expect(eventPublisher.publish).toHaveBeenCalled();
+            let actual = eventPublisher.publish.mock.calls[0][0];
+            expect(actual.getProductId()).toBe(PRODUCT_ID);
+            expect(actual.getAmount()).toBe(VALID_AMOUNT);
+            expect(actual.getName()).toBe(VALID_NAME);
+            expect(actual.getCode()).toBe(VALID_CODE);
+            expect(actual.getPrice()).toBe(VALID_PRICE);
+        })
     });
 
     describe('should not add product', () => {
