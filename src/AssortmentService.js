@@ -1,12 +1,15 @@
 const ShopClient = require("./ShopClient.js")
+const ProductAdded = require("./ProductAdded");
 
 
 class AssortmentService {
     static #ALLOWED_ATTRIBUTES = ["name", "code", "price", "description"];
     #shopClient;
+    #eventPublisher;
 
-    constructor(shopClient) {
+    constructor(shopClient, eventPublisher) {
         this.#shopClient = shopClient;
+        this.#eventPublisher = eventPublisher;
     }
 
     addProduct(dto, amount) {
@@ -46,7 +49,17 @@ class AssortmentService {
             throw new Error("Invalid product amount");
         }
 
-        this.#shopClient.addProduct(dto, amount);
+        let status = this.#shopClient.addProduct(dto, amount);
+
+        if (status.success === true) {
+            this.#eventPublisher.publish(new ProductAdded(
+                status.productId,
+                amount,
+                dto.name,
+                dto.code,
+                dto.price
+            ))
+        }
     }
 
     #isInvalidCode(code) {
