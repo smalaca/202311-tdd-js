@@ -69,8 +69,7 @@ describe("AssortmentService", () => {
             let dto = {
                 name: VALID_NAME,
                 code: VALID_CODE,
-                price: VALID_PRICE,
-                description: VALID_DESCRIPTION
+                price: VALID_PRICE
             };
 
             assortmentService.addProduct(dto, VALID_AMOUNT);
