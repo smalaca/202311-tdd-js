@@ -14,7 +14,7 @@ class AssortmentService {
         this.#eventPublisher = eventPublisher;
     }
 
-    addProduct(dto, amount) {
+    addProduct(dto, amount, assortmentId) {
         if (this.#hasNotExpectedAttribute(dto)) {
             throw new Error("Attribute not expected");
         }
@@ -51,7 +51,7 @@ class AssortmentService {
             throw new Error("Invalid product amount");
         }
 
-        const addProductDto = new AddProductDto({ ...dto, amount });
+        const addProductDto = new AddProductDto({ ...dto, amount, assortmentId });
 
         let status = this.#shopClient.addProduct(addProductDto);
 
