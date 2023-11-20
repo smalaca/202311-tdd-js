@@ -1,4 +1,5 @@
 const AssortmentService = require("../src/AssortmentService");
+const AddProductCommand = require("../src/AddProductCommand");
 
 describe("AssortmentService", () => {
     const VALID_NAME = "lecture";
@@ -33,6 +34,16 @@ describe("AssortmentService", () => {
         });
     };
 
+    const asAddProductCommand = function(dto, amount) {
+        return new AddProductCommand(
+            amount,
+            dto.name,
+            dto.code,
+            dto.price,
+            dto.description
+        );
+    }
+
     describe("should add product", () => {
         test("without description", () => {
             givenProductAddedSuccessfully();
@@ -42,7 +53,7 @@ describe("AssortmentService", () => {
                 price: VALID_PRICE
             };
 
-            assortmentService.addProduct(dto, VALID_AMOUNT);
+            assortmentService.addProduct(asAddProductCommand(dto, VALID_AMOUNT), dto);
 
             expect(shopClient.addProduct).toHaveBeenCalled();
             let actual = shopClient.addProduct.mock.calls[0][0];
@@ -63,7 +74,7 @@ describe("AssortmentService", () => {
                 description: VALID_DESCRIPTION
             };
 
-            assortmentService.addProduct(dto, VALID_AMOUNT);
+            assortmentService.addProduct(asAddProductCommand(dto, VALID_AMOUNT), dto);
 
             expect(shopClient.addProduct).toHaveBeenCalled();
             let actual = shopClient.addProduct.mock.calls[0][0];
@@ -85,7 +96,7 @@ describe("AssortmentService", () => {
                 price: VALID_PRICE
             };
 
-            assortmentService.addProduct(dto, VALID_AMOUNT);
+            assortmentService.addProduct(asAddProductCommand(dto, VALID_AMOUNT), dto);
 
             expect(eventPublisher.publish).toHaveBeenCalled();
             let actual = eventPublisher.publish.mock.calls[0][0];
@@ -107,7 +118,7 @@ describe("AssortmentService", () => {
                 description: VALID_DESCRIPTION
             };
 
-            assortmentService.addProduct(dto, VALID_AMOUNT);
+            assortmentService.addProduct(asAddProductCommand(dto, VALID_AMOUNT), dto);
 
             expect(eventPublisher.publish).toHaveBeenCalled();
             let actual = eventPublisher.publish.mock.calls[0][0];
@@ -128,7 +139,7 @@ describe("AssortmentService", () => {
                 price: VALID_PRICE
             }
 
-            let actual = () => assortmentService.addProduct(dto, VALID_AMOUNT);
+            let actual = () => assortmentService.addProduct(asAddProductCommand(dto, VALID_AMOUNT), dto);
 
             expect(actual).toThrowError("Missing product name");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
@@ -140,7 +151,7 @@ describe("AssortmentService", () => {
                 price: VALID_PRICE
             }
 
-            let actual = () => assortmentService.addProduct(dto, VALID_AMOUNT);
+            let actual = () => assortmentService.addProduct(asAddProductCommand(dto, VALID_AMOUNT), dto);
 
             expect(actual).toThrowError("Missing product code");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
@@ -152,7 +163,7 @@ describe("AssortmentService", () => {
                 name: VALID_NAME
             }
 
-            let actual = () => assortmentService.addProduct(dto, VALID_AMOUNT);
+            let actual = () => assortmentService.addProduct(asAddProductCommand(dto, VALID_AMOUNT), dto);
 
             expect(actual).toThrowError("Missing product price");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
@@ -167,7 +178,7 @@ describe("AssortmentService", () => {
                 }), additional: "attribute"
             };
 
-            let actual = () => assortmentService.addProduct(dto, VALID_AMOUNT);
+            let actual = () => assortmentService.addProduct(asAddProductCommand(dto, VALID_AMOUNT), dto);
 
             expect(actual).toThrowError("Attribute not expected");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
@@ -180,7 +191,7 @@ describe("AssortmentService", () => {
                 price: VALID_PRICE
             }
 
-            let actual = () => assortmentService.addProduct(dto, VALID_AMOUNT);
+            let actual = () => assortmentService.addProduct(asAddProductCommand(dto, VALID_AMOUNT), dto);
 
             expect(actual).toThrowError("Invalid product code");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
@@ -193,7 +204,7 @@ describe("AssortmentService", () => {
                 price: VALID_PRICE
             }
 
-            let actual = () => assortmentService.addProduct(dto, VALID_AMOUNT);
+            let actual = () => assortmentService.addProduct(asAddProductCommand(dto, VALID_AMOUNT), dto);
 
             expect(actual).toThrowError("Invalid product code");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
@@ -206,7 +217,7 @@ describe("AssortmentService", () => {
                 price: VALID_PRICE
             }
 
-            let actual = () => assortmentService.addProduct(dto, VALID_AMOUNT);
+            let actual = () => assortmentService.addProduct(asAddProductCommand(dto, VALID_AMOUNT), dto);
 
             expect(actual).toThrowError("Invalid product code");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
@@ -219,7 +230,7 @@ describe("AssortmentService", () => {
                 price: VALID_PRICE
             }
 
-            let actual = () => assortmentService.addProduct(dto, VALID_AMOUNT);
+            let actual = () => assortmentService.addProduct(asAddProductCommand(dto, VALID_AMOUNT), dto);
 
             expect(actual).toThrowError("Invalid product name");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
@@ -232,7 +243,7 @@ describe("AssortmentService", () => {
                 price: VALID_PRICE
             }
 
-            let actual = () => assortmentService.addProduct(dto, VALID_AMOUNT);
+            let actual = () => assortmentService.addProduct(asAddProductCommand(dto, VALID_AMOUNT), dto);
 
             expect(actual).toThrowError("Invalid product name");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
@@ -245,7 +256,7 @@ describe("AssortmentService", () => {
                 price: 0
             }
 
-            let actual = () => assortmentService.addProduct(dto, VALID_AMOUNT);
+            let actual = () => assortmentService.addProduct(asAddProductCommand(dto, VALID_AMOUNT), dto);
 
             expect(actual).toThrowError("Invalid product price");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
@@ -258,7 +269,7 @@ describe("AssortmentService", () => {
                 price: VALID_PRICE
             }
 
-            let actual = () => assortmentService.addProduct(dto, 0);
+            let actual = () => assortmentService.addProduct(asAddProductCommand(dto, 0), dto);
 
             expect(actual).toThrowError("Invalid product amount");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
@@ -271,7 +282,7 @@ describe("AssortmentService", () => {
                 price: VALID_PRICE
             }
 
-            let actual = () => assortmentService.addProduct(dto);
+            let actual = () => assortmentService.addProduct(asAddProductCommand(dto, undefined), dto);
 
             expect(actual).toThrowError("Missing product amount");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
@@ -297,7 +308,7 @@ describe("AssortmentService", () => {
             price: VALID_PRICE
         };
 
-        assortmentService.addProduct(dto, VALID_AMOUNT);
+        assortmentService.addProduct(asAddProductCommand(dto, VALID_AMOUNT), dto);
 
         expect(eventPublisher.publish).toHaveBeenCalled();
         let actual = eventPublisher.publish.mock.calls[0][0];

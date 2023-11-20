@@ -25,27 +25,16 @@ class AssortmentService {
         this.#eventPublisher = eventPublisher;
     }
 
-    addProduct(dto, amount) {
-        let command = this.#asAddProductCommand(amount, dto);
+    addProduct(command, dto) {
         this.#validate(dto, command);
 
         let response = this.#shopClient.addProduct(command);
 
         if (response.success === true) {
-            this.#eventPublisher.publish(new ProductAddedFactory().create(response, amount, dto))
+            this.#eventPublisher.publish(new ProductAddedFactory().create(response, command.getAmount(), dto))
         } else {
             this.#eventPublisher.publish(new ProductCouldNotBeAdded(response.errors))
         }
-    }
-
-    #asAddProductCommand(amount, dto) {
-        return new AddProductCommand(
-            amount,
-            dto.name,
-            dto.code,
-            dto.price,
-            dto.description
-        );
     }
 
     #validate(dto, command) {
