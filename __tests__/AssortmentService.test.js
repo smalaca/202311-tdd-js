@@ -121,82 +121,118 @@ describe("AssortmentService", () => {
         test('when missing name', () => {
             let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, NO_VALUE, VALID_CODE, VALID_PRICE, NO_VALUE);
 
-            let actual = () => assortmentService.addProduct(command);
+            assortmentService.addProduct(command);
 
-            expect(actual).toThrowError("Missing product name");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
+            expect(eventPublisher.publish).toHaveBeenCalled();
+            let actual = eventPublisher.publish.mock.calls[0][0];
+            expect(actual.constructor.name).toBe("ProductCouldNotBeAdded");
+            expect(actual.getErrors()).toHaveLength(1);
+            expect(actual.getErrors()).toContainEqual(new ValidationError("name", "Missing product name"));
         });
 
         test('when missing code', () => {
             let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, NO_VALUE, VALID_PRICE, NO_VALUE);
 
-            let actual = () => assortmentService.addProduct(command);
+            assortmentService.addProduct(command);
 
-            expect(actual).toThrowError("Missing product code");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
+            expect(eventPublisher.publish).toHaveBeenCalled();
+            let actual = eventPublisher.publish.mock.calls[0][0];
+            expect(actual.constructor.name).toBe("ProductCouldNotBeAdded");
+            expect(actual.getErrors()).toHaveLength(1);
+            expect(actual.getErrors()).toContainEqual(new ValidationError("code", "Missing product code"));
         });
 
         test('when missing price', () => {
             let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, VALID_CODE, NO_VALUE);
 
-            let actual = () => assortmentService.addProduct(command);
+            assortmentService.addProduct(command);
 
-            expect(actual).toThrowError("Missing product price");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
+            expect(eventPublisher.publish).toHaveBeenCalled();
+            let actual = eventPublisher.publish.mock.calls[0][0];
+            expect(actual.constructor.name).toBe("ProductCouldNotBeAdded");
+            expect(actual.getErrors()).toHaveLength(1);
+            expect(actual.getErrors()).toContainEqual(new ValidationError("price", "Missing product price"));
         });
 
         test('when code contains 29 characters', () => {
             let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, "123456789-123456789-123456789", VALID_PRICE, NO_VALUE);
 
-            let actual = () => assortmentService.addProduct(command);
+            assortmentService.addProduct(command);
 
-            expect(actual).toThrowError("Invalid product code");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
+            expect(eventPublisher.publish).toHaveBeenCalled();
+            let actual = eventPublisher.publish.mock.calls[0][0];
+            expect(actual.constructor.name).toBe("ProductCouldNotBeAdded");
+            expect(actual.getErrors()).toHaveLength(1);
+            expect(actual.getErrors()).toContainEqual(new ValidationError("code", "Invalid product code"));
         })
 
         test('when code contains 31 characters', () => {
             let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, "123456789-1234567890-1234567890", VALID_PRICE, NO_VALUE);
 
-            let actual = () => assortmentService.addProduct(command);
+            assortmentService.addProduct(command);
 
-            expect(actual).toThrowError("Invalid product code");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
+            expect(eventPublisher.publish).toHaveBeenCalled();
+            let actual = eventPublisher.publish.mock.calls[0][0];
+            expect(actual.constructor.name).toBe("ProductCouldNotBeAdded");
+            expect(actual.getErrors()).toHaveLength(1);
+            expect(actual.getErrors()).toContainEqual(new ValidationError("code", "Invalid product code"));
         })
 
         test('when code contains letters', () => {
             let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, "123456789-123456789-1234567ABC", VALID_PRICE, NO_VALUE);
 
-            let actual = () => assortmentService.addProduct(command);
+            assortmentService.addProduct(command);
 
-            expect(actual).toThrowError("Invalid product code");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
+            expect(eventPublisher.publish).toHaveBeenCalled();
+            let actual = eventPublisher.publish.mock.calls[0][0];
+            expect(actual.constructor.name).toBe("ProductCouldNotBeAdded");
+            expect(actual.getErrors()).toHaveLength(1);
+            expect(actual.getErrors()).toContainEqual(new ValidationError("code", "Invalid product code"));
         })
 
         test('when name contains 4 characters', () => {
             let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, "abcd", VALID_CODE, VALID_PRICE, NO_VALUE);
 
-            let actual = () => assortmentService.addProduct(command);
+            assortmentService.addProduct(command);
 
-            expect(actual).toThrowError("Invalid product name");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
+            expect(eventPublisher.publish).toHaveBeenCalled();
+            let actual = eventPublisher.publish.mock.calls[0][0];
+            expect(actual.constructor.name).toBe("ProductCouldNotBeAdded");
+            expect(actual.getErrors()).toHaveLength(1);
+            expect(actual.getErrors()).toContainEqual(new ValidationError("name", "Invalid product name"));
         })
 
         test('when name contains 51 characters', () => {
             let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, "a".repeat(51), VALID_CODE, VALID_PRICE, NO_VALUE);
 
-            let actual = () => assortmentService.addProduct(command);
+            assortmentService.addProduct(command);
 
-            expect(actual).toThrowError("Invalid product name");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
+            expect(eventPublisher.publish).toHaveBeenCalled();
+            let actual = eventPublisher.publish.mock.calls[0][0];
+            expect(actual.constructor.name).toBe("ProductCouldNotBeAdded");
+            expect(actual.getErrors()).toHaveLength(1);
+            expect(actual.getErrors()).toContainEqual(new ValidationError("name", "Invalid product name"));
         })
 
         test('when price is zero', () => {
             let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, VALID_CODE, 0);
 
-            let actual = () => assortmentService.addProduct(command);
+            assortmentService.addProduct(command);
 
-            expect(actual).toThrowError("Invalid product price");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
+            expect(eventPublisher.publish).toHaveBeenCalled();
+            let actual = eventPublisher.publish.mock.calls[0][0];
+            expect(actual.constructor.name).toBe("ProductCouldNotBeAdded");
+            expect(actual.getErrors()).toHaveLength(1);
+            expect(actual.getErrors()).toContainEqual(new ValidationError("price", "Invalid product price"));
         })
 
         test('when amount is zero', () => {
