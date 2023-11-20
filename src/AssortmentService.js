@@ -5,6 +5,7 @@ class ProductAddedFactory {
     create(response, command) {
         return new ProductAdded(
             response.productId,
+            command.getAssortmentId(),
             command.getAmount(),
             command.getName(),
             command.getCode(),
