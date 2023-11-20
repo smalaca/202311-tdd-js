@@ -26,9 +26,10 @@ class AssortmentService {
     }
 
     addProduct(dto, amount) {
-        this.#validate(dto, amount);
+        let command = this.#asAddProductCommand(amount, dto);
+        this.#validate(dto, command);
 
-        let response = this.#shopClient.addProduct(this.#asAddProductCommand(amount, dto));
+        let response = this.#shopClient.addProduct(command);
 
         if (response.success === true) {
             this.#eventPublisher.publish(new ProductAddedFactory().create(response, amount, dto))
@@ -47,40 +48,40 @@ class AssortmentService {
         );
     }
 
-    #validate(dto, amount) {
+    #validate(dto, command) {
         if (this.#hasNotExpectedAttribute(dto)) {
             throw new Error("Attribute not expected");
         }
 
-        if (dto.name === undefined) {
+        if (command.getName() === undefined) {
             throw new Error("Missing product name");
         }
 
-        if (dto.code === undefined) {
+        if (command.getCode() === undefined) {
             throw new Error("Missing product code");
         }
 
-        if (dto.price === undefined) {
+        if (command.getPrice() === undefined) {
             throw new Error("Missing product price");
         }
 
-        if (amount === undefined) {
+        if (command.getAmount() === undefined) {
             throw new Error("Missing product amount");
         }
 
-        if (this.#isInvalidName(dto.name)) {
+        if (this.#isInvalidName(command.getName())) {
             throw new Error("Invalid product name");
         }
 
-        if (this.#isInvalidCode(dto.code)) {
+        if (this.#isInvalidCode(command.getCode())) {
             throw new Error("Invalid product code");
         }
 
-        if (dto.price < 1) {
+        if (command.getPrice() < 1) {
             throw new Error("Invalid product price");
         }
 
-        if (amount < 1) {
+        if (command.getAmount() < 1) {
             throw new Error("Invalid product amount");
         }
     }
