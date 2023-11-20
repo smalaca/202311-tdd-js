@@ -1,7 +1,7 @@
 class ProductCodeFactory {
 
     create(name) {
-        return name;
+        return name.replaceAll(' ', '-');
     }
 }
 
