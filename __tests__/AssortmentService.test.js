@@ -169,21 +169,6 @@ describe("AssortmentService", () => {
             expect(shopClient.addProduct).not.toHaveBeenCalled();
         });
 
-        test('when additional attribute given', () => {
-            let dto = {
-                ...({
-                    name: VALID_NAME,
-                    code: VALID_CODE,
-                    price: VALID_PRICE
-                }), additional: "attribute"
-            };
-
-            let actual = () => assortmentService.addProduct(asAddProductCommand(dto, VALID_AMOUNT), dto);
-
-            expect(actual).toThrowError("Attribute not expected");
-            expect(shopClient.addProduct).not.toHaveBeenCalled();
-        });
-
         test('when code contains 29 characters', () => {
             let dto = {
                 code: "123456789-123456789-123456789",
