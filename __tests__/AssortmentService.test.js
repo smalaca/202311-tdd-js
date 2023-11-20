@@ -124,9 +124,15 @@ describe("AssortmentService", () => {
                 price: VALID_PRICE
             }
 
-            let actual = () => assortmentService.addProduct(dto, VALID_AMOUNT, VALID_ASSORTMENT_ID);
+            let actual = assortmentService.addProduct(dto, VALID_AMOUNT, VALID_ASSORTMENT_ID);
 
-            expect(actual).toThrowError("Missing product name");
+            expect(actual).toEqual({
+                success: false,
+                errors: [{
+                    fieldName: "name",
+                    description: "Missing product name"
+                }]
+            });
             expect(shopClient.addProduct).not.toHaveBeenCalled();
         });
 

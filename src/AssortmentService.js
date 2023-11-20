@@ -15,6 +15,26 @@ class AssortmentService {
     }
 
     addProduct(dto, amount, assortmentId) {
+        this.validate(dto, amount);
+        const addProductDto = new AddProductDto({ ...dto, amount, assortmentId });
+
+        let status = this.#shopClient.addProduct(addProductDto);
+
+        if (status.success === true) {
+            this.#eventPublisher.publish(new ProductAdded(
+                status.productId,
+                amount,
+                dto.name,
+                dto.code,
+                dto.price,
+                dto.description
+            ))
+        } else {
+            this.#eventPublisher.publish(new ProductCouldNotBeAdded(status.errors))
+        }
+    }
+
+    validate = (dto, amount) => {
         if (this.#hasNotExpectedAttribute(dto)) {
             throw new Error("Attribute not expected");
         }
@@ -49,23 +69,6 @@ class AssortmentService {
 
         if (amount < 1) {
             throw new Error("Invalid product amount");
-        }
-
-        const addProductDto = new AddProductDto({ ...dto, amount, assortmentId });
-
-        let status = this.#shopClient.addProduct(addProductDto);
-
-        if (status.success === true) {
-            this.#eventPublisher.publish(new ProductAdded(
-                status.productId,
-                amount,
-                dto.name,
-                dto.code,
-                dto.price,
-                dto.description
-            ))
-        } else {
-            this.#eventPublisher.publish(new ProductCouldNotBeAdded(status.errors))
         }
     }
 
