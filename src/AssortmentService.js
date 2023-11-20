@@ -38,11 +38,14 @@ class AssortmentService {
     }
 
     validate = (dto, amount) => {
+        const errors = [];
+        
         if (this.#hasNotExpectedAttribute(dto)) {
-            throw new Error("Attribute not expected");
+            errors.push({
+                description: "Attribute not expected"
+            });
         }
         
-        const errors = [];
         if (dto.name === undefined) {
             errors.push({
                 fieldName: "name",

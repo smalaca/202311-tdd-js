@@ -185,7 +185,10 @@ describe("AssortmentService", () => {
 
             expect(actual).toEqual({
                 success: false,
-                description: "Attribute not expected"
+                errors: [{
+                    description: "Attribute not expected"
+                }]
+                
             });
             expect(shopClient.addProduct).not.toHaveBeenCalled();
         });
