@@ -12,66 +12,47 @@ class AssortmentService {
     }
 
     addProduct(command) {
-        if (command.getAssortmentId() === undefined) {
-            this.#eventPublisher.publish(new ProductCouldNotBeAdded([ new ValidationError("assortmentId", "Missing assortment id")]));
+        let event = new ProductCouldNotBeAdded();
 
-            return;
+        if (command.getAssortmentId() === undefined) {
+            event.addError(new ValidationError("assortmentId", "Missing assortment id"));
         }
 
         if (command.getName() === undefined) {
-            this.#eventPublisher.publish(new ProductCouldNotBeAdded([ new ValidationError("name", "Missing product name")]));
-
-            return;
+            event.addError(new ValidationError("name", "Missing product name"));
+        } else if (this.#isInvalidName(command.getName())) {
+            event.addError(new ValidationError("name", "Invalid product name"));
         }
 
         if (command.getCode() === undefined) {
-            this.#eventPublisher.publish(new ProductCouldNotBeAdded([ new ValidationError("code", "Missing product code")]));
-
-            return;
+            event.addError(new ValidationError("code", "Missing product code"));
+        } else if (this.#isInvalidCode(command.getCode())) {
+            event.addError(new ValidationError("code", "Invalid product code"));
         }
 
         if (command.getPrice() === undefined) {
-            this.#eventPublisher.publish(new ProductCouldNotBeAdded([ new ValidationError("price", "Missing product price")]));
-
-            return;
+            event.addError(new ValidationError("price", "Missing product price"));
+        } else if (command.getPrice() < 1) {
+            event.addError(new ValidationError("price", "Invalid product price"));
         }
 
         if (command.getAmount() === undefined) {
-            this.#eventPublisher.publish(new ProductCouldNotBeAdded([ new ValidationError("amount", "Missing product amount")]));
-
-            return;
+            event.addError(new ValidationError("amount", "Missing product amount"));
+        } else if (command.getAmount() < 1) {
+            event.addError(new ValidationError("amount", "Invalid product amount"));
         }
 
-        if (this.#isInvalidName(command.getName())) {
-            this.#eventPublisher.publish(new ProductCouldNotBeAdded([ new ValidationError("name", "Invalid product name")]));
+        if (event.hasNoErrors()) {
+            let response = this.#shopClient.addProduct(command);
 
-            return;
-        }
-
-        if (this.#isInvalidCode(command.getCode())) {
-            this.#eventPublisher.publish(new ProductCouldNotBeAdded([ new ValidationError("code", "Invalid product code")]));
-
-            return;
-        }
-
-        if (command.getPrice() < 1) {
-            this.#eventPublisher.publish(new ProductCouldNotBeAdded([ new ValidationError("price", "Invalid product price")]));
-
-            return;
-        }
-
-        if (command.getAmount() < 1) {
-            this.#eventPublisher.publish(new ProductCouldNotBeAdded([ new ValidationError("amount", "Invalid product amount")]));
-
-            return;
-        }
-
-        let response = this.#shopClient.addProduct(command);
-
-        if (response.success === true) {
-            this.#eventPublisher.publish(this.#asProductAdded(response, command))
+            if (response.success === true) {
+                this.#eventPublisher.publish(this.#asProductAdded(response, command))
+            } else {
+                this.#eventPublisher.publish(new ProductCouldNotBeAdded(response.errors))
+            }
         } else {
-            this.#eventPublisher.publish(new ProductCouldNotBeAdded(response.errors))
+            this.#eventPublisher.publish(event);
+
         }
     }
 
