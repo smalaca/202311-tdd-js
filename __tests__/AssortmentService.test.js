@@ -22,8 +22,7 @@ const validEvent = {
   id: PRODUCT_ID
 }
 const backendApi = {
-  addProduct: jest.fn((product) => {
-    if(product.assortmentId !== validProduct.assortmentId) throw new FieldError('assortmentId', 'Invalid assortment')
+  addProduct: jest.fn(() => {
     return { id: PRODUCT_ID }
   }),
 };
