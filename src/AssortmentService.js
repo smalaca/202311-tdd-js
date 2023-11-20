@@ -72,11 +72,6 @@ class AssortmentService {
             command.getDescription()
         );
     }
-
-    #isInvalidCode(code) {
-        return !code.match(/^[0-9-]{30}$/);
-    }
-
     #isInvalidName(name) {
         return name.length < 5 || name.length > 50;
     }
