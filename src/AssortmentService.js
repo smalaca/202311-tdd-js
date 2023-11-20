@@ -32,13 +32,7 @@ class AssortmentService {
         if (dto.description === undefined) {
             response = this.#shopClient.addProduct(dto, amount);
         } else {
-            response = this.#shopClient.addProduct(new AddProductCommand(
-                amount,
-                dto.name,
-                dto.code,
-                dto.price,
-                dto.description
-            ));
+            response = this.#shopClient.addProduct(this.#asAddProductCommand(amount, dto));
         }
 
         if (response.success === true) {
@@ -46,6 +40,16 @@ class AssortmentService {
         } else {
             this.#eventPublisher.publish(new ProductCouldNotBeAdded(response.errors))
         }
+    }
+
+    #asAddProductCommand(amount, dto) {
+        return new AddProductCommand(
+            amount,
+            dto.name,
+            dto.code,
+            dto.price,
+            dto.description
+        );
     }
 
     #validate(dto, amount) {
