@@ -16,7 +16,6 @@ class ProductAddedFactory {
 }
 
 class AssortmentService {
-    static #ALLOWED_ATTRIBUTES = ["name", "code", "price", "description"];
     #shopClient;
     #eventPublisher;
 
@@ -26,7 +25,7 @@ class AssortmentService {
     }
 
     addProduct(command, dto) {
-        this.#validate(dto, command);
+        this.#validate(command);
 
         let response = this.#shopClient.addProduct(command);
 
@@ -37,11 +36,7 @@ class AssortmentService {
         }
     }
 
-    #validate(dto, command) {
-        if (this.#hasNotExpectedAttribute(dto)) {
-            throw new Error("Attribute not expected");
-        }
-
+    #validate(command) {
         if (command.getName() === undefined) {
             throw new Error("Missing product name");
         }
@@ -81,12 +76,6 @@ class AssortmentService {
 
     #isInvalidName(name) {
         return name.length < 5 || name.length > 50;
-    }
-
-    #hasNotExpectedAttribute(dto) {
-        return !Object.keys(dto).every(attribute => {
-            return AssortmentService.#ALLOWED_ATTRIBUTES.includes(attribute);
-        });
     }
 }
 
