@@ -23,7 +23,7 @@ class AssortmentService {
         this.#eventPublisher = eventPublisher;
     }
 
-    addProduct(command, dto) {
+    addProduct(command) {
         this.#validate(command);
 
         let response = this.#shopClient.addProduct(command);
