@@ -273,6 +273,23 @@ describe("AssortmentService", () => {
             expect(actual.getErrors()).toHaveLength(1);
             expect(actual.getErrors()).toContainEqual(new ValidationError("assortmentId", "Missing assortment id"));
         })
+
+        test('when all required values are missing', () => {
+            let command = new AddProductCommand(NO_VALUE, NO_VALUE, NO_VALUE, NO_VALUE, NO_VALUE);
+
+            assortmentService.addProduct(command);
+
+            expect(shopClient.addProduct).not.toHaveBeenCalled();
+            expect(eventPublisher.publish).toHaveBeenCalled();
+            let actual = eventPublisher.publish.mock.calls[0][0];
+            expect(actual.constructor.name).toBe("ProductCouldNotBeAdded");
+            expect(actual.getErrors()).toHaveLength(5);
+            expect(actual.getErrors()).toContainEqual(new ValidationError("assortmentId", "Missing assortment id"));
+            expect(actual.getErrors()).toContainEqual(new ValidationError("name", "Missing product name"));
+            expect(actual.getErrors()).toContainEqual(new ValidationError("code", "Missing product code"));
+            expect(actual.getErrors()).toContainEqual(new ValidationError("price", "Missing product price"));
+            expect(actual.getErrors()).toContainEqual(new ValidationError("amount", "Missing product amount"));
+        })
     });
 
     test('should publish ProductCouldNotBeAdded event when product could not be added', () => {
