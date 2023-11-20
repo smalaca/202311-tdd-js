@@ -142,9 +142,15 @@ describe("AssortmentService", () => {
                 price: VALID_PRICE
             }
 
-            let actual = () => assortmentService.addProduct(dto, VALID_AMOUNT, VALID_ASSORTMENT_ID);
+            let actual = assortmentService.addProduct(dto, VALID_AMOUNT, VALID_ASSORTMENT_ID);
 
-            expect(actual).toThrowError("Missing product code");
+            expect(actual).toEqual({
+                success: false,
+                errors: [{
+                    fieldName: "code",
+                    description: "Missing product code"
+                }]
+            });
             expect(shopClient.addProduct).not.toHaveBeenCalled();
         });
 
@@ -154,9 +160,15 @@ describe("AssortmentService", () => {
                 name: VALID_NAME
             }
 
-            let actual = () => assortmentService.addProduct(dto, VALID_AMOUNT, VALID_ASSORTMENT_ID);
+            let actual = assortmentService.addProduct(dto, VALID_AMOUNT, VALID_ASSORTMENT_ID);
 
-            expect(actual).toThrowError("Missing product price");
+            expect(actual).toEqual({
+                success: false,
+                errors: [{
+                    fieldName: "price",
+                    description: "Missing product price"
+                }]
+            });
             expect(shopClient.addProduct).not.toHaveBeenCalled();
         });
 
@@ -182,9 +194,15 @@ describe("AssortmentService", () => {
                 price: VALID_PRICE
             }
 
-            let actual = () => assortmentService.addProduct(dto, VALID_AMOUNT, VALID_ASSORTMENT_ID);
+            let actual = assortmentService.addProduct(dto, VALID_AMOUNT, VALID_ASSORTMENT_ID);
 
-            expect(actual).toThrowError("Invalid product code");
+            expect(actual).toEqual({
+                success: false,
+                errors: [{
+                    fieldName: "code",
+                    description: "Invalid product code"
+                }]
+            });
             expect(shopClient.addProduct).not.toHaveBeenCalled();
         })
 
@@ -195,9 +213,15 @@ describe("AssortmentService", () => {
                 price: VALID_PRICE
             }
 
-            let actual = () => assortmentService.addProduct(dto, VALID_AMOUNT, VALID_ASSORTMENT_ID);
+            let actual = assortmentService.addProduct(dto, VALID_AMOUNT, VALID_ASSORTMENT_ID);
 
-            expect(actual).toThrowError("Invalid product code");
+            expect(actual).toEqual({
+                success: false,
+                errors: [{
+                    fieldName: "code",
+                    description: "Invalid product code"
+                }]
+            });
             expect(shopClient.addProduct).not.toHaveBeenCalled();
         })
 
@@ -208,35 +232,53 @@ describe("AssortmentService", () => {
                 price: VALID_PRICE
             }
 
-            let actual = () => assortmentService.addProduct(dto, VALID_AMOUNT, VALID_ASSORTMENT_ID);
+            let actual = assortmentService.addProduct(dto, VALID_AMOUNT, VALID_ASSORTMENT_ID);
 
-            expect(actual).toThrowError("Invalid product code");
+            expect(actual).toEqual({
+                success: false,
+                errors: [{
+                    fieldName: "code",
+                    description: "Invalid product code"
+                }]
+            });
             expect(shopClient.addProduct).not.toHaveBeenCalled();
         })
 
-        test('when code contains 4 characters', () => {
+        test('when name contains 4 characters', () => {
             let dto = {
                 code: VALID_CODE,
                 name: "abcd",
                 price: VALID_PRICE
             }
 
-            let actual = () => assortmentService.addProduct(dto, VALID_AMOUNT, VALID_ASSORTMENT_ID);
+            let actual = assortmentService.addProduct(dto, VALID_AMOUNT, VALID_ASSORTMENT_ID);
 
-            expect(actual).toThrowError("Invalid product name");
+            expect(actual).toEqual({
+                success: false,
+                errors: [{
+                    fieldName: "name",
+                    description: "Invalid product name"
+                }]
+            });
             expect(shopClient.addProduct).not.toHaveBeenCalled();
         })
 
-        test('when code contains 51 characters', () => {
+        test('when name contains 51 characters', () => {
             let dto = {
                 code: VALID_CODE,
                 name: "a".repeat(51),
                 price: VALID_PRICE
             }
 
-            let actual = () => assortmentService.addProduct(dto, VALID_AMOUNT, VALID_ASSORTMENT_ID);
+            let actual = assortmentService.addProduct(dto, VALID_AMOUNT, VALID_ASSORTMENT_ID);
 
-            expect(actual).toThrowError("Invalid product name");
+            expect(actual).toEqual({
+                success: false,
+                errors: [{
+                    fieldName: "name",
+                    description: "Invalid product name"
+                }]
+            });
             expect(shopClient.addProduct).not.toHaveBeenCalled();
         })
 
@@ -247,9 +289,15 @@ describe("AssortmentService", () => {
                 price: 0
             }
 
-            let actual = () => assortmentService.addProduct(dto, VALID_AMOUNT, VALID_ASSORTMENT_ID);
+            let actual = assortmentService.addProduct(dto, VALID_AMOUNT, VALID_ASSORTMENT_ID);
 
-            expect(actual).toThrowError("Invalid product price");
+            expect(actual).toEqual({
+                success: false,
+                errors: [{
+                    fieldName: "price",
+                    description: "Invalid product price"
+                }]
+            });
             expect(shopClient.addProduct).not.toHaveBeenCalled();
         })
 
@@ -260,9 +308,15 @@ describe("AssortmentService", () => {
                 price: VALID_PRICE
             }
 
-            let actual = () => assortmentService.addProduct(dto, 0);
+            let actual = assortmentService.addProduct(dto, VALID_AMOUNT, VALID_ASSORTMENT_ID);
 
-            expect(actual).toThrowError("Invalid product amount");
+            expect(actual).toEqual({
+                success: false,
+                errors: [{
+                    fieldName: "amount",
+                    description: "Invalid product amount"
+                }]
+            });
             expect(shopClient.addProduct).not.toHaveBeenCalled();
         })
 
@@ -272,10 +326,15 @@ describe("AssortmentService", () => {
                 name: VALID_NAME,
                 price: VALID_PRICE
             }
+            let actual = assortmentService.addProduct(dto, VALID_AMOUNT, VALID_ASSORTMENT_ID);
 
-            let actual = () => assortmentService.addProduct(dto);
-
-            expect(actual).toThrowError("Missing product amount");
+            expect(actual).toEqual({
+                success: false,
+                errors: [{
+                    fieldName: "amount",
+                    description: "Missing product amount"
+                }]
+            });
             expect(shopClient.addProduct).not.toHaveBeenCalled();
         })
     });
