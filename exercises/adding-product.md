@@ -91,3 +91,15 @@ Zamień wyrzucane Errory dotyczące walidacji na informację zwrotną dla formul
 **Ćwiczenie 12.**
 
 Zagreguj wyrzucane Errory dotyczące walidacji na informację zwrotną dla formularza. Nie failuj przy pierwszym błędzie.
+
+**Ćwiczenie 13.**
+
+Zmiana wymagań.
+Kod powinien być generowany automatycznie, a nie przekazywany:
+- 30 znaków
+- akceptowane znaki alfanumeryczne i "-"
+- wzór
+  - pierwsze max 15 znaków: nazwa produktu gdzie:
+    - zostają tylko znaki alfanumeryczne
+    - spacje zamienione na "-"
+  - ostatnie min 15 znaków: znaki alfanumeryczne
