@@ -8,6 +8,8 @@ describe('ProductCodeFactory', () => {
 
         expect(actual.startsWith("1t15Pr0ductN4m3")).toBeTruthy();
         expect(actual.length).toEqual(30);
+        expect(new Set(actual.substring(15).split("")).size).toBeGreaterThan(1);
+        expect(actual.substring(15)).toMatch(/[a-zA-Z0-9]/);
     });
 
     test('should replace space with "-" in used part of product name', () => {
