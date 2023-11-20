@@ -27,5 +27,6 @@ describe('ProductCodeFactory', () => {
         let actual = factory.create("Pr0duct&^%N4m3");
 
         expect(actual.startsWith("Pr0ductN4m3")).toBeTruthy();
+        expect(actual.length).toEqual(30);
     });
 })
