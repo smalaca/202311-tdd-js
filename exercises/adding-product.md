@@ -73,3 +73,12 @@ W przypadku gdy uda się dodać produkt do asortymentu:
 W przypadku gdy nie uda się dodać produktu do asortymentu:
 - wyświetl informację o nieudanej operacji
 - zaznacz wszystkie pola, które mają nieprawidłowe informacje
+
+**Ćwiczenie 10.**
+Zmień kontrakt ShopClient tak, aby otrzymywał jeden obiekt ze wszystkimi niezbędnymi informacjami:
+- nazwa produtku
+- kod produtku
+- cena produtku
+- opis produtku
+- ilość
+- id asortymentu

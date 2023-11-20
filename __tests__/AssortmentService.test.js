@@ -199,7 +199,7 @@ describe("AssortmentService", () => {
             expect(shopClient.addProduct).not.toHaveBeenCalled();
         })
 
-        test('when code contains 4 characters', () => {
+        test('when name contains 4 characters', () => {
             let dto = {
                 code: VALID_CODE,
                 name: "abcd",
@@ -212,7 +212,7 @@ describe("AssortmentService", () => {
             expect(shopClient.addProduct).not.toHaveBeenCalled();
         })
 
-        test('when code contains 51 characters', () => {
+        test('when name contains 51 characters', () => {
             let dto = {
                 code: VALID_CODE,
                 name: "a".repeat(51),
