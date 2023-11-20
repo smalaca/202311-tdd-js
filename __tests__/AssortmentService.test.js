@@ -353,12 +353,12 @@ describe("AssortmentService", () => {
                     description: "Missing product name"
                 },
                 {
-                    fieldName: "code",
-                    description: "Invalid product code"
-                },
-                {
                     fieldName: "amount",
                     description: "Missing product amount"
+                },
+                {
+                    fieldName: "code",
+                    description: "Invalid product code"
                 },
             ]
             });

@@ -42,85 +42,69 @@ class AssortmentService {
             throw new Error("Attribute not expected");
         }
         
+        const errors = [];
         if (dto.name === undefined) {
-            return {
-                success: false,
-                errors: [{
-                    fieldName: "name",
-                    description: "Missing product name"
-                }]
-            }
+            errors.push({
+                fieldName: "name",
+                description: "Missing product name"
+            });
         }
 
         if (dto.code === undefined) {
-            return {
-                success: false,
-                errors: [{
-                    fieldName: "code",
-                    description: "Missing product code"
-                }]
-            }
+            errors.push({
+                fieldName: "code",
+                description: "Missing product code"
+            });
         }
 
         if (dto.price === undefined) {
-            return {
-                success: false,
-                errors: [{
-                    fieldName: "price",
-                    description: "Missing product price"
-                }]
-            }
+            errors.push({
+                fieldName: "price",
+                description: "Missing product price"
+            });
         }
 
         if (amount === undefined) {
-            return {
-                success: false,
-                errors: [{
-                    fieldName: "amount",
-                    description: "Missing product amount"
-                }]
-            }
+            errors.push({
+                fieldName: "amount",
+                description: "Missing product amount"
+            });
         }
 
-        if (this.#isInvalidName(dto.name)) {
-            return {
-                success: false,
-                errors: [{
-                    fieldName: "name",
-                    description: "Invalid product name"
-                }]
-            }
+        if (dto.name && this.#isInvalidName(dto.name)) {
+            errors.push({
+                fieldName: "name",
+                description: "Invalid product name"
+            });
         }
 
-        if (this.#isInvalidCode(dto.code)) {
-            return {
-                success: false,
-                errors: [{
-                    fieldName: "code",
-                    description: "Invalid product code"
-                }]
-            }
+        if (dto.code && this.#isInvalidCode(dto.code)) {
+            errors.push({
+                fieldName: "code",
+                description: "Invalid product code"
+            });
         }
 
         if (dto.price < 1) {
-            return {
-                success: false,
-                errors: [{
-                    fieldName: "price",
-                    description: "Invalid product price"
-                }]
-            }
+            errors.push({
+                fieldName: "price",
+                description: "Invalid product price"
+            });
         }
 
         if (amount < 1) {
+            errors.push({
+                fieldName: "amount",
+                description: "Invalid product amount"
+            });
+        }
+
+        if (errors.length > 0) {
             return {
                 success: false,
-                errors: [{
-                    fieldName: "amount",
-                    description: "Invalid product amount"
-                }]
+                errors
             }
-        }
+        };
 
         return {
             success: true
