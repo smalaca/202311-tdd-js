@@ -17,7 +17,7 @@ class AssortmentService {
     addProduct(dto, amount, assortmentId) {
         const validationResult = this.validate(dto, amount);
 
-        if (validationResult?.success === false) return validationResult;
+        if (!validationResult.success) return validationResult;
 
         const addProductDto = new AddProductDto({ ...dto, amount, assortmentId });
 
@@ -121,6 +121,10 @@ class AssortmentService {
                 }]
             }
         }
+
+        return {
+            success: true
+        };
     }
 
     #isInvalidCode(code) {
