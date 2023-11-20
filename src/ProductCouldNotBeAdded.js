@@ -2,7 +2,6 @@ class ProductCouldNotBeAdded {
     #errors;
     constructor(errors) {
         this.#errors = errors;
-
     }
 
     getErrors() {

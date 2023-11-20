@@ -11,32 +11,13 @@ class AssortmentService {
     }
 
     addProduct(command) {
-        this.#validate(command);
-
-        let response = this.#shopClient.addProduct(command);
-
-        if (response.success === true) {
-            this.#eventPublisher.publish(this.#asProductAdded(response, command))
-        } else {
-            this.#eventPublisher.publish(new ProductCouldNotBeAdded(response.errors))
-        }
-    }
-
-    #asProductAdded(response, command) {
-        return new ProductAdded(
-            response.productId,
-            command.getAssortmentId(),
-            command.getAmount(),
-            command.getName(),
-            command.getCode(),
-            command.getPrice(),
-            command.getDescription()
-        );
-    }
-
-    #validate(command) {
         if (command.getAssortmentId() === undefined) {
-            throw new Error("Missing assortmentId");
+            this.#eventPublisher.publish(new ProductCouldNotBeAdded([{
+                fieldName: "assortmentId",
+                description: "Missing assortment id"
+            }]));
+
+            return;
         }
 
         if (command.getName() === undefined) {
@@ -70,6 +51,26 @@ class AssortmentService {
         if (command.getAmount() < 1) {
             throw new Error("Invalid product amount");
         }
+
+        let response = this.#shopClient.addProduct(command);
+
+        if (response.success === true) {
+            this.#eventPublisher.publish(this.#asProductAdded(response, command))
+        } else {
+            this.#eventPublisher.publish(new ProductCouldNotBeAdded(response.errors))
+        }
+    }
+
+    #asProductAdded(response, command) {
+        return new ProductAdded(
+            response.productId,
+            command.getAssortmentId(),
+            command.getAmount(),
+            command.getName(),
+            command.getCode(),
+            command.getPrice(),
+            command.getDescription()
+        );
     }
 
     #isInvalidCode(code) {
