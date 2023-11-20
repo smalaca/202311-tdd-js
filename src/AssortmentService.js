@@ -50,7 +50,7 @@ class AssortmentService {
             throw new Error("Invalid product amount");
         }
 
-        let status = this.#shopClient.addProduct(dto, amount);
+        let status = this.#shopClient.addProduct({ ...dto, amount });
 
         if (status.success === true) {
             this.#eventPublisher.publish(new ProductAdded(
