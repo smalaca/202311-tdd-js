@@ -17,6 +17,8 @@ describe('ProductCodeFactory', () => {
 
         expect(actual.startsWith("Pr0duct----N4m3")).toBeTruthy();
         expect(actual.length).toEqual(30);
+        expect(new Set(actual.substring(15).split("")).size).toBeGreaterThan(1);
+        expect(actual.substring(15)).toMatch(/[a-zA-Z0-9]/);
     });
 
     test('should use only first 15 characters from product name', () => {
@@ -25,6 +27,8 @@ describe('ProductCodeFactory', () => {
         expect(actual.startsWith("ThisIsTooLongPr")).toBeTruthy();
         expect(actual).not.toContain("ThisIsTooLongProductName");
         expect(actual.length).toEqual(30);
+        expect(new Set(actual.substring(15).split("")).size).toBeGreaterThan(1);
+        expect(actual.substring(15)).toMatch(/[a-zA-Z0-9]/);
     });
 
     test('should remove non alphanumeric characters', () => {
@@ -32,5 +36,7 @@ describe('ProductCodeFactory', () => {
 
         expect(actual.startsWith("Pr0ductN4m3")).toBeTruthy();
         expect(actual.length).toEqual(30);
+        expect(new Set(actual.substring(11).split("")).size).toBeGreaterThan(1);
+        expect(actual.substring(11)).toMatch(/[a-zA-Z0-9]/);
     });
 })
