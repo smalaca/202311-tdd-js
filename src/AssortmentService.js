@@ -15,7 +15,10 @@ class AssortmentService {
     }
 
     addProduct(dto, amount, assortmentId) {
-        this.validate(dto, amount);
+        const validationResult = this.validate(dto, amount);
+
+        if (validationResult?.success === false) return validationResult;
+
         const addProductDto = new AddProductDto({ ...dto, amount, assortmentId });
 
         let status = this.#shopClient.addProduct(addProductDto);
@@ -38,9 +41,14 @@ class AssortmentService {
         if (this.#hasNotExpectedAttribute(dto)) {
             throw new Error("Attribute not expected");
         }
-
         if (dto.name === undefined) {
-            throw new Error("Missing product name");
+            return {
+                success: false,
+                errors: [{
+                    fieldName: "name",
+                    description: "Missing product name"
+                }]
+            }
         }
 
         if (dto.code === undefined) {
