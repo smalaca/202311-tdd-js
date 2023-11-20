@@ -3,6 +3,19 @@ const ProductAdded = require("./ProductAdded");
 const ProductCouldNotBeAdded = require("./ProductCouldNotBeAdded");
 
 
+class ProductAddedFactory {
+    create(response, amount, dto) {
+        return new ProductAdded(
+            response.productId,
+            amount,
+            dto.name,
+            dto.code,
+            dto.price,
+            dto.description
+        );
+    }
+};
+
 class AssortmentService {
     static #ALLOWED_ATTRIBUTES = ["name", "code", "price", "description"];
     #shopClient;
@@ -19,14 +32,7 @@ class AssortmentService {
         let response = this.#shopClient.addProduct(dto, amount);
 
         if (response.success === true) {
-            this.#eventPublisher.publish(new ProductAdded(
-                response.productId,
-                amount,
-                dto.name,
-                dto.code,
-                dto.price,
-                dto.description
-            ))
+            this.#eventPublisher.publish(new ProductAddedFactory().create(response, amount, dto))
         } else {
             this.#eventPublisher.publish(new ProductCouldNotBeAdded(response.errors))
         }
