@@ -1,6 +1,7 @@
 const ShopClient = require("./ShopClient.js")
 const ProductAdded = require("./ProductAdded");
 const ProductCouldNotBeAdded = require("./ProductCouldNotBeAdded");
+const AddProductDto = require('./AddProductDto.js');
 
 
 class AssortmentService {
@@ -50,7 +51,9 @@ class AssortmentService {
             throw new Error("Invalid product amount");
         }
 
-        let status = this.#shopClient.addProduct({ ...dto, amount });
+        const addProductDto = new AddProductDto({ ...dto, amount });
+
+        let status = this.#shopClient.addProduct(addProductDto);
 
         if (status.success === true) {
             this.#eventPublisher.publish(new ProductAdded(
