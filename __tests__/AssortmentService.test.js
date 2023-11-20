@@ -181,9 +181,12 @@ describe("AssortmentService", () => {
                 }), additional: "attribute"
             };
 
-            let actual = () => assortmentService.addProduct(dto, VALID_AMOUNT, VALID_ASSORTMENT_ID);
+            let actual = assortmentService.addProduct(dto, VALID_AMOUNT, VALID_ASSORTMENT_ID);
 
-            expect(actual).toThrowError("Attribute not expected");
+            expect(actual).toEqual({
+                success: false,
+                description: "Attribute not expected"
+            });
             expect(shopClient.addProduct).not.toHaveBeenCalled();
         });
 
