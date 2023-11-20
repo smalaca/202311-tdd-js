@@ -19,15 +19,21 @@ class AssortmentService {
         }
 
         if (command.getName() === undefined) {
-            throw new Error("Missing product name");
+            this.#eventPublisher.publish(new ProductCouldNotBeAdded([ new ValidationError("name", "Missing product name")]));
+
+            return;
         }
 
         if (command.getCode() === undefined) {
-            throw new Error("Missing product code");
+            this.#eventPublisher.publish(new ProductCouldNotBeAdded([ new ValidationError("code", "Missing product code")]));
+
+            return;
         }
 
         if (command.getPrice() === undefined) {
-            throw new Error("Missing product price");
+            this.#eventPublisher.publish(new ProductCouldNotBeAdded([ new ValidationError("price", "Missing product price")]));
+
+            return;
         }
 
         if (command.getAmount() === undefined) {
@@ -37,15 +43,21 @@ class AssortmentService {
         }
 
         if (this.#isInvalidName(command.getName())) {
-            throw new Error("Invalid product name");
+            this.#eventPublisher.publish(new ProductCouldNotBeAdded([ new ValidationError("name", "Invalid product name")]));
+
+            return;
         }
 
         if (this.#isInvalidCode(command.getCode())) {
-            throw new Error("Invalid product code");
+            this.#eventPublisher.publish(new ProductCouldNotBeAdded([ new ValidationError("code", "Invalid product code")]));
+
+            return;
         }
 
         if (command.getPrice() < 1) {
-            throw new Error("Invalid product price");
+            this.#eventPublisher.publish(new ProductCouldNotBeAdded([ new ValidationError("price", "Invalid product price")]));
+
+            return;
         }
 
         if (command.getAmount() < 1) {
