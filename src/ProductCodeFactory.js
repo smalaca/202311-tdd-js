@@ -1,7 +1,7 @@
 class ProductCodeFactory {
 
     create(name) {
-        return undefined;
+        return name;
     }
 }
 
