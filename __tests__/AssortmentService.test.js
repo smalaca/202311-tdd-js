@@ -230,7 +230,7 @@ describe("AssortmentService", () => {
         })
 
         test('when all required values are missing', () => {
-            let command = new AddProductCommand(NO_VALUE, NO_VALUE, NO_VALUE, NO_VALUE, NO_VALUE);
+            let command = new AddProductCommand(NO_VALUE, NO_VALUE, NO_VALUE, VALID_CODE, NO_VALUE);
 
             assortmentService.addProduct(command);
 
@@ -238,16 +238,15 @@ describe("AssortmentService", () => {
             expect(eventPublisher.publish).toHaveBeenCalled();
             let actual = eventPublisher.publish.mock.calls[0][0];
             expect(actual.constructor.name).toBe("ProductCouldNotBeAdded");
-            expect(actual.getErrors()).toHaveLength(5);
+            expect(actual.getErrors()).toHaveLength(4);
             expect(actual.getErrors()).toContainEqual(new ValidationError("assortmentId", "Missing assortment id"));
             expect(actual.getErrors()).toContainEqual(new ValidationError("name", "Missing product name"));
-            expect(actual.getErrors()).toContainEqual(new ValidationError("code", "Missing product code"));
             expect(actual.getErrors()).toContainEqual(new ValidationError("price", "Missing product price"));
             expect(actual.getErrors()).toContainEqual(new ValidationError("amount", "Missing product amount"));
         })
 
         test('when all values are invalid', () => {
-            let command = new AddProductCommand(NO_VALUE, 0, "aaaa", "ABC", 0);
+            let command = new AddProductCommand(NO_VALUE, 0, "aaaa", VALID_CODE, 0);
 
             assortmentService.addProduct(command);
 
@@ -255,10 +254,9 @@ describe("AssortmentService", () => {
             expect(eventPublisher.publish).toHaveBeenCalled();
             let actual = eventPublisher.publish.mock.calls[0][0];
             expect(actual.constructor.name).toBe("ProductCouldNotBeAdded");
-            expect(actual.getErrors()).toHaveLength(5);
+            expect(actual.getErrors()).toHaveLength(4);
             expect(actual.getErrors()).toContainEqual(new ValidationError("assortmentId", "Missing assortment id"));
             expect(actual.getErrors()).toContainEqual(new ValidationError("name", "Invalid product name"));
-            expect(actual.getErrors()).toContainEqual(new ValidationError("code", "Invalid product code"));
             expect(actual.getErrors()).toContainEqual(new ValidationError("price", "Invalid product price"));
             expect(actual.getErrors()).toContainEqual(new ValidationError("amount", "Invalid product amount"));
         })
