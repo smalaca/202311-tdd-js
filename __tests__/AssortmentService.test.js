@@ -1,5 +1,6 @@
 const AssortmentService = require("../src/AssortmentService");
 const AddProductCommand = require("../src/AddProductCommand");
+const ShopClient = require("../src/ShopClient");
 
 describe("AssortmentService", () => {
     const VALID_NAME = "lecture";
@@ -16,14 +17,16 @@ describe("AssortmentService", () => {
     let assortmentService;
 
     beforeEach(() => {
-        shopClient = {
-            addProduct: jest.fn()
-        };
-
         eventPublisher = {
             publish: jest.fn()
         }
 
+        let mockedShopClient = jest
+            .spyOn(ShopClient.prototype, "addProduct")
+            .mockImplementation(jest.fn());
+        mockedShopClient.mockClear();
+
+        shopClient = new ShopClient();
         assortmentService = new AssortmentService(shopClient, eventPublisher);
     });
 

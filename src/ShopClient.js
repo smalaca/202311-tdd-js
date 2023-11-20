@@ -1,5 +1,5 @@
 class ShopClient {
-    addProduct() {
+    addProduct(command) {
         // To Be Done
     }
 }
