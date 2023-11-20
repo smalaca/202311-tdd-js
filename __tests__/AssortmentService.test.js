@@ -211,10 +211,14 @@ describe("AssortmentService", () => {
         test('when amount is missing', () => {
             let command = new AddProductCommand(VALID_ASSORTMENT_ID, NO_VALUE, VALID_NAME, VALID_CODE, VALID_PRICE, NO_VALUE);
 
-            let actual = () => assortmentService.addProduct(command);
+            assortmentService.addProduct(command);
 
-            expect(actual).toThrowError("Missing product amount");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
+            expect(eventPublisher.publish).toHaveBeenCalled();
+            let actual = eventPublisher.publish.mock.calls[0][0];
+            expect(actual.constructor.name).toBe("ProductCouldNotBeAdded");
+            expect(actual.getErrors()).toHaveLength(1);
+            expect(actual.getErrors()).toContainEqual(new ValidationError("amount", "Missing product amount"));
         })
 
         test('when assortment id is missing', () => {
