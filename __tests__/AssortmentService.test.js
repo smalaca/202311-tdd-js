@@ -2,6 +2,7 @@ const AssortmentService = require("../src/AssortmentService");
 const AddProductCommand = require("../src/AddProductCommand");
 const ShopClient = require("../src/ShopClient");
 const EventPublisher = require("../src/EventPublisher");
+const ValidationError = require("../src/ValidationError");
 
 describe("AssortmentService", () => {
     const VALID_NAME = "lecture";
@@ -226,10 +227,7 @@ describe("AssortmentService", () => {
             let actual = eventPublisher.publish.mock.calls[0][0];
             expect(actual.constructor.name).toBe("ProductCouldNotBeAdded");
             expect(actual.getErrors()).toHaveLength(1);
-            expect(actual.getErrors()).toContainEqual({
-                fieldName: "assortmentId",
-                description: "Missing assortment id"
-            });
+            expect(actual.getErrors()).toContainEqual(new ValidationError("assortmentId", "Missing assortment id"));
         })
     });
 
@@ -237,13 +235,10 @@ describe("AssortmentService", () => {
         shopClient.addProduct.mockImplementation(() => {
             return {
                 success: false,
-                errors: [{
-                    fieldName: "name",
-                    description: "something wrong with the name"
-                }, {
-                    fieldName: "amount",
-                    description: "I cannot handle such amount of products"
-                }]
+                errors: [
+                    new ValidationError("name", "something wrong with the name"),
+                    new ValidationError("amount", "I cannot handle such amount of products")
+                ]
             }
         })
         let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, VALID_CODE, VALID_PRICE, NO_VALUE);
@@ -254,13 +249,7 @@ describe("AssortmentService", () => {
         let actual = eventPublisher.publish.mock.calls[0][0];
         expect(actual.constructor.name).toBe("ProductCouldNotBeAdded");
         expect(actual.getErrors()).toHaveLength(2);
-        expect(actual.getErrors()).toContainEqual({
-            fieldName: "name",
-            description: "something wrong with the name"
-        });
-        expect(actual.getErrors()).toContainEqual({
-            fieldName: "amount",
-            description: "I cannot handle such amount of products"
-        });
+        expect(actual.getErrors()).toContainEqual(new ValidationError("name", "something wrong with the name"));
+        expect(actual.getErrors()).toContainEqual(new ValidationError("amount", "I cannot handle such amount of products"));
     })
 })
