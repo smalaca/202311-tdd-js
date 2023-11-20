@@ -45,7 +45,10 @@ describe("AssortmentService", () => {
 
             assortmentService.addProduct(dto, VALID_AMOUNT);
 
-            expect(shopClient.addProduct).toHaveBeenCalledWith(dto, VALID_AMOUNT);
+            expect(shopClient.addProduct).toHaveBeenCalledWith({
+                ...dto,
+                amount: VALID_AMOUNT
+            });
         });
 
         test("with description", () => {
@@ -59,7 +62,10 @@ describe("AssortmentService", () => {
 
             assortmentService.addProduct(dto, VALID_AMOUNT);
 
-            expect(shopClient.addProduct).toHaveBeenCalledWith(dto, VALID_AMOUNT);
+            expect(shopClient.addProduct).toHaveBeenCalledWith({
+                ...dto,
+                amount: VALID_AMOUNT
+            });
         });
     });
 
