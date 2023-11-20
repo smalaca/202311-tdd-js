@@ -1,5 +1,6 @@
 const ProductAdded = require("./ProductAdded");
 const ProductCouldNotBeAdded = require("./ProductCouldNotBeAdded");
+const ValidationError = require("./ValidationError");
 
 class AssortmentService {
     #shopClient;
@@ -12,10 +13,7 @@ class AssortmentService {
 
     addProduct(command) {
         if (command.getAssortmentId() === undefined) {
-            this.#eventPublisher.publish(new ProductCouldNotBeAdded([{
-                fieldName: "assortmentId",
-                description: "Missing assortment id"
-            }]));
+            this.#eventPublisher.publish(new ProductCouldNotBeAdded([ new ValidationError("assortmentId", "Missing assortment id")]));
 
             return;
         }
