@@ -75,6 +75,7 @@ W przypadku gdy nie uda się dodać produktu do asortymentu:
 - zaznacz wszystkie pola, które mają nieprawidłowe informacje
 
 **Ćwiczenie 10.**
+
 Zmień kontrakt ShopClient tak, aby otrzymywał jeden obiekt ze wszystkimi niezbędnymi informacjami:
 - nazwa produtku
 - kod produtku
@@ -82,3 +83,7 @@ Zmień kontrakt ShopClient tak, aby otrzymywał jeden obiekt ze wszystkimi niezb
 - opis produtku
 - ilość
 - id asortymentu
+
+**Ćwiczenie 11.**
+
+Zamień wyrzucane Errory dotyczące walidacji na informację zwrotną dla formularza.
