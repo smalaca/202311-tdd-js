@@ -201,7 +201,7 @@ describe("AssortmentService", () => {
             expect(shopClient.addProduct).not.toHaveBeenCalled();
         })
 
-        test('when amount is not defined', () => {
+        test('when amount is missing', () => {
             let command = new AddProductCommand(VALID_ASSORTMENT_ID, NO_VALUE, VALID_NAME, VALID_CODE, VALID_PRICE, NO_VALUE);
 
             let actual = () => assortmentService.addProduct(command);
