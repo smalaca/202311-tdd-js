@@ -209,6 +209,15 @@ describe("AssortmentService", () => {
             expect(actual).toThrowError("Missing product amount");
             expect(shopClient.addProduct).not.toHaveBeenCalled();
         })
+
+        test('when assortment id is missing', () => {
+            let command = new AddProductCommand(NO_VALUE, VALID_AMOUNT, VALID_NAME, VALID_CODE, VALID_PRICE, NO_VALUE);
+
+            let actual = () => assortmentService.addProduct(command);
+
+            expect(actual).toThrowError("Missing assortmentId");
+            expect(shopClient.addProduct).not.toHaveBeenCalled();
+        })
     });
 
     test('should publish ProductCouldNotBeAdded event when product could not be added', () => {
