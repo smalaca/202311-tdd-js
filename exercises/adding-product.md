@@ -87,3 +87,7 @@ Zmień kontrakt ShopClient tak, aby otrzymywał jeden obiekt ze wszystkimi niezb
 **Ćwiczenie 11.**
 
 Zamień wyrzucane Errory dotyczące walidacji na informację zwrotną dla formularza.
+
+**Ćwiczenie 12.**
+
+Zagreguj wyrzucane Errory dotyczące walidacji na informację zwrotną dla formularza. Nie failuj przy pierwszym błędzie.
