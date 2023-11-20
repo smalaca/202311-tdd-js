@@ -35,6 +35,10 @@ class AssortmentService {
     }
 
     #validate(command) {
+        if (command.getAssortmentId() === undefined) {
+            throw new Error("Missing assortmentId");
+        }
+
         if (command.getName() === undefined) {
             throw new Error("Missing product name");
         }
