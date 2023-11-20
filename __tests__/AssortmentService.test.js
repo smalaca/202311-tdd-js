@@ -308,7 +308,7 @@ describe("AssortmentService", () => {
                 price: VALID_PRICE
             }
 
-            let actual = assortmentService.addProduct(dto, VALID_AMOUNT, VALID_ASSORTMENT_ID);
+            let actual = assortmentService.addProduct(dto, 0, VALID_ASSORTMENT_ID);
 
             expect(actual).toEqual({
                 success: false,
@@ -326,7 +326,7 @@ describe("AssortmentService", () => {
                 name: VALID_NAME,
                 price: VALID_PRICE
             }
-            let actual = assortmentService.addProduct(dto, VALID_AMOUNT, VALID_ASSORTMENT_ID);
+            let actual = assortmentService.addProduct(dto, undefined, VALID_ASSORTMENT_ID);
 
             expect(actual).toEqual({
                 success: false,

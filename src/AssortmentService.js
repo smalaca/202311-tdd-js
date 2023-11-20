@@ -41,6 +41,7 @@ class AssortmentService {
         if (this.#hasNotExpectedAttribute(dto)) {
             throw new Error("Attribute not expected");
         }
+        
         if (dto.name === undefined) {
             return {
                 success: false,
@@ -52,31 +53,73 @@ class AssortmentService {
         }
 
         if (dto.code === undefined) {
-            throw new Error("Missing product code");
+            return {
+                success: false,
+                errors: [{
+                    fieldName: "code",
+                    description: "Missing product code"
+                }]
+            }
         }
 
         if (dto.price === undefined) {
-            throw new Error("Missing product price");
+            return {
+                success: false,
+                errors: [{
+                    fieldName: "price",
+                    description: "Missing product price"
+                }]
+            }
         }
 
         if (amount === undefined) {
-            throw new Error("Missing product amount");
+            return {
+                success: false,
+                errors: [{
+                    fieldName: "amount",
+                    description: "Missing product amount"
+                }]
+            }
         }
 
         if (this.#isInvalidName(dto.name)) {
-            throw new Error("Invalid product name");
+            return {
+                success: false,
+                errors: [{
+                    fieldName: "name",
+                    description: "Invalid product name"
+                }]
+            }
         }
 
         if (this.#isInvalidCode(dto.code)) {
-            throw new Error("Invalid product code");
+            return {
+                success: false,
+                errors: [{
+                    fieldName: "code",
+                    description: "Invalid product code"
+                }]
+            }
         }
 
         if (dto.price < 1) {
-            throw new Error("Invalid product price");
+            return {
+                success: false,
+                errors: [{
+                    fieldName: "price",
+                    description: "Invalid product price"
+                }]
+            }
         }
 
         if (amount < 1) {
-            throw new Error("Invalid product amount");
+            return {
+                success: false,
+                errors: [{
+                    fieldName: "amount",
+                    description: "Invalid product amount"
+                }]
+            }
         }
     }
 
