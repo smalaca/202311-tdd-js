@@ -9,4 +9,10 @@ describe('ProductCodeFactory', () => {
         expect(actual.startsWith("1t15Pr0ductN4m3")).toBeTruthy();
     });
 
+    test('should replace space with "-" in used part of product name', () => {
+        let actual = factory.create("Pr0duct    N4m3");
+
+        expect(actual.startsWith("Pr0duct----N4m3")).toBeTruthy();
+    });
+
 })
