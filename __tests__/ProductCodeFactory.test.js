@@ -14,6 +14,7 @@ describe('ProductCodeFactory', () => {
         let actual = factory.create("Pr0duct    N4m3");
 
         expect(actual.startsWith("Pr0duct----N4m3")).toBeTruthy();
+        expect(actual.length).toEqual(30);
     });
 
     test('should use only first 15 characters from product name', () => {
@@ -21,6 +22,7 @@ describe('ProductCodeFactory', () => {
 
         expect(actual.startsWith("ThisIsTooLongPr")).toBeTruthy();
         expect(actual).not.toContain("ThisIsTooLongProductName");
+        expect(actual.length).toEqual(30);
     });
 
     test('should remove non alphanumeric characters', () => {
