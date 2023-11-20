@@ -6,7 +6,6 @@ const ValidationError = require("../src/ValidationError");
 
 describe("AssortmentService", () => {
     const VALID_NAME = "1t15Pr0ductN4m3";
-    const VALID_CODE = "1t15Pr0ductN4m36789aBC4567890A";
     const VALID_DESCRIPTION = "some description";
     const VALID_PRICE = 123.45;
     const VALID_AMOUNT = 13;
@@ -53,7 +52,7 @@ describe("AssortmentService", () => {
     describe("should add product", () => {
         test("without description", () => {
             givenProductAddedSuccessfully();
-            let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, VALID_CODE, VALID_PRICE, NO_VALUE);
+            let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, VALID_PRICE, NO_VALUE);
 
             assortmentService.addProduct(command);
 
@@ -70,7 +69,7 @@ describe("AssortmentService", () => {
 
         test("with description", () => {
             givenProductAddedSuccessfully();
-            let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, VALID_CODE, VALID_PRICE, VALID_DESCRIPTION);
+            let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, VALID_PRICE, VALID_DESCRIPTION);
 
             assortmentService.addProduct(command);
 
@@ -89,7 +88,7 @@ describe("AssortmentService", () => {
     describe('should publish ProductAdded event when product successfully added', () => {
         test("when product has no description", () => {
             givenProductAddedSuccessfully();
-            let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, VALID_CODE, VALID_PRICE, NO_VALUE);
+            let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, VALID_PRICE, NO_VALUE);
 
             assortmentService.addProduct(command);
 
@@ -107,7 +106,7 @@ describe("AssortmentService", () => {
 
         test("when product has description", () => {
             givenProductAddedSuccessfully();
-            let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, VALID_CODE, VALID_PRICE, VALID_DESCRIPTION);
+            let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, VALID_PRICE, VALID_DESCRIPTION);
 
             assortmentService.addProduct(command);
 
@@ -126,7 +125,7 @@ describe("AssortmentService", () => {
 
     describe('should not add product', () => {
         test('when missing name', () => {
-            let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, NO_VALUE, VALID_CODE, VALID_PRICE, NO_VALUE);
+            let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, NO_VALUE, VALID_PRICE, NO_VALUE);
 
             assortmentService.addProduct(command);
 
@@ -139,7 +138,7 @@ describe("AssortmentService", () => {
         });
 
         test('when missing price', () => {
-            let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, VALID_CODE, NO_VALUE);
+            let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, NO_VALUE);
 
             assortmentService.addProduct(command);
 
@@ -152,7 +151,7 @@ describe("AssortmentService", () => {
         });
 
         test('when name contains 4 characters', () => {
-            let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, "abcd", VALID_CODE, VALID_PRICE, NO_VALUE);
+            let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, "abcd", VALID_PRICE, NO_VALUE);
 
             assortmentService.addProduct(command);
 
@@ -165,7 +164,7 @@ describe("AssortmentService", () => {
         })
 
         test('when name contains 51 characters', () => {
-            let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, "a".repeat(51), VALID_CODE, VALID_PRICE, NO_VALUE);
+            let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, "a".repeat(51), VALID_PRICE, NO_VALUE);
 
             assortmentService.addProduct(command);
 
@@ -178,7 +177,7 @@ describe("AssortmentService", () => {
         })
 
         test('when price is zero', () => {
-            let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, VALID_CODE, 0);
+            let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, 0);
 
             assortmentService.addProduct(command);
 
@@ -191,7 +190,7 @@ describe("AssortmentService", () => {
         })
 
         test('when amount is zero', () => {
-            let command = new AddProductCommand(VALID_ASSORTMENT_ID, 0, VALID_NAME, VALID_CODE, VALID_PRICE, NO_VALUE);
+            let command = new AddProductCommand(VALID_ASSORTMENT_ID, 0, VALID_NAME, VALID_PRICE, NO_VALUE);
 
             assortmentService.addProduct(command);
 
@@ -204,7 +203,7 @@ describe("AssortmentService", () => {
         })
 
         test('when amount is missing', () => {
-            let command = new AddProductCommand(VALID_ASSORTMENT_ID, NO_VALUE, VALID_NAME, VALID_CODE, VALID_PRICE, NO_VALUE);
+            let command = new AddProductCommand(VALID_ASSORTMENT_ID, NO_VALUE, VALID_NAME, VALID_PRICE, NO_VALUE);
 
             assortmentService.addProduct(command);
 
@@ -217,7 +216,7 @@ describe("AssortmentService", () => {
         })
 
         test('when assortment id is missing', () => {
-            let command = new AddProductCommand(NO_VALUE, VALID_AMOUNT, VALID_NAME, VALID_CODE, VALID_PRICE, NO_VALUE);
+            let command = new AddProductCommand(NO_VALUE, VALID_AMOUNT, VALID_NAME, VALID_PRICE, NO_VALUE);
 
             assortmentService.addProduct(command);
 
@@ -230,7 +229,7 @@ describe("AssortmentService", () => {
         })
 
         test('when all required values are missing', () => {
-            let command = new AddProductCommand(NO_VALUE, NO_VALUE, NO_VALUE, VALID_CODE, NO_VALUE);
+            let command = new AddProductCommand(NO_VALUE, NO_VALUE, NO_VALUE, NO_VALUE);
 
             assortmentService.addProduct(command);
 
@@ -246,7 +245,7 @@ describe("AssortmentService", () => {
         })
 
         test('when all values are invalid', () => {
-            let command = new AddProductCommand(NO_VALUE, 0, "aaaa", VALID_CODE, 0);
+            let command = new AddProductCommand(NO_VALUE, 0, "aaaa", 0);
 
             assortmentService.addProduct(command);
 
@@ -272,7 +271,7 @@ describe("AssortmentService", () => {
                 ]
             }
         })
-        let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, VALID_CODE, VALID_PRICE, NO_VALUE);
+        let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, VALID_PRICE, NO_VALUE);
 
         assortmentService.addProduct(command);
 
