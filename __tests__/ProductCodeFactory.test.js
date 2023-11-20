@@ -15,4 +15,11 @@ describe('ProductCodeFactory', () => {
         expect(actual.startsWith("Pr0duct----N4m3")).toBeTruthy();
     });
 
+    test('should use only first 15 characters from product name', () => {
+        let actual = factory.create("ThisIsTooLongProductName");
+
+        expect(actual.startsWith("ThisIsTooLongPr")).toBeTruthy();
+        expect(actual).not.toContain("ThisIsTooLongProductName");
+    });
+
 })
