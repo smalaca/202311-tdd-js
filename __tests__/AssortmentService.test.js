@@ -337,6 +337,33 @@ describe("AssortmentService", () => {
             });
             expect(shopClient.addProduct).not.toHaveBeenCalled();
         })
+
+        test('when multiple fields are invalid', () => {
+            let dto = {
+                code: "123",
+                price: VALID_PRICE
+            }
+            let actual = assortmentService.addProduct(dto, undefined, VALID_ASSORTMENT_ID);
+
+            expect(actual).toEqual({
+                success: false,
+                errors: [
+                {
+                    fieldName: "name",
+                    description: "Missing product name"
+                },
+                {
+                    fieldName: "code",
+                    description: "Invalid product code"
+                },
+                {
+                    fieldName: "amount",
+                    description: "Missing product amount"
+                },
+            ]
+            });
+            expect(shopClient.addProduct).not.toHaveBeenCalled();
+        })
     });
 
     test('should publish ProductCouldNotBeAdded event when product could not be added', () => {
