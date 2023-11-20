@@ -22,4 +22,10 @@ describe('ProductCodeFactory', () => {
         expect(actual).not.toContain("ThisIsTooLongProductName");
     });
 
+    test('should remove non alphanumeric characters', () => {
+        let actual = factory.create("Pr0duct&^%N4m3");
+
+        expect(actual.startsWith("Pr0ductN4m3")).toBeTruthy();
+    });
+
 })
