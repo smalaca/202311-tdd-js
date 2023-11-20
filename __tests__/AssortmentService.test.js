@@ -1,5 +1,4 @@
 const AssortmentService = require("../src/AssortmentService");
-const ProductAdded = require("../src/ProductAdded");
 
 describe("AssortmentService", () => {
     const VALID_NAME = "lecture";
@@ -59,7 +58,14 @@ describe("AssortmentService", () => {
 
             assortmentService.addProduct(dto, VALID_AMOUNT);
 
-            expect(shopClient.addProduct).toHaveBeenCalledWith(dto, VALID_AMOUNT);
+            expect(shopClient.addProduct).toHaveBeenCalled();
+            let actual = shopClient.addProduct.mock.calls[0][0];
+            expect(actual.constructor.name).toBe("AddProductCommand");
+            expect(actual.getAmount()).toBe(VALID_AMOUNT);
+            expect(actual.getName()).toBe(VALID_NAME);
+            expect(actual.getCode()).toBe(VALID_CODE);
+            expect(actual.getPrice()).toBe(VALID_PRICE);
+            expect(actual.getDescription()).toBe(VALID_DESCRIPTION);
         });
     });
 
