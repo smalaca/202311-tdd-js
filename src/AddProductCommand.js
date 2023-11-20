@@ -26,6 +26,10 @@ class AddProductCommand {
         return this.#code;
     }
 
+    setCode(code) {
+        this.#code = code;
+    }
+
     getPrice() {
         return this.#price;
     }

@@ -1,20 +1,26 @@
 const ProductAdded = require("./ProductAdded");
 const ProductCouldNotBeAdded = require("./ProductCouldNotBeAdded");
 const ValidationError = require("./ValidationError");
+const ProductCodeFactory = require("./ProductCodeFactory");
 
 class AssortmentService {
     #shopClient;
     #eventPublisher;
+    #productCodeFactory;
 
     constructor(shopClient, eventPublisher) {
         this.#shopClient = shopClient;
         this.#eventPublisher = eventPublisher;
+        this.#productCodeFactory = new ProductCodeFactory();
     }
 
     addProduct(command) {
         let event = this.validate(command);
 
         if (event.hasNoErrors()) {
+            let code = this.#productCodeFactory.create(command.getName())
+            command.setCode(code);
+
             let response = this.#shopClient.addProduct(command);
 
             if (response.success === true) {
@@ -39,12 +45,6 @@ class AssortmentService {
             event.addError(new ValidationError("name", "Missing product name"));
         } else if (this.#isInvalidName(command.getName())) {
             event.addError(new ValidationError("name", "Invalid product name"));
-        }
-
-        if (command.getCode() === undefined) {
-            event.addError(new ValidationError("code", "Missing product code"));
-        } else if (this.#isInvalidCode(command.getCode())) {
-            event.addError(new ValidationError("code", "Invalid product code"));
         }
 
         if (command.getPrice() === undefined) {
