@@ -28,12 +28,7 @@ class AssortmentService {
     addProduct(dto, amount) {
         this.#validate(dto, amount);
 
-        let response;
-        if (dto.description === undefined) {
-            response = this.#shopClient.addProduct(dto, amount);
-        } else {
-            response = this.#shopClient.addProduct(this.#asAddProductCommand(amount, dto));
-        }
+        let response = this.#shopClient.addProduct(this.#asAddProductCommand(amount, dto));
 
         if (response.success === true) {
             this.#eventPublisher.publish(new ProductAddedFactory().create(response, amount, dto))
