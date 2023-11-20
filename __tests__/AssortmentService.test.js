@@ -5,8 +5,8 @@ const EventPublisher = require("../src/EventPublisher");
 const ValidationError = require("../src/ValidationError");
 
 describe("AssortmentService", () => {
-    const VALID_NAME = "lecture";
-    const VALID_CODE = "123456789-123456789-1234567890";
+    const VALID_NAME = "1t15Pr0ductN4m3";
+    const VALID_CODE = "1t15Pr0ductN4m36789aBC4567890A";
     const VALID_DESCRIPTION = "some description";
     const VALID_PRICE = 123.45;
     const VALID_AMOUNT = 13;
@@ -43,6 +43,13 @@ describe("AssortmentService", () => {
         });
     };
 
+    const assertCodeIsValid = function(actual) {
+        expect(actual.startsWith(VALID_NAME)).toBeTruthy();
+        expect(actual.length).toEqual(30);
+        expect(new Set(actual.substring(15).split("")).size).toBeGreaterThan(1);
+        expect(actual.substring(15)).toMatch(/[a-zA-Z0-9]/);
+    }
+
     describe("should add product", () => {
         test("without description", () => {
             givenProductAddedSuccessfully();
@@ -56,7 +63,7 @@ describe("AssortmentService", () => {
             expect(actual.getAssortmentId()).toBe(VALID_ASSORTMENT_ID);
             expect(actual.getAmount()).toBe(VALID_AMOUNT);
             expect(actual.getName()).toBe(VALID_NAME);
-            expect(actual.getCode()).toBe(VALID_CODE);
+            assertCodeIsValid(actual.getCode());
             expect(actual.getPrice()).toBe(VALID_PRICE);
             expect(actual.getDescription()).toBeUndefined();
         });
@@ -73,7 +80,7 @@ describe("AssortmentService", () => {
             expect(actual.getAssortmentId()).toBe(VALID_ASSORTMENT_ID);
             expect(actual.getAmount()).toBe(VALID_AMOUNT);
             expect(actual.getName()).toBe(VALID_NAME);
-            expect(actual.getCode()).toBe(VALID_CODE);
+            assertCodeIsValid(actual.getCode());
             expect(actual.getPrice()).toBe(VALID_PRICE);
             expect(actual.getDescription()).toBe(VALID_DESCRIPTION);
         });
@@ -93,7 +100,7 @@ describe("AssortmentService", () => {
             expect(actual.getAssortmentId()).toBe(VALID_ASSORTMENT_ID);
             expect(actual.getAmount()).toBe(VALID_AMOUNT);
             expect(actual.getName()).toBe(VALID_NAME);
-            expect(actual.getCode()).toBe(VALID_CODE);
+            assertCodeIsValid(actual.getCode());
             expect(actual.getPrice()).toBe(VALID_PRICE);
             expect(actual.getDescription()).toBeUndefined();
         })
@@ -111,7 +118,7 @@ describe("AssortmentService", () => {
             expect(actual.getAssortmentId()).toBe(VALID_ASSORTMENT_ID);
             expect(actual.getAmount()).toBe(VALID_AMOUNT);
             expect(actual.getName()).toBe(VALID_NAME);
-            expect(actual.getCode()).toBe(VALID_CODE);
+            assertCodeIsValid(actual.getCode());
             expect(actual.getPrice()).toBe(VALID_PRICE);
             expect(actual.getDescription()).toBe(VALID_DESCRIPTION);
         })
