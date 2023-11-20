@@ -1,7 +1,7 @@
 class ProductCodeFactory {
 
     create(name) {
-        return name.replaceAll(' ', '-');
+        return name.replaceAll(' ', '-').substring(0, 15);
     }
 }
 
