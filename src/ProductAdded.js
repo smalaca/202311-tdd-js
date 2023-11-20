@@ -18,6 +18,10 @@ class ProductAdded {
         return this.#productId;
     }
 
+    getAssortmentId() {
+        return;
+    }
+
     getAmount() {
         return this.#amount;
     }
