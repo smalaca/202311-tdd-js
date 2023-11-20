@@ -31,7 +31,9 @@ class AssortmentService {
         }
 
         if (command.getAmount() === undefined) {
-            throw new Error("Missing product amount");
+            this.#eventPublisher.publish(new ProductCouldNotBeAdded([ new ValidationError("amount", "Missing product amount")]));
+
+            return;
         }
 
         if (this.#isInvalidName(command.getName())) {
