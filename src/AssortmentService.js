@@ -12,6 +12,23 @@ class AssortmentService {
     }
 
     addProduct(command) {
+        let event = this.validate(command);
+
+        if (event.hasNoErrors()) {
+            let response = this.#shopClient.addProduct(command);
+
+            if (response.success === true) {
+                this.#eventPublisher.publish(this.#asProductAdded(response, command))
+            } else {
+                this.#eventPublisher.publish(new ProductCouldNotBeAdded(response.errors))
+            }
+        } else {
+            this.#eventPublisher.publish(event);
+
+        }
+    }
+
+    validate(command) {
         let event = new ProductCouldNotBeAdded();
 
         if (command.getAssortmentId() === undefined) {
@@ -41,19 +58,7 @@ class AssortmentService {
         } else if (command.getAmount() < 1) {
             event.addError(new ValidationError("amount", "Invalid product amount"));
         }
-
-        if (event.hasNoErrors()) {
-            let response = this.#shopClient.addProduct(command);
-
-            if (response.success === true) {
-                this.#eventPublisher.publish(this.#asProductAdded(response, command))
-            } else {
-                this.#eventPublisher.publish(new ProductCouldNotBeAdded(response.errors))
-            }
-        } else {
-            this.#eventPublisher.publish(event);
-
-        }
+        return event;
     }
 
     #asProductAdded(response, command) {
