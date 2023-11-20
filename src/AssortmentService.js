@@ -1,16 +1,15 @@
 const ProductAdded = require("./ProductAdded");
 const ProductCouldNotBeAdded = require("./ProductCouldNotBeAdded");
-const AddProductCommand = require("./AddProductCommand")
 
 class ProductAddedFactory {
-    create(response, amount, dto) {
+    create(response, command) {
         return new ProductAdded(
             response.productId,
-            amount,
-            dto.name,
-            dto.code,
-            dto.price,
-            dto.description
+            command.getAmount(),
+            command.getName(),
+            command.getCode(),
+            command.getPrice(),
+            command.getDescription()
         );
     }
 }
@@ -30,7 +29,7 @@ class AssortmentService {
         let response = this.#shopClient.addProduct(command);
 
         if (response.success === true) {
-            this.#eventPublisher.publish(new ProductAddedFactory().create(response, command.getAmount(), dto))
+            this.#eventPublisher.publish(new ProductAddedFactory().create(response, command))
         } else {
             this.#eventPublisher.publish(new ProductCouldNotBeAdded(response.errors))
         }
