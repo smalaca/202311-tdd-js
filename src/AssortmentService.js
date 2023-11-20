@@ -49,7 +49,9 @@ class AssortmentService {
         }
 
         if (command.getAmount() < 1) {
-            throw new Error("Invalid product amount");
+            this.#eventPublisher.publish(new ProductCouldNotBeAdded([ new ValidationError("amount", "Invalid product amount")]));
+
+            return;
         }
 
         let response = this.#shopClient.addProduct(command);
