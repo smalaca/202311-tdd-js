@@ -1,4 +1,5 @@
-const createCategoryService = require('./CategoryService');
+const createCategoryService = require('../src/CategoryService');
+const createLogger = require('../src/logger');
 
 class FieldError extends Error {
   constructor(field, message) {
@@ -37,6 +38,7 @@ const eventEmitter = {
 };
 
 const categoryService = createCategoryService(validCategories);
+const logger = createLogger();
 
 const createAssortmentService = (api, eventBus) => {
 
@@ -92,6 +94,7 @@ const createAssortmentService = (api, eventBus) => {
   };
   return { addProduct };
 };
+
 
 describe("AssortmentService", () => {
   afterEach(() => {

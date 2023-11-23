@@ -1,4 +1,4 @@
-const createCategoryService = require('./CategoryService');
+const createCategoryService = require('../src/CategoryService');
 
 const VALID_CATEGORY = 'valid';
 const VALID_CATEGORIES = [VALID_CATEGORY];
