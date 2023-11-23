@@ -330,5 +330,18 @@ describe("AssortmentService", () => {
       actual = actionsService.addAction.mock.calls[1][0];
       expect(actual.success).toBeTruthy()
     });
+
+    test('actionsService should be called properly when invalid product added', () => {
+      givenProductAddedSuccessfully();
+      let command = new AddProductCommand(NO_VALUE, VALID_AMOUNT, VALID_NAME, VALID_PRICE, VALID_CATEGORIES, VALID_DESCRIPTION);
+
+      assortmentService.addProduct(command);
+
+      expect(actionsService.addAction).toHaveBeenCalled();
+      let actual = actionsService.addAction.mock.calls[0][0];
+      expect(actual).toBe(command);
+      actual = actionsService.addAction.mock.calls[1][0];
+      expect(actual.success).toBeFalsy();
+    });
   });
 })
