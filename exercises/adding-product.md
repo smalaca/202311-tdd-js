@@ -103,3 +103,15 @@ Kod powinien być generowany automatycznie, a nie przekazywany:
     - zostają tylko znaki alfanumeryczne
     - spacje zamienione na "-"
   - ostatnie min 15 znaków: znaki alfanumeryczne
+
+**Ćwiczenie 14.**
+
+Podczas dodawania można określić listę kategorii, do których należy produkt:
+- lista nie może być pusta
+
+**Ćwiczenie 15.**
+
+Zweryfikuj czy przekazane kategorie są dopuszczalne. Lista kategorii istnieje w innym komponencie (`CategoryRepository`) - wykorzystaj go w `AssortmentService`.
+Usuń nieprawidłowe kategorie jeżeli zostały przekazane:
+- Jeżeli po ich usunięciu lista nie jest pusta - dodaj produkt, .
+- Jeżeli po ich usunięciu lista jest pusta - poinformuj o błędzie walidacji.
