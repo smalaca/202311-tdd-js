@@ -8,15 +8,18 @@ class AssortmentService {
     #eventPublisher;
     #categoriesRepository;
     #productCodeFactory;
+    #actionsService;
 
-    constructor(shopClient, eventPublisher, categoriesRepository) {
+    constructor(shopClient, eventPublisher, categoriesRepository, actionsService) {
         this.#shopClient = shopClient;
         this.#eventPublisher = eventPublisher;
         this.#categoriesRepository = categoriesRepository;
+        this.#actionsService = actionsService;
         this.#productCodeFactory = new ProductCodeFactory();
     }
 
     addProduct(command) {
+        this.#actionsService.addAction();
         let event = this.validate(command);
 
         if (event.hasNoErrors()) {
@@ -32,7 +35,6 @@ class AssortmentService {
             }
         } else {
             this.#eventPublisher.publish(event);
-
         }
     }
 

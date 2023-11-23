@@ -48,7 +48,7 @@ describe("AssortmentService", () => {
     shopClient = new ShopClient();
     categoriesRepository = new CategoriesRepository();
     actionsService = new ActionsService();
-    assortmentService = new AssortmentService(shopClient, eventPublisher, categoriesRepository);
+    assortmentService = new AssortmentService(shopClient, eventPublisher, categoriesRepository, actionsService);
   });
 
   const givenProductAddedSuccessfully = function () {
