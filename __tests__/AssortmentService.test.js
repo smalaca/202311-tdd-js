@@ -12,6 +12,8 @@ const PRODUCT_ID = "ID"
 
 const validCategories = ['warzywa'];
 
+const validDate = "2023-11-23T13:22:29.960Z";
+
 const validProduct = {
   code: "00000-000000-00000-00000-00000",
   name: "Pietruszka",
@@ -26,11 +28,12 @@ const validPayload = {
 }
 const validEvent = {
   ...validPayload,
-  id: PRODUCT_ID
+  id: PRODUCT_ID,
+  createdAt: validDate
 }
 const backendApi = {
   addProduct: jest.fn(() => {
-    return { id: PRODUCT_ID }
+    return { id: PRODUCT_ID, createdAt: validDate }
   }),
 };
 const eventEmitter = {
@@ -40,7 +43,7 @@ const eventEmitter = {
 const categoryService = createCategoryService(validCategories);
 const logger = createLogger();
 
-const createAssortmentService = (api, eventBus) => {
+const createAssortmentService = (api, eventBus, log = logger) => {
 
   const validateProduct = (dto, amount) => {
     const errors = [];
@@ -61,7 +64,7 @@ const createAssortmentService = (api, eventBus) => {
     if (!dto.assortmentId) reportError("assortmentId", "Missing value");
 
     if (!dto.categories) reportError("categories", "Missing value");
-    if (!Array.isArray(dto.categories)){
+    if (!Array.isArray(dto.categories)) {
       reportError("categories", "Should be an array");
     } else if (!dto.categories?.length) {
       reportError("categories", "List should not be empty");
@@ -78,18 +81,21 @@ const createAssortmentService = (api, eventBus) => {
     const errors = validateProduct(dto, amount);
 
     if (errors.length) {
+      log.info({ ...dto, amount }, "FAILED", Object.fromEntries(errors), undefined);
       eventBus.emit("productAddingFailed", Object.fromEntries(errors));
       return;
     }
     try {
-      const { id } = api.addProduct({
+      const { id, createdAt } = api.addProduct({
         ...dto,
         amount
       });
-
-      eventBus.emit("productAdded", { id, ...dto, amount });
+      log.info({ ...dto, amount }, "SUCCESS", undefined, id);
+      eventBus.emit("productAdded", { id, ...dto, amount, createdAt });
     } catch (e) {
-      eventBus.emit("productAddingFailed", { [e.field]: e.message });
+      const errorMessages = { [e.field]: e.message };
+      log.info({ ...dto, amount }, "FAILED", errorMessages, undefined);
+      eventBus.emit("productAddingFailed", errorMessages);
     }
   };
   return { addProduct };
@@ -299,7 +305,7 @@ describe("AssortmentService", () => {
   describe("multi-error handling", () => {
     it('should return two errors when code and name are undefined', () => {
       const givenDTO = { ...validProduct, code: undefined, name: undefined };
-      
+
       const assortmentService = createAssortmentService(backendApi, eventEmitter);
       assortmentService.addProduct(givenDTO, PRODUCT_AMOUNT);
 

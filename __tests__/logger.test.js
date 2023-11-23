@@ -1,36 +1,49 @@
 const generateLogger = require('../src/logger');
 
+const getNow = () => "2023-11-23T12:12:59.960Z";
+
 describe('Logger', () => {
-    it('should log input values', () => {
-      const parameters = [];
-      const logger = generateLogger();
-  
-      logger.info(parameters);
-      expect(logger.get()).toEqual([{ input: parameters }]);
-    });
-    it('log should include status', () => {
-      const status = 'success';
-      const logger = generateLogger();
-  
-      logger.info(undefined, status);
-      expect(logger.get()).toEqual([{ status }]);
-    });
-    it('log should include errors', () => {
-      const errors = ['SOME_ERROR'];
-      const logger = generateLogger();
-  
-      logger.info(undefined, undefined, errors);
-      expect(logger.get()).toEqual([{ errors }]);
-    });
-    it('log should include productId', () => {
-      const productId = "PRODUCT_ID";
-      const logger = generateLogger();
-  
-      logger.info(undefined, undefined, undefined,"PRODUCT_ID");
-      expect(logger.get()).toEqual([{ productId }]);
-    });
-  
+  it('should log input values', () => {
+    const parameters = [];
+    const logger = generateLogger(getNow);
+
+    logger.info(parameters);
+    const [{ input }] = logger.get();
+    expect(input).toEqual(parameters);
   });
-  
-  
-  
+  it('log should include status', () => {
+    const givenStatus = 'success';
+    const logger = generateLogger(getNow);
+
+    logger.info(undefined, givenStatus);
+    const [{ status }] = logger.get();
+    expect(status).toEqual(givenStatus);
+  });
+  it('log should include errors', () => {
+    const givenErrors = ['SOME_ERROR'];
+    const logger = generateLogger(getNow);
+
+    logger.info(undefined, undefined, givenErrors);
+    const [{ errors }] = logger.get();
+    expect(errors).toEqual(givenErrors);
+  });
+  it('log should include productId', () => {
+    const givenProductId = "PRODUCT_ID";
+    const logger = generateLogger(getNow);
+
+    logger.info(undefined, undefined, undefined, "PRODUCT_ID");
+    const [{ productId }] = logger.get();
+    expect(productId).toEqual(givenProductId);
+  });
+  it('log should include date', () => {
+
+    const logger = generateLogger(getNow);
+
+    logger.info(undefined, undefined, undefined, "PRODUCT_ID");
+    const [{ timestamp }] = logger.get();
+    expect(timestamp).toEqual(getNow());
+  });
+
+});
+
+
