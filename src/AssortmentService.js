@@ -19,7 +19,7 @@ class AssortmentService {
     }
 
     addProduct(command) {
-        this.#actionsService.addAction();
+        this.#actionsService.addAction(command);
         let event = this.validate(command);
 
         if (event.hasNoErrors()) {
