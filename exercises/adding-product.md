@@ -115,3 +115,11 @@ Zweryfikuj czy przekazane kategorie są dopuszczalne. Lista kategorii istnieje w
 Usuń nieprawidłowe kategorie jeżeli zostały przekazane:
 - Jeżeli po ich usunięciu lista nie jest pusta - dodaj produkt, .
 - Jeżeli po ich usunięciu lista jest pusta - poinformuj o błędzie walidacji.
+
+**Ćwiczenie 16.**
+
+Dodaj funkcjonalność, która niezależnie od rezultatu operacji pozwoli zapisywać (do analiz i ze względu na zbierane statystyki) informacje nt. interakcji z komponentem:
+- parametry wejściowe
+- status operacji
+- informacje nt. błędów
+- identyfikator stworzonego produktu
