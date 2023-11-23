@@ -36,6 +36,7 @@ class AssortmentService {
             }
         } else {
             this.#eventPublisher.publish(event);
+            this.#actionsService.addAction(event);
         }
     }
 
