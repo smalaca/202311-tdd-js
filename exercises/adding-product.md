@@ -92,6 +92,18 @@ Zamień wyrzucane Errory dotyczące walidacji na informację zwrotną dla formul
 
 Zagreguj wyrzucane Errory dotyczące walidacji na informację zwrotną dla formularza. Nie failuj przy pierwszym błędzie.E
 
+**Ćwiczenie 13.**
+
+Zmiana wymagań.
+Kod powinien być generowany automatycznie, a nie przekazywany:
+- 30 znaków
+- akceptowane znaki alfanumeryczne i "-"
+- wzór
+  - pierwsze max 15 znaków: nazwa produktu gdzie:
+    - zostają tylko znaki alfanumeryczne
+    - spacje zamienione na "-"
+  - ostatnie min 15 znaków: znaki alfanumeryczne
+
 **Ćwiczenie 14.**
 
 Podczas dodawania można określić listę kategorii, do których należy produkt:
@@ -103,3 +115,11 @@ Zweryfikuj czy przekazane kategorie są dopuszczalne. Lista kategorii istnieje w
 Usuń nieprawidłowe kategorie jeżeli zostały przekazane:
 - Jeżeli po ich usunięciu lista nie jest pusta - dodaj produkt, .
 - Jeżeli po ich usunięciu lista jest pusta - poinformuj o błędzie walidacji.
+
+**Ćwiczenie 16.**
+
+Dodaj funkcjonalność, która niezależnie od rezultatu operacji pozwoli zapisywać (do analiz i ze względu na zbierane statystyki) informacje nt. interakcji z komponentem:
+- parametry wejściowe
+- status operacji
+- informacje nt. błędów
+- identyfikator stworzonego produktu
