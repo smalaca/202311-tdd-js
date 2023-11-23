@@ -93,14 +93,29 @@ describe("AssortmentService", () => {
             expect(actual.getDescription()).toBeUndefined();
         });
 
+        function thenProductAdded() {
+            expect(shopClient.addProduct).toHaveBeenCalled();
+            let actual = shopClient.addProduct.mock.calls[0][0];
+            expect(actual.constructor.name).toBe("AddProductCommand");
+            return actual;
+            // return new ProductAssertion(actual);
+        }
+
         test("with description", () => {
             givenProductAddedSuccessfully();
             let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, VALID_PRICE, VALID_DESCRIPTION);
+            // let command = givenAddProductCommand.withDescription();
 
             assortmentService.addProduct(command);
 
-            expect(shopClient.addProduct).toHaveBeenCalled();
-            let actual = shopClient.addProduct.mock.calls[0][0];
+            // thenProductAdded()
+            //     .hasAssortmentId(VALID_ASSORTMENT_ID)
+            //     .hasAmount(VALID_AMOUNT)
+            //     .hasName(VALID_NAME)
+            //     .hasValidCode()
+            //     .hasPrice(VALID_PRICE)
+            //     .hasDescription(VALID_DESCRIPTION);
+            let actual = thenProductAdded();
             expect(actual.constructor.name).toBe("AddProductCommand");
             expect(actual.getAssortmentId()).toBe(VALID_ASSORTMENT_ID);
             expect(actual.getAmount()).toBe(VALID_AMOUNT);
