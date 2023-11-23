@@ -33,6 +33,7 @@ class AssortmentService {
                 this.#actionsService.addAction(response);
             } else {
                 this.#eventPublisher.publish(new ProductCouldNotBeAdded(response.errors))
+                this.#actionsService.addAction(response);
             }
         } else {
             this.#eventPublisher.publish(event);
