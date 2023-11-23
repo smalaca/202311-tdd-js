@@ -41,6 +41,10 @@ class AssortmentService {
             event.addError(new ValidationError("assortmentId", "Missing assortment id"));
         }
 
+        if (command.getCategories() === undefined || !command.getCategories().length) {
+            event.addError(new ValidationError("categories", "Categories are empty"));
+        }
+
         if (command.getName() === undefined) {
             event.addError(new ValidationError("name", "Missing product name"));
         } else if (this.#isInvalidName(command.getName())) {
