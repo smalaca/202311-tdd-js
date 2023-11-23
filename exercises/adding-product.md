@@ -90,16 +90,16 @@ Zamień wyrzucane Errory dotyczące walidacji na informację zwrotną dla formul
 
 **Ćwiczenie 12.**
 
-Zagreguj wyrzucane Errory dotyczące walidacji na informację zwrotną dla formularza. Nie failuj przy pierwszym błędzie.
+Zagreguj wyrzucane Errory dotyczące walidacji na informację zwrotną dla formularza. Nie failuj przy pierwszym błędzie.E
 
-**Ćwiczenie 13.**
+**Ćwiczenie 14.**
 
-Zmiana wymagań.
-Kod powinien być generowany automatycznie, a nie przekazywany:
-- 30 znaków
-- akceptowane znaki alfanumeryczne i "-"
-- wzór
-  - pierwsze max 15 znaków: nazwa produktu gdzie:
-    - zostają tylko znaki alfanumeryczne
-    - spacje zamienione na "-"
-  - ostatnie min 15 znaków: znaki alfanumeryczne
+Podczas dodawania można określić listę kategorii, do których należy produkt:
+- lista nie może być pusta
+
+**Ćwiczenie 15.**
+
+Zweryfikuj czy przekazane kategorie są dopuszczalne. Lista kategorii istnieje w innym komponencie (`CategoryRepository`) - wykorzystaj go w `AssortmentService`.
+Usuń nieprawidłowe kategorie jeżeli zostały przekazane:
+- Jeżeli po ich usunięciu lista nie jest pusta - dodaj produkt, .
+- Jeżeli po ich usunięciu lista jest pusta - poinformuj o błędzie walidacji.
