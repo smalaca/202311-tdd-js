@@ -6,11 +6,13 @@ const ProductCodeFactory = require("./ProductCodeFactory");
 class AssortmentService {
     #shopClient;
     #eventPublisher;
+    #categoriesRepository;
     #productCodeFactory;
 
-    constructor(shopClient, eventPublisher) {
+    constructor(shopClient, eventPublisher, categoriesRepository) {
         this.#shopClient = shopClient;
         this.#eventPublisher = eventPublisher;
+        this.#categoriesRepository = categoriesRepository;
         this.#productCodeFactory = new ProductCodeFactory();
     }
 
@@ -62,6 +64,9 @@ class AssortmentService {
         } else if (command.getAmount() < 1) {
             event.addError(new ValidationError("amount", "Invalid product amount"));
         }
+
+        const validCategories = this.#categoriesRepository.getValidCategories();
+
         return event;
     }
 

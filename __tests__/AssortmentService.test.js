@@ -32,10 +32,15 @@ describe("AssortmentService", () => {
             .mockImplementation(jest.fn());
         mockedEventPublisher.mockClear();
 
+        let mockedCategoriesRepository = jest
+          .spyOn(CategoriesRepository.prototype, "getValidCategories")
+          .mockImplementation(jest.fn());
+        mockedEventPublisher.mockClear();
+
         eventPublisher = new EventPublisher();
         shopClient = new ShopClient();
         categoriesRepository = new CategoriesRepository();
-        assortmentService = new AssortmentService(shopClient, eventPublisher);
+        assortmentService = new AssortmentService(shopClient, eventPublisher, categoriesRepository);
     });
 
     const givenProductAddedSuccessfully = function () {
