@@ -58,6 +58,11 @@ class AssortmentService {
         } else if (command.getAmount() < 1) {
             event.addError(new ValidationError("amount", "Invalid product amount"));
         }
+
+        const categoryList = command.getCategoryList();
+        if (categoryList?.length === 0) {
+            event.addError(new ValidationError("categoryList", "Empty category list"));
+        }
         return event;
     }
 
