@@ -75,8 +75,8 @@ describe("AssortmentService", () => {
       assortmentService.addProduct(command);
 
       expect(shopClient.addProduct).toHaveBeenCalled();
-      let actual = shopClient.addProduct.mock.calls[0][0];
       expect(categoriesRepository.getValidCategories).toHaveBeenCalled();
+      let actual = shopClient.addProduct.mock.calls[0][0];
       expect(actual.constructor.name).toBe("AddProductCommand");
       expect(actual.getAssortmentId()).toBe(VALID_ASSORTMENT_ID);
       expect(actual.getAmount()).toBe(VALID_AMOUNT);
@@ -325,6 +325,8 @@ describe("AssortmentService", () => {
       assortmentService.addProduct(command);
 
       expect(actionsService.addAction).toHaveBeenCalled();
+      let actual = actionsService.addAction.mock.calls[0][0];
+      expect(actual).toBe(command)
     });
   });
 })
