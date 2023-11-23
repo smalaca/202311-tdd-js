@@ -13,6 +13,7 @@ describe("AssortmentService", () => {
     const PRODUCT_ID = 42;
     const NO_VALUE = undefined;
     const VALID_CATEGORIES = ['electronics'];
+    const EMPTY_ARRAY = [];
 
     let shopClient;
     let eventPublisher;
@@ -228,6 +229,19 @@ describe("AssortmentService", () => {
             expect(actual.constructor.name).toBe("ProductCouldNotBeAdded");
             expect(actual.getErrors()).toHaveLength(1);
             expect(actual.getErrors()).toContainEqual(new ValidationError("assortmentId", "Missing assortment id"));
+        })
+
+        test('when category array is empty', () => {
+            let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, VALID_PRICE, EMPTY_ARRAY, NO_VALUE);
+
+            assortmentService.addProduct(command);
+
+            expect(shopClient.addProduct).not.toHaveBeenCalled();
+            expect(eventPublisher.publish).toHaveBeenCalled();
+            let actual = eventPublisher.publish.mock.calls[0][0];
+            expect(actual.constructor.name).toBe("ProductCouldNotBeAdded");
+            expect(actual.getErrors()).toHaveLength(1);
+            expect(actual.getErrors()).toContainEqual(new ValidationError("categories", "Categories are empty"));
         })
 
         test('when all required values are missing', () => {
