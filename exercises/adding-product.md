@@ -90,7 +90,7 @@ Zamień wyrzucane Errory dotyczące walidacji na informację zwrotną dla formul
 
 **Ćwiczenie 12.**
 
-Zagreguj wyrzucane Errory dotyczące walidacji na informację zwrotną dla formularza. Nie failuj przy pierwszym błędzie.
+Zagreguj wyrzucane Errory dotyczące walidacji na informację zwrotną dla formularza. Nie failuj przy pierwszym błędzie.E
 
 **Ćwiczenie 13.**
 
@@ -123,3 +123,15 @@ Dodaj funkcjonalność, która niezależnie od rezultatu operacji pozwoli zapisy
 - status operacji
 - informacje nt. błędów
 - identyfikator stworzonego produktu
+
+**Ćwiczenie 17.**
+
+Dodaj funkcjonalność zapewniającą, że nowo dodany produkt zawiera czas stworzenia
+
+**Ćwiczenie 18.**
+
+Dodaj funkcjonalność zapewniającą, że zbierane statystki zawierają informacje odnośnie czasu wystąpienia danej akcji.
+
+**Ćwiczenie 19.**
+
+Dodaj funkcjonalność zapewniającą, że zbierane statystki będą posiadały unikalny identyfikator.
