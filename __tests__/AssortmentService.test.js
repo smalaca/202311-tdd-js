@@ -318,7 +318,7 @@ describe("AssortmentService", () => {
 
   describe('should register user actions', () => {
 
-    test('actionsService should be called', () => {
+    test('actionsService should be called with initial command', () => {
       givenProductAddedSuccessfully();
       let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, VALID_PRICE, VALID_CATEGORIES, VALID_DESCRIPTION);
 
