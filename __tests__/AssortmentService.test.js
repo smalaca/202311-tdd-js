@@ -66,7 +66,7 @@ describe("AssortmentService", () => {
             assertCodeIsValid(actual.getCode());
             expect(actual.getPrice()).toBe(VALID_PRICE);
             expect(actual.getDescription()).toBe(VALID_DESCRIPTION);
-            expect(actual.getCategoryList()).toBe(VALID_CATEGORY_LIST);
+            expect(actual.getCategoryList()).toEqual(VALID_CATEGORY_LIST);
         });
 
         test("with description", () => {
@@ -119,7 +119,7 @@ describe("AssortmentService", () => {
             assertCodeIsValid(actual.getCode());
             expect(actual.getPrice()).toBe(VALID_PRICE);
             expect(actual.getDescription()).toBe(VALID_DESCRIPTION);
-            expect(actual.getCategoryList()).toBe(VALID_CATEGORY_LIST);
+            expect(actual.getCategoryList()).toEqual(VALID_CATEGORY_LIST);
         });
     });
 

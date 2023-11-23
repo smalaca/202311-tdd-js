@@ -2,24 +2,30 @@ const ProductAdded = require("./ProductAdded");
 const ProductCouldNotBeAdded = require("./ProductCouldNotBeAdded");
 const ValidationError = require("./ValidationError");
 const ProductCodeFactory = require("./ProductCodeFactory");
+const CategoryRepository = require("./CategoryRepository");
 
 class AssortmentService {
     #shopClient;
     #eventPublisher;
     #productCodeFactory;
+    #categoryRepository;
 
     constructor(shopClient, eventPublisher) {
         this.#shopClient = shopClient;
         this.#eventPublisher = eventPublisher;
         this.#productCodeFactory = new ProductCodeFactory();
+        this.#categoryRepository = new CategoryRepository();
     }
 
     addProduct(command) {
+        let validCategoryList = this.#categoryRepository.getValidCategories(command.getCategoryList());
+        command.setCategoryList(validCategoryList);
         let event = this.validate(command);
 
         if (event.hasNoErrors()) {
             let code = this.#productCodeFactory.create(command.getName())
             command.setCode(code);
+
 
             let response = this.#shopClient.addProduct(command);
 
@@ -63,6 +69,7 @@ class AssortmentService {
         if (categoryList?.length === 0) {
             event.addError(new ValidationError("categoryList", "Empty category list"));
         }
+
         return event;
     }
 

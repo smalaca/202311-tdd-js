@@ -31,6 +31,10 @@ class AddProductCommand {
         this.#code = code;
     }
 
+    setCategoryList(categoryList) {
+        this.#categoryList = categoryList;
+    }
+
     getPrice() {
         return this.#price;
     }
@@ -42,7 +46,7 @@ class AddProductCommand {
     getAssortmentId() {
         return this.#assortmentId;
     }
-    
+
     getCategoryList() {
         return this.#categoryList;
     }
