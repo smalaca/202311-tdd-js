@@ -327,6 +327,8 @@ describe("AssortmentService", () => {
       expect(actionsService.addAction).toHaveBeenCalled();
       let actual = actionsService.addAction.mock.calls[0][0];
       expect(actual).toBe(command);
+      actual = actionsService.addAction.mock.calls[1][0];
+      expect(actual.success).toBeTruthy()
     });
   });
 })

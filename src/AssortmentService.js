@@ -30,6 +30,7 @@ class AssortmentService {
 
             if (response.success === true) {
                 this.#eventPublisher.publish(this.#asProductAdded(response, command))
+                this.#actionsService.addAction(response);
             } else {
                 this.#eventPublisher.publish(new ProductCouldNotBeAdded(response.errors))
             }
