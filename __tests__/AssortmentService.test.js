@@ -4,6 +4,31 @@ const ShopClient = require("../src/ShopClient");
 const EventPublisher = require("../src/EventPublisher");
 const ValidationError = require("../src/ValidationError");
 
+class GivenAddProductCommand {
+    NO_VALUE = undefined;
+    assortmentId;
+    amount;
+    name;
+    price;
+    description;
+
+    constructor(assortmentId, amount, name, price, description) {
+        this.assortmentId = assortmentId;
+        this.amount = amount;
+        this.name = name;
+        this.price = price;
+        this.description = description;
+    }
+
+    withoutName() {
+        return new AddProductCommand(this.assortmentId, this.amount, this.NO_VALUE, this.price, this.description);
+    }
+
+    withoutPrice() {
+        return new AddProductCommand(this.assortmentId, this.amount, this.name, this.NO_VALUE, this.description);
+    }
+}
+
 describe("AssortmentService", () => {
     const VALID_NAME = "1t15Pr0ductN4m3";
     const VALID_DESCRIPTION = "some description";
@@ -16,6 +41,7 @@ describe("AssortmentService", () => {
     let shopClient;
     let eventPublisher;
     let assortmentService;
+    let givenAddProductCommand = new GivenAddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, VALID_PRICE, VALID_DESCRIPTION);
 
     beforeEach(() => {
         let mockedShopClient = jest
@@ -125,7 +151,7 @@ describe("AssortmentService", () => {
 
     describe('should not add product', () => {
         test('when missing name', () => {
-            let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, NO_VALUE, VALID_PRICE, NO_VALUE);
+            let command = givenAddProductCommand.withoutName();
 
             assortmentService.addProduct(command);
 
@@ -138,7 +164,7 @@ describe("AssortmentService", () => {
         });
 
         test('when missing price', () => {
-            let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, NO_VALUE);
+            let command = givenAddProductCommand.withoutPrice();
 
             assortmentService.addProduct(command);
 
