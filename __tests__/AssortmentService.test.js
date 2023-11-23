@@ -143,6 +143,20 @@ describe("AssortmentService", () => {
     });
 
     describe('should not add product', () => {
+        test("with empty category list", () => {
+            givenProductAddedSuccessfully();
+            let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, VALID_PRICE, []);
+
+            assortmentService.addProduct(command);
+
+            expect(shopClient.addProduct).not.toHaveBeenCalled();
+            expect(eventPublisher.publish).toHaveBeenCalled();
+            let actual = eventPublisher.publish.mock.calls[0][0];
+            expect(actual.constructor.name).toBe("ProductCouldNotBeAdded");
+            expect(actual.getErrors()).toHaveLength(1);
+            expect(actual.getErrors()).toContainEqual(new ValidationError("categoryList", "Empty category list"));
+        });
+
         test('when missing name', () => {
             let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, NO_VALUE, VALID_PRICE, NO_VALUE);
 
