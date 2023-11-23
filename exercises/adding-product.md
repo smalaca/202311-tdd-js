@@ -123,3 +123,7 @@ Dodaj funkcjonalność, która niezależnie od rezultatu operacji pozwoli zapisy
 - status operacji
 - informacje nt. błędów
 - identyfikator stworzonego produktu
+
+**Ćwiczenie 17.**
+
+Dodaj funkcjonalność zapewniającą, że nowo dodany produkt zawiera czas stworzenia
