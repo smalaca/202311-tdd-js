@@ -343,5 +343,25 @@ describe("AssortmentService", () => {
       actual = actionsService.addAction.mock.calls[1][0];
       expect(actual.hasNoErrors()).toBeFalsy();
     });
+
+    test('actionsService should be called properly when client cant add product', () => {
+      shopClient.addProduct.mockImplementation(() => {
+        return {
+          success: false,
+          errors: [
+            new ValidationError("name", "something wrong with the name"),
+            new ValidationError("amount", "I cannot handle such amount of products")
+          ]
+        }
+      })
+      let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, VALID_PRICE, VALID_CATEGORIES, VALID_DESCRIPTION);
+
+      assortmentService.addProduct(command);
+      expect(actionsService.addAction).toHaveBeenCalled();
+      let actual = actionsService.addAction.mock.calls[0][0];
+      expect(actual).toBe(command);
+      actual = actionsService.addAction.mock.calls[1][0];
+      expect(actual.success).toBeFalsy();
+    });
   });
 })
