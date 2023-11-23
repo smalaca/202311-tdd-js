@@ -1,3 +1,5 @@
+const createCategoryService = require('./CategoryService');
+
 class FieldError extends Error {
   constructor(field, message) {
     super(message);
@@ -6,12 +8,16 @@ class FieldError extends Error {
 }
 const PRODUCT_AMOUNT = 10;
 const PRODUCT_ID = "ID"
+
+const validCategories = ['warzywa'];
+
 const validProduct = {
   code: "00000-000000-00000-00000-00000",
   name: "Pietruszka",
   price: 2.5,
   description: "zielony",
-  assortmentId: "warzywa"
+  assortmentId: "warzywa",
+  categories: validCategories,
 };
 const validPayload = {
   ...validProduct,
@@ -29,6 +35,8 @@ const backendApi = {
 const eventEmitter = {
   emit: jest.fn(),
 };
+
+const categoryService = createCategoryService(validCategories);
 
 const createAssortmentService = (api, eventBus) => {
 
@@ -49,6 +57,17 @@ const createAssortmentService = (api, eventBus) => {
     if (!dto.name?.match(/^.{5,50}$/))
       reportError("name", "value length should be between 5 and 50");
     if (!dto.assortmentId) reportError("assortmentId", "Missing value");
+
+    if (!dto.categories) reportError("categories", "Missing value");
+    if (!Array.isArray(dto.categories)){
+      reportError("categories", "Should be an array");
+    } else if (!dto.categories?.length) {
+      reportError("categories", "List should not be empty");
+    } else {
+      dto.categories = categoryService.filter(dto.categories);
+      if (!dto.categories.length) reportError("categories", "Should contain valid category");
+    }
+
     if (!amount) reportError("amount", "Missing value");
     return errors.reverse();
   }
@@ -123,6 +142,15 @@ describe("AssortmentService", () => {
         assortmentId: "Missing value",
       });
     });
+    it("product should have categories", () => {
+      const givenDTO = { ...validProduct, categories: undefined };
+      const assortmentService = createAssortmentService(backendApi, eventEmitter);
+      assortmentService.addProduct(givenDTO, PRODUCT_AMOUNT);
+
+      expect(eventEmitter.emit).toHaveBeenCalledWith("productAddingFailed", {
+        categories: "Missing value",
+      });
+    });
     it("should allow optional description", () => {
       const givenDTO = { ...validProduct, description: undefined };
       const assortmentService = createAssortmentService(backendApi, eventEmitter);
@@ -178,6 +206,42 @@ describe("AssortmentService", () => {
       expect(eventEmitter.emit).toHaveBeenCalledWith("productAddingFailed", {
         name: "value length should be between 5 and 50",
       });
+    });
+  });
+  describe("categories validation", () => {
+    it("list should not be empty", () => {
+      const givenDTO = { ...validProduct, categories: [] };
+      const assortmentService = createAssortmentService(backendApi, eventEmitter);
+      assortmentService.addProduct(givenDTO, PRODUCT_AMOUNT);
+
+      expect(eventEmitter.emit).toHaveBeenCalledWith("productAddingFailed", {
+        categories: "List should not be empty",
+      });
+    });
+    it("should be an array", () => {
+      const givenDTO = { ...validProduct, categories: 'nie' };
+      const assortmentService = createAssortmentService(backendApi, eventEmitter);
+      assortmentService.addProduct(givenDTO, PRODUCT_AMOUNT);
+
+      expect(eventEmitter.emit).toHaveBeenCalledWith("productAddingFailed", {
+        categories: "Should be an array",
+      });
+    });
+    it("should contain at least one valid category", () => {
+      const givenDTO = { ...validProduct, categories: ['nie'] };
+      const assortmentService = createAssortmentService(backendApi, eventEmitter);
+      assortmentService.addProduct(givenDTO, PRODUCT_AMOUNT);
+
+      expect(eventEmitter.emit).toHaveBeenCalledWith("productAddingFailed", {
+        categories: "Should contain valid category",
+      });
+    });
+    it("should filter out invalid categories and proceed", () => {
+      const givenDTO = { ...validProduct, categories: [...validCategories, 'nie'] };
+      const assortmentService = createAssortmentService(backendApi, eventEmitter);
+      assortmentService.addProduct(givenDTO, PRODUCT_AMOUNT);
+
+      expect(backendApi.addProduct).toHaveBeenCalledWith(validPayload);
     });
   });
   describe("Events", () => {
