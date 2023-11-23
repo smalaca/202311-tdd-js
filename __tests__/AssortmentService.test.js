@@ -12,6 +12,7 @@ describe("AssortmentService", () => {
     const VALID_ASSORTMENT_ID = 984;
     const PRODUCT_ID = 42;
     const NO_VALUE = undefined;
+    const VALID_CATEGORIES = [];
 
     let shopClient;
     let eventPublisher;
@@ -69,7 +70,7 @@ describe("AssortmentService", () => {
 
         test("with description", () => {
             givenProductAddedSuccessfully();
-            let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, VALID_PRICE, VALID_DESCRIPTION);
+            let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, VALID_PRICE, VALID_DESCRIPTION, VALID_CATEGORIES);
 
             assortmentService.addProduct(command);
 
@@ -82,6 +83,7 @@ describe("AssortmentService", () => {
             assertCodeIsValid(actual.getCode());
             expect(actual.getPrice()).toBe(VALID_PRICE);
             expect(actual.getDescription()).toBe(VALID_DESCRIPTION);
+            expect(actual.getCategories()).toBe(VALID_CATEGORIES);
         });
     });
 
