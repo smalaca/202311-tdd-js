@@ -328,7 +328,8 @@ describe("AssortmentService", () => {
       let actual = actionsService.addAction.mock.calls[0][0];
       expect(actual).toBe(command);
       actual = actionsService.addAction.mock.calls[1][0];
-      expect(actual.success).toBeTruthy()
+      expect(actual.success).toBeTruthy();
+      expect(actual.productId).toBeDefined();
     });
 
     test('actionsService should be called properly when invalid product added', () => {
