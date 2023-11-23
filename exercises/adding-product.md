@@ -127,3 +127,11 @@ Dodaj funkcjonalność, która niezależnie od rezultatu operacji pozwoli zapisy
 **Ćwiczenie 17.**
 
 Dodaj funkcjonalność zapewniającą, że nowo dodany produkt zawiera czas stworzenia
+
+**Ćwiczenie 18.**
+
+Dodaj funkcjonalność zapewniającą, że zbierane statystki zawierają informacje odnośnie czasu wystąpienia danej akcji.
+
+**Ćwiczenie 19.**
+
+Dodaj funkcjonalność zapewniającą, że zbierane statystki będą posiadały unikalny identyfikator.
