@@ -1,6 +1,7 @@
 const generateLogger = require('../src/logger');
 
 const getNow = () => "2023-11-23T12:12:59.960Z";
+const getId = () => "SOME_ID";
 
 describe('Logger', () => {
   it('should log input values', () => {
@@ -42,6 +43,14 @@ describe('Logger', () => {
     logger.info(undefined, undefined, undefined, "PRODUCT_ID");
     const [{ timestamp }] = logger.get();
     expect(timestamp).toEqual(getNow());
+  });
+  it('log should include id', () => {
+
+    const logger = generateLogger(getNow, getId);
+
+    logger.info(undefined, undefined, undefined, "PRODUCT_ID");
+    const [{ id }] = logger.get();
+    expect(id).toEqual(getId());
   });
 
 });
