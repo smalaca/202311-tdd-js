@@ -1,6 +1,7 @@
 const AssortmentService = require("../src/AssortmentService");
 const AddProductCommand = require("../src/AddProductCommand");
 const ShopClient = require("../src/ShopClient");
+const CategoriesRepository = require("../src/CategoriesRepository");
 const EventPublisher = require("../src/EventPublisher");
 const ValidationError = require("../src/ValidationError");
 
@@ -16,6 +17,7 @@ describe("AssortmentService", () => {
     const EMPTY_ARRAY = [];
 
     let shopClient;
+    let categoriesRepository;
     let eventPublisher;
     let assortmentService;
 
@@ -32,6 +34,7 @@ describe("AssortmentService", () => {
 
         eventPublisher = new EventPublisher();
         shopClient = new ShopClient();
+        categoriesRepository = new CategoriesRepository();
         assortmentService = new AssortmentService(shopClient, eventPublisher);
     });
 
@@ -60,6 +63,7 @@ describe("AssortmentService", () => {
 
             expect(shopClient.addProduct).toHaveBeenCalled();
             let actual = shopClient.addProduct.mock.calls[0][0];
+            expect(categoriesRepository.getValidCategories).toHaveBeenCalled();
             expect(actual.constructor.name).toBe("AddProductCommand");
             expect(actual.getAssortmentId()).toBe(VALID_ASSORTMENT_ID);
             expect(actual.getAmount()).toBe(VALID_AMOUNT);
