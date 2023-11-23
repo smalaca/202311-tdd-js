@@ -103,7 +103,7 @@ describe("AssortmentService", () => {
             expect(actual.getDescription()).toBe(VALID_DESCRIPTION);
         });
 
-        test("with category list", () => {
+        test("with filtered category list", () => {
             givenProductAddedSuccessfully();
             const newCategoryList = [...VALID_CATEGORY_LIST, 'Invalid category name'];
             let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, VALID_PRICE, VALID_DESCRIPTION, newCategoryList);
