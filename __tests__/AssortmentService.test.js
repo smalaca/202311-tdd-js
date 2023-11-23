@@ -102,6 +102,25 @@ describe("AssortmentService", () => {
             expect(actual.getPrice()).toBe(VALID_PRICE);
             expect(actual.getDescription()).toBe(VALID_DESCRIPTION);
         });
+
+        test("with category list", () => {
+            givenProductAddedSuccessfully();
+            const newCategoryList = [...VALID_CATEGORY_LIST, 'Invalid category name'];
+            let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, VALID_PRICE, VALID_DESCRIPTION, newCategoryList);
+
+            assortmentService.addProduct(command);
+
+            expect(shopClient.addProduct).toHaveBeenCalled();
+            let actual = shopClient.addProduct.mock.calls[0][0];
+            expect(actual.constructor.name).toBe("AddProductCommand");
+            expect(actual.getAssortmentId()).toBe(VALID_ASSORTMENT_ID);
+            expect(actual.getAmount()).toBe(VALID_AMOUNT);
+            expect(actual.getName()).toBe(VALID_NAME);
+            assertCodeIsValid(actual.getCode());
+            expect(actual.getPrice()).toBe(VALID_PRICE);
+            expect(actual.getDescription()).toBe(VALID_DESCRIPTION);
+            expect(actual.getCategoryList()).toBe(VALID_CATEGORY_LIST);
+        });
     });
 
     describe('should publish ProductAdded event when product successfully added', () => {
