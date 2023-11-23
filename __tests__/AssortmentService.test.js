@@ -10,6 +10,7 @@ describe("AssortmentService", () => {
     const VALID_PRICE = 123.45;
     const VALID_AMOUNT = 13;
     const VALID_ASSORTMENT_ID = 984;
+    const VALID_CATEGORY_LIST = ['Category 1', 'Category 2', 'Category 3'];
     const PRODUCT_ID = 42;
     const NO_VALUE = undefined;
 
@@ -52,7 +53,7 @@ describe("AssortmentService", () => {
     describe("should add product", () => {
         test("without description", () => {
             givenProductAddedSuccessfully();
-            let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, VALID_PRICE, NO_VALUE);
+            let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, VALID_PRICE, VALID_DESCRIPTION, VALID_CATEGORY_LIST);
 
             assortmentService.addProduct(command);
 
@@ -64,10 +65,28 @@ describe("AssortmentService", () => {
             expect(actual.getName()).toBe(VALID_NAME);
             assertCodeIsValid(actual.getCode());
             expect(actual.getPrice()).toBe(VALID_PRICE);
-            expect(actual.getDescription()).toBeUndefined();
+            expect(actual.getDescription()).toBe(VALID_DESCRIPTION);
+            expect(actual.getCategoryList()).toBe(VALID_CATEGORY_LIST);
         });
 
         test("with description", () => {
+            givenProductAddedSuccessfully();
+            let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, VALID_PRICE, VALID_DESCRIPTION);
+
+            assortmentService.addProduct(command);
+
+            expect(shopClient.addProduct).toHaveBeenCalled();
+            let actual = shopClient.addProduct.mock.calls[0][0];
+            expect(actual.constructor.name).toBe("AddProductCommand");
+            expect(actual.getAssortmentId()).toBe(VALID_ASSORTMENT_ID);
+            expect(actual.getAmount()).toBe(VALID_AMOUNT);
+            expect(actual.getName()).toBe(VALID_NAME);
+            assertCodeIsValid(actual.getCode());
+            expect(actual.getPrice()).toBe(VALID_PRICE);
+            expect(actual.getDescription()).toBe(VALID_DESCRIPTION);
+        });
+
+        test("with category list", () => {
             givenProductAddedSuccessfully();
             let command = new AddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, VALID_PRICE, VALID_DESCRIPTION);
 
