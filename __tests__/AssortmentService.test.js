@@ -46,12 +46,26 @@ describe("AssortmentService", () => {
                 productId: PRODUCT_ID
             }
         });
-    };
+    }
+
+    const givenValidationErrorsWhenAddingProduct = function () {
+        shopClient.addProduct.mockImplementation(() => {
+            return {
+                success: false,
+                errors: [
+                    new ValidationError("name", "something wrong with the name"),
+                    new ValidationError("amount", "I cannot handle such amount of products")
+                ]
+            }
+        })
+    }
+
     const thenProductAdded = function () {
         expect(shopClient.addProduct).toHaveBeenCalled();
         let actual = shopClient.addProduct.mock.calls[0][0];
         return new AddProductCommandAssertion(actual);
     }
+
     const thenProductNotAdded = function () {
         expect(shopClient.addProduct).not.toHaveBeenCalled();;
     }
@@ -239,15 +253,7 @@ describe("AssortmentService", () => {
     });
 
     test('should publish ProductCouldNotBeAdded event when product could not be added', () => {
-        shopClient.addProduct.mockImplementation(() => {
-            return {
-                success: false,
-                errors: [
-                    new ValidationError("name", "something wrong with the name"),
-                    new ValidationError("amount", "I cannot handle such amount of products")
-                ]
-            }
-        })
+        givenValidationErrorsWhenAddingProduct();
         let command = givenAddProductCommand.withoutDescription();
 
         assortmentService.addProduct(command);
