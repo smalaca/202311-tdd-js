@@ -1,13 +1,14 @@
-class ProductAssertion {
+class AddProductCommandAssertion {
     #actual;
 
     constructor(actual) {
+        expect(actual.constructor.name).toBe("AddProductCommand");
         this.#actual = actual;
     }
-    
+
     hasAssortmentId(expected) {
-        expect(this.#actual.getAssortmentId()).toBe(expected); 
-        return this;    
+        expect(this.#actual.getAssortmentId()).toBe(expected);
+        return this;
     }
     
     hasAmount(expected) {
@@ -38,6 +39,11 @@ class ProductAssertion {
         expect(this.#actual.getDescription()).toBe(expected);
         return this;    
     }
+
+    hasNoDescription() {
+        expect(this.#actual.getDescription()).toBeUndefined();
+        return this;
+    }
 }
 
-module.exports = ProductAssertion;
+module.exports = AddProductCommandAssertion;

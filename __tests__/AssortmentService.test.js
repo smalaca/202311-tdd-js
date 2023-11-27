@@ -3,8 +3,11 @@ const AddProductCommand = require("../src/AddProductCommand");
 const ShopClient = require("../src/ShopClient");
 const EventPublisher = require("../src/EventPublisher");
 const ValidationError = require("../src/ValidationError");
+
 const GivenAddProductCommand = require("./GivenAddProductCommand");
-const ProductAssertion = require("./ProductAssertion");
+const AddProductCommandAssertion = require("./AddProductCommandAssertion");
+const ProductAddedAssertion = require("./ProductAddedAssertion");
+const ProductCouldNotBeAddedAssertion = require("./ProductCouldNotBeAddedAssertion");
 
 describe("AssortmentService", () => {
     const VALID_NAME = "1t15Pr0ductN4m3";
@@ -44,12 +47,27 @@ describe("AssortmentService", () => {
             }
         });
     };
+    const thenProductAdded = function () {
+        expect(shopClient.addProduct).toHaveBeenCalled();
+        let actual = shopClient.addProduct.mock.calls[0][0];
+        return new AddProductCommandAssertion(actual);
+    }
+    const thenProductNotAdded = function () {
+        expect(shopClient.addProduct).not.toHaveBeenCalled();;
+    }
 
-    const assertCodeIsValid = function(actual) {
-        expect(actual.startsWith(VALID_NAME)).toBeTruthy();
-        expect(actual.length).toEqual(30);
-        expect(new Set(actual.substring(15).split("")).size).toBeGreaterThan(1);
-        expect(actual.substring(15)).toMatch(/[a-zA-Z0-9]/);
+    const thenProductAddedEventPublished = function () {
+        expect(eventPublisher.publish).toHaveBeenCalled();
+        let actual = eventPublisher.publish.mock.calls[0][0];
+        return new ProductAddedAssertion(actual);
+    }
+
+    const thenProductCouldNotBeAddedEventPublished = function () {
+        expect(eventPublisher.publish).toHaveBeenCalled();
+        let actual = eventPublisher.publish.mock.calls[0][0];
+        expect(actual.constructor.name).toBe("ProductCouldNotBeAdded");
+
+        return new ProductCouldNotBeAddedAssertion(actual);
     }
 
     describe("should add product", () => {
@@ -59,23 +77,14 @@ describe("AssortmentService", () => {
 
             assortmentService.addProduct(command);
 
-            expect(shopClient.addProduct).toHaveBeenCalled();
-            let actual = shopClient.addProduct.mock.calls[0][0];
-            expect(actual.constructor.name).toBe("AddProductCommand");
-            expect(actual.getAssortmentId()).toBe(VALID_ASSORTMENT_ID);
-            expect(actual.getAmount()).toBe(VALID_AMOUNT);
-            expect(actual.getName()).toBe(VALID_NAME);
-            assertCodeIsValid(actual.getCode());
-            expect(actual.getPrice()).toBe(VALID_PRICE);
-            expect(actual.getDescription()).toBeUndefined();
+            thenProductAdded()
+                .hasAssortmentId(VALID_ASSORTMENT_ID)
+                .hasAmount(VALID_AMOUNT)
+                .hasName(VALID_NAME)
+                .hasValidCodeFrom(VALID_NAME)
+                .hasPrice(VALID_PRICE)
+                .hasNoDescription();
         });
-
-        function thenProductAdded() {
-            expect(shopClient.addProduct).toHaveBeenCalled();
-            let actual = shopClient.addProduct.mock.calls[0][0];
-            expect(actual.constructor.name).toBe("AddProductCommand");
-            return new ProductAssertion(actual);
-        }
 
         test("with description", () => {
             givenProductAddedSuccessfully();
@@ -100,16 +109,14 @@ describe("AssortmentService", () => {
 
             assortmentService.addProduct(command);
 
-            expect(eventPublisher.publish).toHaveBeenCalled();
-            let actual = eventPublisher.publish.mock.calls[0][0];
-            expect(actual.constructor.name).toBe("ProductAdded");
-            expect(actual.getProductId()).toBe(PRODUCT_ID);
-            expect(actual.getAssortmentId()).toBe(VALID_ASSORTMENT_ID);
-            expect(actual.getAmount()).toBe(VALID_AMOUNT);
-            expect(actual.getName()).toBe(VALID_NAME);
-            assertCodeIsValid(actual.getCode());
-            expect(actual.getPrice()).toBe(VALID_PRICE);
-            expect(actual.getDescription()).toBeUndefined();
+            thenProductAddedEventPublished()
+                .hasProductId(PRODUCT_ID)
+                .hasAssortmentId(VALID_ASSORTMENT_ID)
+                .hasAmount(VALID_AMOUNT)
+                .hasName(VALID_NAME)
+                .hasValidCodeFrom(VALID_NAME)
+                .hasPrice(VALID_PRICE)
+                .hasNoDescription();
         })
 
         test("when product has description", () => {
@@ -118,16 +125,14 @@ describe("AssortmentService", () => {
 
             assortmentService.addProduct(command);
 
-            expect(eventPublisher.publish).toHaveBeenCalled();
-            let actual = eventPublisher.publish.mock.calls[0][0];
-            expect(actual.constructor.name).toBe("ProductAdded");
-            expect(actual.getProductId()).toBe(PRODUCT_ID);
-            expect(actual.getAssortmentId()).toBe(VALID_ASSORTMENT_ID);
-            expect(actual.getAmount()).toBe(VALID_AMOUNT);
-            expect(actual.getName()).toBe(VALID_NAME);
-            assertCodeIsValid(actual.getCode());
-            expect(actual.getPrice()).toBe(VALID_PRICE);
-            expect(actual.getDescription()).toBe(VALID_DESCRIPTION);
+            thenProductAddedEventPublished()
+                .hasProductId(PRODUCT_ID)
+                .hasAssortmentId(VALID_ASSORTMENT_ID)
+                .hasAmount(VALID_AMOUNT)
+                .hasName(VALID_NAME)
+                .hasValidCodeFrom(VALID_NAME)
+                .hasPrice(VALID_PRICE)
+                .hasDescription(VALID_DESCRIPTION);
         })
     });
 
@@ -137,12 +142,8 @@ describe("AssortmentService", () => {
 
             assortmentService.addProduct(command);
 
-            expect(shopClient.addProduct).not.toHaveBeenCalled();
-            expect(eventPublisher.publish).toHaveBeenCalled();
-            let actual = eventPublisher.publish.mock.calls[0][0];
-            expect(actual.constructor.name).toBe("ProductCouldNotBeAdded");
-            expect(actual.getErrors()).toHaveLength(1);
-            expect(actual.getErrors()).toContainEqual(new ValidationError("name", "Missing product name"));
+            thenProductNotAdded();
+            thenProductCouldNotBeAddedEventPublished().hasOnlyOneError("name", "Missing product name");
         });
 
         test('when missing price', () => {
@@ -150,12 +151,8 @@ describe("AssortmentService", () => {
 
             assortmentService.addProduct(command);
 
-            expect(shopClient.addProduct).not.toHaveBeenCalled();
-            expect(eventPublisher.publish).toHaveBeenCalled();
-            let actual = eventPublisher.publish.mock.calls[0][0];
-            expect(actual.constructor.name).toBe("ProductCouldNotBeAdded");
-            expect(actual.getErrors()).toHaveLength(1);
-            expect(actual.getErrors()).toContainEqual(new ValidationError("price", "Missing product price"));
+            thenProductNotAdded();
+            thenProductCouldNotBeAddedEventPublished().hasOnlyOneError("price", "Missing product price");
         });
 
         test('when name contains 4 characters', () => {
@@ -163,12 +160,8 @@ describe("AssortmentService", () => {
 
             assortmentService.addProduct(command);
 
-            expect(shopClient.addProduct).not.toHaveBeenCalled();
-            expect(eventPublisher.publish).toHaveBeenCalled();
-            let actual = eventPublisher.publish.mock.calls[0][0];
-            expect(actual.constructor.name).toBe("ProductCouldNotBeAdded");
-            expect(actual.getErrors()).toHaveLength(1);
-            expect(actual.getErrors()).toContainEqual(new ValidationError("name", "Invalid product name"));
+            thenProductNotAdded();
+            thenProductCouldNotBeAddedEventPublished().hasOnlyOneError("name", "Invalid product name");
         })
 
         test('when name contains 51 characters', () => {
@@ -176,12 +169,8 @@ describe("AssortmentService", () => {
 
             assortmentService.addProduct(command);
 
-            expect(shopClient.addProduct).not.toHaveBeenCalled();
-            expect(eventPublisher.publish).toHaveBeenCalled();
-            let actual = eventPublisher.publish.mock.calls[0][0];
-            expect(actual.constructor.name).toBe("ProductCouldNotBeAdded");
-            expect(actual.getErrors()).toHaveLength(1);
-            expect(actual.getErrors()).toContainEqual(new ValidationError("name", "Invalid product name"));
+            thenProductNotAdded();
+            thenProductCouldNotBeAddedEventPublished().hasOnlyOneError("name", "Invalid product name");
         })
 
         test('when price is zero', () => {
@@ -189,12 +178,8 @@ describe("AssortmentService", () => {
 
             assortmentService.addProduct(command);
 
-            expect(shopClient.addProduct).not.toHaveBeenCalled();
-            expect(eventPublisher.publish).toHaveBeenCalled();
-            let actual = eventPublisher.publish.mock.calls[0][0];
-            expect(actual.constructor.name).toBe("ProductCouldNotBeAdded");
-            expect(actual.getErrors()).toHaveLength(1);
-            expect(actual.getErrors()).toContainEqual(new ValidationError("price", "Invalid product price"));
+            thenProductNotAdded();
+            thenProductCouldNotBeAddedEventPublished().hasOnlyOneError("price", "Invalid product price");
         })
 
         test('when amount is zero', () => {
@@ -202,12 +187,8 @@ describe("AssortmentService", () => {
 
             assortmentService.addProduct(command);
 
-            expect(shopClient.addProduct).not.toHaveBeenCalled();
-            expect(eventPublisher.publish).toHaveBeenCalled();
-            let actual = eventPublisher.publish.mock.calls[0][0];
-            expect(actual.constructor.name).toBe("ProductCouldNotBeAdded");
-            expect(actual.getErrors()).toHaveLength(1);
-            expect(actual.getErrors()).toContainEqual(new ValidationError("amount", "Invalid product amount"));
+            thenProductNotAdded();
+            thenProductCouldNotBeAddedEventPublished().hasOnlyOneError("amount", "Invalid product amount");
         })
 
         test('when amount is missing', () => {
@@ -215,12 +196,8 @@ describe("AssortmentService", () => {
 
             assortmentService.addProduct(command);
 
-            expect(shopClient.addProduct).not.toHaveBeenCalled();
-            expect(eventPublisher.publish).toHaveBeenCalled();
-            let actual = eventPublisher.publish.mock.calls[0][0];
-            expect(actual.constructor.name).toBe("ProductCouldNotBeAdded");
-            expect(actual.getErrors()).toHaveLength(1);
-            expect(actual.getErrors()).toContainEqual(new ValidationError("amount", "Missing product amount"));
+            thenProductNotAdded();
+            thenProductCouldNotBeAddedEventPublished().hasOnlyOneError("amount", "Missing product amount");
         })
 
         test('when assortment id is missing', () => {
@@ -228,12 +205,8 @@ describe("AssortmentService", () => {
 
             assortmentService.addProduct(command);
 
-            expect(shopClient.addProduct).not.toHaveBeenCalled();
-            expect(eventPublisher.publish).toHaveBeenCalled();
-            let actual = eventPublisher.publish.mock.calls[0][0];
-            expect(actual.constructor.name).toBe("ProductCouldNotBeAdded");
-            expect(actual.getErrors()).toHaveLength(1);
-            expect(actual.getErrors()).toContainEqual(new ValidationError("assortmentId", "Missing assortment id"));
+            thenProductNotAdded();
+            thenProductCouldNotBeAddedEventPublished().hasOnlyOneError("assortmentId", "Missing assortment id");
         })
 
         test('when all required values are missing', () => {
@@ -241,15 +214,13 @@ describe("AssortmentService", () => {
 
             assortmentService.addProduct(command);
 
-            expect(shopClient.addProduct).not.toHaveBeenCalled();
-            expect(eventPublisher.publish).toHaveBeenCalled();
-            let actual = eventPublisher.publish.mock.calls[0][0];
-            expect(actual.constructor.name).toBe("ProductCouldNotBeAdded");
-            expect(actual.getErrors()).toHaveLength(4);
-            expect(actual.getErrors()).toContainEqual(new ValidationError("assortmentId", "Missing assortment id"));
-            expect(actual.getErrors()).toContainEqual(new ValidationError("name", "Missing product name"));
-            expect(actual.getErrors()).toContainEqual(new ValidationError("price", "Missing product price"));
-            expect(actual.getErrors()).toContainEqual(new ValidationError("amount", "Missing product amount"));
+            thenProductNotAdded();
+            thenProductCouldNotBeAddedEventPublished()
+                .hasErrors(4)
+                .hasError("assortmentId", "Missing assortment id")
+                .hasError("name", "Missing product name")
+                .hasError("price", "Missing product price")
+                .hasError("amount", "Missing product amount");
         })
 
         test('when all values are invalid', () => {
@@ -257,15 +228,13 @@ describe("AssortmentService", () => {
 
             assortmentService.addProduct(command);
 
-            expect(shopClient.addProduct).not.toHaveBeenCalled();
-            expect(eventPublisher.publish).toHaveBeenCalled();
-            let actual = eventPublisher.publish.mock.calls[0][0];
-            expect(actual.constructor.name).toBe("ProductCouldNotBeAdded");
-            expect(actual.getErrors()).toHaveLength(4);
-            expect(actual.getErrors()).toContainEqual(new ValidationError("assortmentId", "Missing assortment id"));
-            expect(actual.getErrors()).toContainEqual(new ValidationError("name", "Invalid product name"));
-            expect(actual.getErrors()).toContainEqual(new ValidationError("price", "Invalid product price"));
-            expect(actual.getErrors()).toContainEqual(new ValidationError("amount", "Invalid product amount"));
+            thenProductNotAdded();
+            thenProductCouldNotBeAddedEventPublished()
+                .hasErrors(4)
+                .hasError("assortmentId", "Missing assortment id")
+                .hasError("name", "Invalid product name")
+                .hasError("price", "Invalid product price")
+                .hasError("amount", "Invalid product amount");
         })
     });
 
@@ -283,11 +252,9 @@ describe("AssortmentService", () => {
 
         assortmentService.addProduct(command);
 
-        expect(eventPublisher.publish).toHaveBeenCalled();
-        let actual = eventPublisher.publish.mock.calls[0][0];
-        expect(actual.constructor.name).toBe("ProductCouldNotBeAdded");
-        expect(actual.getErrors()).toHaveLength(2);
-        expect(actual.getErrors()).toContainEqual(new ValidationError("name", "something wrong with the name"));
-        expect(actual.getErrors()).toContainEqual(new ValidationError("amount", "I cannot handle such amount of products"));
+        thenProductCouldNotBeAddedEventPublished()
+            .hasErrors(2)
+            .hasError("name", "something wrong with the name")
+            .hasError("amount", "I cannot handle such amount of products");
     })
 })
