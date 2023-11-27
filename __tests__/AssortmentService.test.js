@@ -8,6 +8,7 @@ const GivenAddProductCommand = require("./GivenAddProductCommand");
 const AddProductCommandAssertion = require("./AddProductCommandAssertion");
 const ProductAddedAssertion = require("./ProductAddedAssertion");
 const ProductCouldNotBeAddedAssertion = require("./ProductCouldNotBeAddedAssertion");
+const ShopClientContract = require("./ShopClientContract");
 
 describe("AssortmentService", () => {
     const VALID_NAME = "1t15Pr0ductN4m3";
@@ -67,7 +68,7 @@ describe("AssortmentService", () => {
     }
 
     const thenProductNotAdded = function () {
-        expect(shopClient.addProduct).not.toHaveBeenCalled();;
+        expect(shopClient.addProduct).not.toHaveBeenCalled();
     }
 
     const thenProductAddedEventPublished = function () {
@@ -83,6 +84,24 @@ describe("AssortmentService", () => {
 
         return new ProductCouldNotBeAddedAssertion(actual);
     }
+
+    test("should add product using shop client contract", () => {
+        let scenario = new ShopClientContract().successfullyAddProductWithoutDescription();
+        shopClient.addProduct.mockImplementation(() => {
+            return scenario.getResponse()
+        });
+        let command = givenAddProductCommand.withoutDescription();
+
+        assortmentService.addProduct(command);
+
+        thenProductAdded()
+            .hasAssortmentId(VALID_ASSORTMENT_ID)
+            .hasAmount(VALID_AMOUNT)
+            .hasName(VALID_NAME)
+            .hasValidCodeFrom(VALID_NAME)
+            .hasPrice(VALID_PRICE)
+            .hasNoDescription();
+    });
 
     describe("should add product", () => {
         test("without description", () => {
