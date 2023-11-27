@@ -46,6 +46,10 @@ class AddProductCommand {
     getCategories() {
         return this.#categories;
     }
+
+    setCategories(categories) {
+        this.#categories = categories;
+    }
 }
 
 module.exports = AddProductCommand;

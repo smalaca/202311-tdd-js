@@ -155,6 +155,7 @@ describe("AssortmentService", () => {
         });
 
         test("when not all categories are allowed", () => {
+            givenProductAddedSuccessfully();
             const allowedOne = "allowed one";
             const allowedTwo = "allowed two";
             categoryRepository.exist.mockImplementation(category => {

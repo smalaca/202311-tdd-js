@@ -22,6 +22,7 @@ class AssortmentService {
         if (event.hasNoErrors()) {
             let code = this.#productCodeFactory.create(command.getName())
             command.setCode(code);
+            command.setCategories(this.#getAllowedCategories(command.getCategories()));
 
             let response = this.#shopClient.addProduct(command);
 
@@ -87,15 +88,21 @@ class AssortmentService {
             return true;
         }
 
-        let invalid = true;
+        let allowedCategories = this.#getAllowedCategories(categories);
+
+        return allowedCategories.length === 0;
+    }
+
+    #getAllowedCategories(categories) {
+        let allowedCategories = [];
 
         categories.forEach((value, index, array) => {
             if (this.#categoryRepository.exist(value)) {
-                invalid = false;
+                allowedCategories.push(value);
             }
         })
 
-        return invalid;
+        return allowedCategories;
     }
 
     #isInvalidName(name) {
