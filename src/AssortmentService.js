@@ -25,6 +25,7 @@ class AssortmentService {
             let code = this.#productCodeFactory.create(command.getName())
             command.setCode(code);
             command.setCategories(this.#getAllowedCategories(command.getCategories()));
+            command.setCreationDate(this.#clock.now());
 
             let response = this.#shopClient.addProduct(command);
 

@@ -48,6 +48,10 @@ class AddProductCommand {
         return this.#creationDate;
     }
 
+    setCreationDate(creationDate) {
+        this.#creationDate = creationDate;
+    }
+
     getCategories() {
         return this.#categories;
     }
