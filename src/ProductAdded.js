@@ -9,7 +9,8 @@ class ProductAdded {
     #description;
     #creationDate;
     #id;
-    constructor(productId, creationDate, assortmentId, amount, name, code, price, categories, description) {
+    constructor(id, productId, creationDate, assortmentId, amount, name, code, price, categories, description) {
+        this.#id = id;
         this.#productId = productId;
         this.#creationDate = creationDate;
         this.#assortmentId = assortmentId;

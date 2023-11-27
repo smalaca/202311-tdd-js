@@ -77,6 +77,7 @@ class AssortmentService {
 
     #asProductAdded(response, command) {
         return new ProductAdded(
+            this.#idFactory.generate(),
             response.productId,
             command.getCreationDate(),
             command.getAssortmentId(),
