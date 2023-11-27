@@ -151,76 +151,22 @@ describe("AssortmentService", () => {
     });
 
     describe('should not add product', () => {
-        test('when missing name', () => {
-            let command = givenAddProductCommand.withoutName();
+        let parameters = [
+            [givenAddProductCommand.withoutName(), "name", "Missing product name"],
+            [givenAddProductCommand.withoutPrice(), "price", "Missing product price"],
+            [givenAddProductCommand.withName( "abcd"), "name", "Invalid product name"],
+            [givenAddProductCommand.withName("a".repeat(51)), "name", "Invalid product name"],
+            [givenAddProductCommand.withPrice(0), "price", "Invalid product price"],
+            [givenAddProductCommand.withAmount(0), "amount", "Invalid product amount"],
+            [givenAddProductCommand.withoutAmount(), "amount", "Missing product amount"],
+            [givenAddProductCommand.withoutAssortmentId(), "assortmentId", "Missing assortment id"],
+        ];
 
+        it.each(parameters)("when one parameter invalid", (command, expectedFieldName, expectedMessage) => {
             assortmentService.addProduct(command);
 
             thenProductNotAdded();
-            thenProductCouldNotBeAddedEventPublished().hasOnlyOneError("name", "Missing product name");
-        });
-
-        test('when missing price', () => {
-            let command = givenAddProductCommand.withoutPrice();
-
-            assortmentService.addProduct(command);
-
-            thenProductNotAdded();
-            thenProductCouldNotBeAddedEventPublished().hasOnlyOneError("price", "Missing product price");
-        });
-
-        test('when name contains 4 characters', () => {
-            let command = givenAddProductCommand.withName( "abcd");
-
-            assortmentService.addProduct(command);
-
-            thenProductNotAdded();
-            thenProductCouldNotBeAddedEventPublished().hasOnlyOneError("name", "Invalid product name");
-        })
-
-        test('when name contains 51 characters', () => {
-            let command = givenAddProductCommand.withName("a".repeat(51));
-
-            assortmentService.addProduct(command);
-
-            thenProductNotAdded();
-            thenProductCouldNotBeAddedEventPublished().hasOnlyOneError("name", "Invalid product name");
-        })
-
-        test('when price is zero', () => {
-            let command = givenAddProductCommand.withPrice(0);
-
-            assortmentService.addProduct(command);
-
-            thenProductNotAdded();
-            thenProductCouldNotBeAddedEventPublished().hasOnlyOneError("price", "Invalid product price");
-        })
-
-        test('when amount is zero', () => {
-            let command = givenAddProductCommand.withAmount(0);
-
-            assortmentService.addProduct(command);
-
-            thenProductNotAdded();
-            thenProductCouldNotBeAddedEventPublished().hasOnlyOneError("amount", "Invalid product amount");
-        })
-
-        test('when amount is missing', () => {
-            let command = givenAddProductCommand.withoutAmount();
-
-            assortmentService.addProduct(command);
-
-            thenProductNotAdded();
-            thenProductCouldNotBeAddedEventPublished().hasOnlyOneError("amount", "Missing product amount");
-        })
-
-        test('when assortment id is missing', () => {
-            let command = givenAddProductCommand.withoutAssortmentId();
-
-            assortmentService.addProduct(command);
-
-            thenProductNotAdded();
-            thenProductCouldNotBeAddedEventPublished().hasOnlyOneError("assortmentId", "Missing assortment id");
+            thenProductCouldNotBeAddedEventPublished().hasOnlyOneError(expectedFieldName, expectedMessage);
         })
 
         test('when all required values are missing', () => {
