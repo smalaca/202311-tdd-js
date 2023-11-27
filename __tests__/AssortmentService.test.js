@@ -182,6 +182,7 @@ describe("AssortmentService", () => {
             [givenAddProductCommand.withoutAmount(), "amount", "Missing product amount"],
             [givenAddProductCommand.withoutAssortmentId(), "assortmentId", "Missing assortment id"],
             [givenAddProductCommand.withoutCategory(), "category", "Missing product category"],
+            [givenAddProductCommand.withCategory("must be array"), "category", "Invalid product category"],
         ];
 
         it.each(parameters)("when one parameter invalid", (command, expectedFieldName, expectedMessage) => {

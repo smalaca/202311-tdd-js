@@ -61,6 +61,10 @@ class GivenAddProductCommand {
     withoutCategory() {
         return new AddProductCommand(this.#assortmentId, this.#amount, this.#name, this.#price, this.#NO_VALUE, this.#description);
     }
+
+    withCategory(category) {
+        return new AddProductCommand(this.#assortmentId, this.#amount, this.#name, this.#price, category, this.#description);
+    }
 }
 
 module.exports = GivenAddProductCommand;
