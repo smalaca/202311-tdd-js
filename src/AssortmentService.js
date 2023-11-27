@@ -34,7 +34,7 @@ class AssortmentService {
             if (response.success === true) {
                 this.#eventPublisher.publish(this.#asProductAdded(response, command))
             } else {
-                this.#eventPublisher.publish(new ProductCouldNotBeAdded(command.getCreationDate(), response.errors))
+                this.#eventPublisher.publish(new ProductCouldNotBeAdded(this.#idFactory.generate(), command.getCreationDate(), response.errors))
             }
         } else {
             this.#eventPublisher.publish(event);
@@ -43,7 +43,7 @@ class AssortmentService {
     }
 
     validate(command) {
-        let event = new ProductCouldNotBeAdded(this.#clock.now());
+        let event = new ProductCouldNotBeAdded(this.#idFactory.generate(), this.#clock.now());
 
         if (command.getAssortmentId() === undefined) {
             event.addError(new ValidationError("assortmentId", "Missing assortment id"));

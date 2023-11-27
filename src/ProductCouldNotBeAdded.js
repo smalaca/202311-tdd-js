@@ -3,7 +3,8 @@ class ProductCouldNotBeAdded {
     #creationDate;
     #id;
 
-    constructor(creationDate, errors) {
+    constructor(id, creationDate, errors) {
+        this.#id = id;
         this.#creationDate = creationDate;
         if (errors === undefined) {
             this.#errors = [];
