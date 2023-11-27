@@ -7,6 +7,7 @@ class ProductAdded {
     #code;
     #price;
     #description;
+    #creationDate;
     constructor(productId, assortmentId, amount, name, code, price, categories, description) {
         this.#productId = productId;
         this.#assortmentId = assortmentId;
@@ -44,6 +45,10 @@ class ProductAdded {
 
     getCategories() {
         return this.#categories;
+    }
+
+    getCreationDate() {
+        return this.#creationDate;
     }
 
     getDescription() {

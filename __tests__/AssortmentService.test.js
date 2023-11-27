@@ -199,6 +199,15 @@ describe("AssortmentService", () => {
     });
 
     describe('should publish ProductAdded event when product successfully added', () => {
+        test("with creation date", () => {
+            givenProductAddedSuccessfully();
+            let command = givenAddProductCommand.withoutDescription();
+
+            assortmentService.addProduct(command);
+
+            thenProductAddedEventPublished().hasCreationDate(NOW);
+        });
+
         test("when product has no description", () => {
             givenProductAddedSuccessfully();
             let command = givenAddProductCommand.withoutDescription();
