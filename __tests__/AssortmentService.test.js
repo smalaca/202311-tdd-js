@@ -5,6 +5,7 @@ const CategoryRepository = require("../src/CategoryRepository");
 const EventPublisher = require("../src/EventPublisher");
 const ValidationError = require("../src/ValidationError");
 const Clock = require("../src/Clock");
+const IdFactory = require("../src/IdFactory");
 
 const GivenAddProductCommand = require("./GivenAddProductCommand");
 const AddProductCommandAssertion = require("./AddProductCommandAssertion");
@@ -23,11 +24,13 @@ describe("AssortmentService", () => {
     const VALID_CATEGORIES = [VALID_CATEGORY]
     const NO_VALUE = undefined;
     const NOW = new Date();
+    const ID = "some identifier";
 
     let shopClient;
     let eventPublisher;
     let categoryRepository;
     let clock;
+    let idFactory;
     let assortmentService;
     let givenAddProductCommand = new GivenAddProductCommand(
         VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, VALID_PRICE, VALID_CATEGORIES, VALID_DESCRIPTION);
@@ -53,11 +56,17 @@ describe("AssortmentService", () => {
             .mockImplementation(jest.fn());
         mockedClock.mockClear();
 
+        let mockedIdFactory = jest
+            .spyOn(IdFactory.prototype, "generate")
+            .mockImplementation(jest.fn());
+        mockedIdFactory.mockClear();
+
         eventPublisher = new EventPublisher();
         shopClient = new ShopClient();
         categoryRepository = new CategoryRepository();
         clock = new Clock();
-        assortmentService = new AssortmentService(shopClient, eventPublisher, categoryRepository, clock);
+        idFactory = new IdFactory();
+        assortmentService = new AssortmentService(shopClient, eventPublisher, categoryRepository, clock, idFactory);
     });
 
     const givenProductAddedSuccessfully = function () {
@@ -112,6 +121,10 @@ describe("AssortmentService", () => {
 
         clock.now.mockImplementation(() => {
             return NOW;
+        })
+
+        idFactory.generate.mockImplementation(() => {
+            return ID;
         })
     });
 

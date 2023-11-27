@@ -9,12 +9,14 @@ class AssortmentService {
     #productCodeFactory;
     #categoryRepository;
     #clock;
+    #idFactory;
 
-    constructor(shopClient, eventPublisher, categoryRepository, clock) {
+    constructor(shopClient, eventPublisher, categoryRepository, clock, idFactory) {
         this.#shopClient = shopClient;
         this.#eventPublisher = eventPublisher;
         this.#categoryRepository = categoryRepository;
         this.#clock = clock;
+        this.#idFactory = idFactory;
         this.#productCodeFactory = new ProductCodeFactory();
     }
 
