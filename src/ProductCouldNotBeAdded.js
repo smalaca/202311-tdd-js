@@ -2,7 +2,8 @@ class ProductCouldNotBeAdded {
     #errors;
     #creationDate;
 
-    constructor(errors) {
+    constructor(creationDate, errors) {
+        this.#creationDate = creationDate;
         if (errors === undefined) {
             this.#errors = [];
         } else {
