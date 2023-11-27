@@ -6,6 +6,11 @@ class AddProductCommandAssertion {
         this.#actual = actual;
     }
 
+    hasCreationDate(expected) {
+        expect(this.#actual.getCreationDate()).toBe(expected);
+        return this;
+    }
+
     hasAssortmentId(expected) {
         expect(this.#actual.getAssortmentId()).toBe(expected);
         return this;

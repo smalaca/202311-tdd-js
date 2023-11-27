@@ -135,6 +135,15 @@ describe("AssortmentService", () => {
     });
 
     describe("should add product", () => {
+        test("with creation date", () => {
+            givenProductAddedSuccessfully();
+            let command = givenAddProductCommand.withoutDescription();
+
+            assortmentService.addProduct(command);
+
+            thenProductAdded().hasCreationDate(NOW);
+        });
+
         test("without description", () => {
             givenProductAddedSuccessfully();
             let command = givenAddProductCommand.withoutDescription();
