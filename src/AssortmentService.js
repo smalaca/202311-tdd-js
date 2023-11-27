@@ -76,6 +76,7 @@ class AssortmentService {
     #asProductAdded(response, command) {
         return new ProductAdded(
             response.productId,
+            command.getCreationDate(),
             command.getAssortmentId(),
             command.getAmount(),
             command.getName(),
