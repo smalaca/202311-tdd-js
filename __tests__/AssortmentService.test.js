@@ -197,11 +197,12 @@ describe("AssortmentService", () => {
 
             thenProductNotAdded();
             thenProductCouldNotBeAddedEventPublished()
-                .hasErrors(4)
+                .hasErrors(5)
                 .hasError("assortmentId", "Missing assortment id")
                 .hasError("name", "Missing product name")
                 .hasError("price", "Missing product price")
-                .hasError("amount", "Missing product amount");
+                .hasError("amount", "Missing product amount")
+                .hasError("category", "Missing product category");
         })
 
         test('when all values are invalid', () => {

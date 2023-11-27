@@ -35,7 +35,7 @@ class GivenAddProductCommand {
     }
 
     withoutRequiredValues() {
-        return new AddProductCommand(this.#NO_VALUE, this.#NO_VALUE, this.#NO_VALUE, this.#NO_VALUE);
+        return new AddProductCommand(this.#NO_VALUE, this.#NO_VALUE, this.#NO_VALUE, this.#NO_VALUE, this.#NO_VALUE);
     }
 
     withoutAssortmentId() {
