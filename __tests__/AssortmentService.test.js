@@ -210,6 +210,27 @@ describe("AssortmentService", () => {
                 .hasCategories(VALID_CATEGORIES)
                 .hasDescription(VALID_DESCRIPTION);
         })
+
+        test("when not all categories are allowed", () => {
+            givenProductAddedSuccessfully();
+            const allowedOne = "allowed one";
+            const allowedTwo = "allowed two";
+            categoryRepository.exist.mockImplementation(category => {
+                return category === allowedOne || category === allowedTwo;
+            })
+            let command = givenAddProductCommand.withCategories(["not allowed one", allowedTwo, "not allowed two", allowedOne]);
+
+            assortmentService.addProduct(command);
+
+            thenProductAddedEventPublished()
+                .hasAssortmentId(VALID_ASSORTMENT_ID)
+                .hasAmount(VALID_AMOUNT)
+                .hasName(VALID_NAME)
+                .hasValidCodeFrom(VALID_NAME)
+                .hasPrice(VALID_PRICE)
+                .hasCategories([allowedOne, allowedTwo])
+                .hasDescription(VALID_DESCRIPTION);
+        })
     });
 
     describe('should not add product', () => {
