@@ -42,7 +42,7 @@ class AssortmentService {
         }
 
         if (command.getCategory() === undefined) {
-            event.addError(new ValidationError("category", "Missing product category"));
+            event.addError(new ValidationError("categories", "Missing product categories"));
         }
 
         if (command.getName() === undefined) {

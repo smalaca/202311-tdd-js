@@ -17,14 +17,14 @@ describe("AssortmentService", () => {
     const VALID_AMOUNT = 13;
     const VALID_ASSORTMENT_ID = 984;
     const PRODUCT_ID = 42;
-    const VALID_CATEGORY = ["book"]
+    const VALID_CATEGORIES = ["book"]
     const NO_VALUE = undefined;
 
     let shopClient;
     let eventPublisher;
     let assortmentService;
     let givenAddProductCommand = new GivenAddProductCommand(
-        VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, VALID_PRICE, VALID_CATEGORY, VALID_DESCRIPTION);
+        VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, VALID_PRICE, VALID_CATEGORIES, VALID_DESCRIPTION);
 
     beforeEach(() => {
         let mockedShopClient = jest
@@ -181,8 +181,8 @@ describe("AssortmentService", () => {
             [givenAddProductCommand.withAmount(0), "amount", "Invalid product amount"],
             [givenAddProductCommand.withoutAmount(), "amount", "Missing product amount"],
             [givenAddProductCommand.withoutAssortmentId(), "assortmentId", "Missing assortment id"],
-            [givenAddProductCommand.withoutCategory(), "category", "Missing product category"],
-            [givenAddProductCommand.withCategory("must be array"), "category", "Invalid product category"],
+            [givenAddProductCommand.withoutCategories(), "categories", "Missing product categories"],
+            [givenAddProductCommand.withCategories("must be array"), "categories", "Invalid product categories"],
         ];
 
         it.each(parameters)("when one parameter invalid", (command, expectedFieldName, expectedMessage) => {
@@ -204,11 +204,11 @@ describe("AssortmentService", () => {
                 .hasError("name", "Missing product name")
                 .hasError("price", "Missing product price")
                 .hasError("amount", "Missing product amount")
-                .hasError("category", "Missing product category");
+                .hasError("categories", "Missing product categories");
         })
 
         test('when all values are invalid', () => {
-            let command = new AddProductCommand(NO_VALUE, 0, "aaaa", 0, VALID_CATEGORY);
+            let command = new AddProductCommand(NO_VALUE, 0, "aaaa", 0, VALID_CATEGORIES);
 
             assortmentService.addProduct(command);
 

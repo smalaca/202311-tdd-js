@@ -4,34 +4,34 @@ class GivenAddProductCommand {
     #NO_VALUE = undefined;
     #assortmentId;
     #amount;
-    #category;
+    #categories;
     #name;
     #price;
     #description;
 
-    constructor(assortmentId, amount, name, price, category, description) {
+    constructor(assortmentId, amount, name, price, categories, description) {
         this.#assortmentId = assortmentId;
         this.#amount = amount;
         this.#name = name;
         this.#price = price;
-        this.#category = category;
+        this.#categories = categories;
         this.#description = description;
     }
 
     withoutDescription() {
-        return new AddProductCommand(this.#assortmentId, this.#amount, this.#name, this.#price, this.#category, this.#NO_VALUE);
+        return new AddProductCommand(this.#assortmentId, this.#amount, this.#name, this.#price, this.#categories, this.#NO_VALUE);
     }
 
     withDescription() {
-        return new AddProductCommand(this.#assortmentId, this.#amount, this.#name, this.#price, this.#category, this.#description);
+        return new AddProductCommand(this.#assortmentId, this.#amount, this.#name, this.#price, this.#categories, this.#description);
     }
 
     withoutName() {
-        return new AddProductCommand(this.#assortmentId, this.#amount, this.#NO_VALUE, this.#price, this.#category, this.#description);
+        return new AddProductCommand(this.#assortmentId, this.#amount, this.#NO_VALUE, this.#price, this.#categories, this.#description);
     }
 
     withoutPrice() {
-        return new AddProductCommand(this.#assortmentId, this.#amount, this.#name, this.#NO_VALUE, this.#category, this.#description);
+        return new AddProductCommand(this.#assortmentId, this.#amount, this.#name, this.#NO_VALUE, this.#categories, this.#description);
     }
 
     withoutRequiredValues() {
@@ -39,31 +39,31 @@ class GivenAddProductCommand {
     }
 
     withoutAssortmentId() {
-        return new AddProductCommand(this.#NO_VALUE, this.#amount, this.#name, this.#price, this.#category, this.#description);
+        return new AddProductCommand(this.#NO_VALUE, this.#amount, this.#name, this.#price, this.#categories, this.#description);
     }
 
     withoutAmount() {
-        return new AddProductCommand(this.#assortmentId, this.#NO_VALUE, this.#name, this.#price, this.#category, this.#description);
+        return new AddProductCommand(this.#assortmentId, this.#NO_VALUE, this.#name, this.#price, this.#categories, this.#description);
     }
 
     withAmount(amount) {
-        return new AddProductCommand(this.#assortmentId, amount, this.#name, this.#price, this.#category, this.#description);
+        return new AddProductCommand(this.#assortmentId, amount, this.#name, this.#price, this.#categories, this.#description);
     }
 
     withPrice(price) {
-        return new AddProductCommand(this.#assortmentId, this.#amount, this.#name, price, this.#category, this.#description);
+        return new AddProductCommand(this.#assortmentId, this.#amount, this.#name, price, this.#categories, this.#description);
     }
 
     withName(name) {
-        return new AddProductCommand(this.#assortmentId, this.#amount, name, this.#price, this.#category, this.#description);
+        return new AddProductCommand(this.#assortmentId, this.#amount, name, this.#price, this.#categories, this.#description);
     }
 
-    withoutCategory() {
+    withoutCategories() {
         return new AddProductCommand(this.#assortmentId, this.#amount, this.#name, this.#price, this.#NO_VALUE, this.#description);
     }
 
-    withCategory(category) {
-        return new AddProductCommand(this.#assortmentId, this.#amount, this.#name, this.#price, category, this.#description);
+    withCategories(categories) {
+        return new AddProductCommand(this.#assortmentId, this.#amount, this.#name, this.#price, categories, this.#description);
     }
 }
 
