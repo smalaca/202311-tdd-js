@@ -77,6 +77,7 @@ class AssortmentService {
             command.getName(),
             command.getCode(),
             command.getPrice(),
+            command.getCategories(),
             command.getDescription()
         );
     }

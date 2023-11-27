@@ -2,17 +2,19 @@ class ProductAdded {
     #productId;
     #assortmentId;
     #amount;
+    #categories;
     #name;
     #code;
     #price;
     #description;
-    constructor(productId, assortmentId, amount, name, code, price, description) {
+    constructor(productId, assortmentId, amount, name, code, price, categories, description) {
         this.#productId = productId;
         this.#assortmentId = assortmentId;
         this.#amount = amount;
         this.#name = name;
         this.#code = code;
         this.#price = price;
+        this.#categories = categories;
         this.#description = description;
     }
 
@@ -38,6 +40,10 @@ class ProductAdded {
 
     getPrice() {
         return this.#price;
+    }
+
+    getCategories() {
+        return this.#categories;
     }
 
     getDescription() {
