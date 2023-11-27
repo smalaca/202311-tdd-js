@@ -1,15 +1,17 @@
 class AddProductCommand {
     #assortmentId;
     #amount;
+    #category;
     #name;
     #code;
     #price;
     #description;
-    constructor(assortmentId, amount, name, price, description) {
+    constructor(assortmentId, amount, name, price, category, description) {
         this.#assortmentId = assortmentId;
         this.#amount = amount;
         this.#name = name;
         this.#price = price;
+        this.#category = category;
         this.#description = description;
     }
 
@@ -39,6 +41,10 @@ class AddProductCommand {
 
     getAssortmentId() {
         return this.#assortmentId;
+    }
+
+    getCategory() {
+        return this.#category;
     }
 }
 

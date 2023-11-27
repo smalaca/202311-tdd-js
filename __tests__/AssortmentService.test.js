@@ -17,12 +17,14 @@ describe("AssortmentService", () => {
     const VALID_AMOUNT = 13;
     const VALID_ASSORTMENT_ID = 984;
     const PRODUCT_ID = 42;
+    const VALID_CATEGORY = ["book"]
     const NO_VALUE = undefined;
 
     let shopClient;
     let eventPublisher;
     let assortmentService;
-    let givenAddProductCommand = new GivenAddProductCommand(VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, VALID_PRICE, VALID_DESCRIPTION);
+    let givenAddProductCommand = new GivenAddProductCommand(
+        VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, VALID_PRICE, VALID_CATEGORY, VALID_DESCRIPTION);
 
     beforeEach(() => {
         let mockedShopClient = jest
@@ -203,7 +205,7 @@ describe("AssortmentService", () => {
         })
 
         test('when all values are invalid', () => {
-            let command = new AddProductCommand(NO_VALUE, 0, "aaaa", 0);
+            let command = new AddProductCommand(NO_VALUE, 0, "aaaa", 0, VALID_CATEGORY);
 
             assortmentService.addProduct(command);
 

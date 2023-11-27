@@ -5,7 +5,7 @@ class ShopClientContract {
 
     successfullyAddProductWithoutDescription() {
         return new ShopClientScenario(
-            new AddProductCommand(1, 32, "somename", 123, undefined), {
+            new AddProductCommand(1, 32, "somename", 123, ["book"], undefined), {
                 success: true,
                 productId: 42
             });
