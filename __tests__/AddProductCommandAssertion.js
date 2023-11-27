@@ -36,7 +36,10 @@ class AddProductCommandAssertion {
     }
 
     hasCategories(expected) {
-        expect(this.#actual.getCategories()).toBe(expected);
+        expected.forEach(expectedCategory => {
+            expect(this.#actual.getCategories().includes(expectedCategory)).toBeTruthy();
+        })
+
         return this;
     }
     
