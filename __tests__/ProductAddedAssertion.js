@@ -39,6 +39,12 @@ class AddProductCommandAssertion {
         expect(this.#actual.getPrice()).toBe(expected);
         return this;    
     }
+
+
+    hasCategories(expected) {
+        expect(this.#actual.getCategories()).toBe(expected);
+        return this;
+    }
     
     hasDescription(expected) {
         expect(this.#actual.getDescription()).toBe(expected);
