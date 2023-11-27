@@ -41,9 +41,9 @@ class AssortmentService {
             event.addError(new ValidationError("assortmentId", "Missing assortment id"));
         }
 
-        if (command.getCategory() === undefined) {
+        if (command.getCategories() === undefined) {
             event.addError(new ValidationError("categories", "Missing product categories"));
-        } else if (!Array.isArray(command.getCategory())) {
+        } else if (!Array.isArray(command.getCategories())) {
             event.addError(new ValidationError("categories", "Invalid product categories"));
         }
 

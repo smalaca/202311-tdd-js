@@ -43,7 +43,7 @@ class AddProductCommand {
         return this.#assortmentId;
     }
 
-    getCategory() {
+    getCategories() {
         return this.#categories;
     }
 }
