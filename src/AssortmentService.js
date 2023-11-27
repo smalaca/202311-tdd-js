@@ -45,7 +45,7 @@ class AssortmentService {
 
         if (command.getCategories() === undefined) {
             event.addError(new ValidationError("categories", "Missing product categories"));
-        } else if (!Array.isArray(command.getCategories()) || command.getCategories().length === 0) {
+        } else if (this.#areInvalidCategories(command.getCategories())) {
             event.addError(new ValidationError("categories", "Invalid product categories"));
         }
 
@@ -81,6 +81,23 @@ class AssortmentService {
             command.getDescription()
         );
     }
+
+    #areInvalidCategories(categories) {
+        if (!Array.isArray(categories) || categories.length === 0) {
+            return true;
+        }
+
+        let invalid = true;
+
+        categories.forEach((value, index, array) => {
+            if (this.#categoryRepository.exist(value)) {
+                invalid = false;
+            }
+        })
+
+        return invalid;
+    }
+
     #isInvalidName(name) {
         return name.length < 5 || name.length > 50;
     }
