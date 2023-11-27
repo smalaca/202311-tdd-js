@@ -327,6 +327,15 @@ describe("AssortmentService", () => {
                 .hasError("amount", "Invalid product amount")
                 .hasError("categories", "Invalid product categories");
         })
+
+        test("with creation date", () => {
+            let command = givenAddProductCommand.withoutPrice();
+
+            assortmentService.addProduct(command);
+
+            thenProductNotAdded();
+            thenProductCouldNotBeAddedEventPublished().hasCreationDate(NOW);
+        });
     });
 
     test('should publish ProductCouldNotBeAdded event when product could not be added', () => {

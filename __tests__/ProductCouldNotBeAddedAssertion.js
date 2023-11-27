@@ -25,6 +25,11 @@ class ProductCouldNotBeAddedAssertion {
 
         return this;
     }
+
+    hasCreationDate(expected) {
+        expect(this.#actual.getCreationDate()).toBe(expected);
+        return this;
+    }
 }
 
 module.exports = ProductCouldNotBeAddedAssertion;

@@ -1,5 +1,7 @@
 class ProductCouldNotBeAdded {
     #errors;
+    #creationDate;
+
     constructor(errors) {
         if (errors === undefined) {
             this.#errors = [];
@@ -14,6 +16,10 @@ class ProductCouldNotBeAdded {
 
     getErrors() {
         return this.#errors;
+    }
+
+    getCreationDate() {
+        return this.#creationDate;
     }
 
     hasNoErrors() {
