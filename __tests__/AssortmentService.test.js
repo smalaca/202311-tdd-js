@@ -4,6 +4,7 @@ const ShopClient = require("../src/ShopClient");
 const EventPublisher = require("../src/EventPublisher");
 const ValidationError = require("../src/ValidationError");
 const GivenAddProductCommand = require("./GivenAddProductCommand");
+const ProductAssertion = require("./ProductAssertion");
 
 describe("AssortmentService", () => {
     const VALID_NAME = "1t15Pr0ductN4m3";
@@ -73,8 +74,7 @@ describe("AssortmentService", () => {
             expect(shopClient.addProduct).toHaveBeenCalled();
             let actual = shopClient.addProduct.mock.calls[0][0];
             expect(actual.constructor.name).toBe("AddProductCommand");
-            return actual;
-            // return new ProductAssertion(actual);
+            return new ProductAssertion(actual);
         }
 
         test("with description", () => {
@@ -83,21 +83,13 @@ describe("AssortmentService", () => {
 
             assortmentService.addProduct(command);
 
-            // thenProductAdded()
-            //     .hasAssortmentId(VALID_ASSORTMENT_ID)
-            //     .hasAmount(VALID_AMOUNT)
-            //     .hasName(VALID_NAME)
-            //     .hasValidCode()
-            //     .hasPrice(VALID_PRICE)
-            //     .hasDescription(VALID_DESCRIPTION);
-            let actual = thenProductAdded();
-            expect(actual.constructor.name).toBe("AddProductCommand");
-            expect(actual.getAssortmentId()).toBe(VALID_ASSORTMENT_ID);
-            expect(actual.getAmount()).toBe(VALID_AMOUNT);
-            expect(actual.getName()).toBe(VALID_NAME);
-            assertCodeIsValid(actual.getCode());
-            expect(actual.getPrice()).toBe(VALID_PRICE);
-            expect(actual.getDescription()).toBe(VALID_DESCRIPTION);
+            thenProductAdded()
+                .hasAssortmentId(VALID_ASSORTMENT_ID)
+                .hasAmount(VALID_AMOUNT)
+                .hasName(VALID_NAME)
+                .hasValidCodeFrom(VALID_NAME)
+                .hasPrice(VALID_PRICE)
+                .hasDescription(VALID_DESCRIPTION);
         });
     });
 
