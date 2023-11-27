@@ -1,6 +1,7 @@
 const AssortmentService = require("../src/AssortmentService");
 const AddProductCommand = require("../src/AddProductCommand");
 const ShopClient = require("../src/ShopClient");
+const CategoryRepository = require("../src/CategoryRepository");
 const EventPublisher = require("../src/EventPublisher");
 const ValidationError = require("../src/ValidationError");
 
@@ -17,11 +18,13 @@ describe("AssortmentService", () => {
     const VALID_AMOUNT = 13;
     const VALID_ASSORTMENT_ID = 984;
     const PRODUCT_ID = 42;
-    const VALID_CATEGORIES = ["book"]
+    const VALID_CATEGORY = "book";
+    const VALID_CATEGORIES = [VALID_CATEGORY]
     const NO_VALUE = undefined;
 
     let shopClient;
     let eventPublisher;
+    let categoryRepository;
     let assortmentService;
     let givenAddProductCommand = new GivenAddProductCommand(
         VALID_ASSORTMENT_ID, VALID_AMOUNT, VALID_NAME, VALID_PRICE, VALID_CATEGORIES, VALID_DESCRIPTION);
@@ -37,9 +40,15 @@ describe("AssortmentService", () => {
             .mockImplementation(jest.fn());
         mockedEventPublisher.mockClear();
 
+        let mockedCategoryRepository = jest
+            .spyOn(CategoryRepository.prototype, "exist")
+            .mockImplementation(jest.fn());
+        mockedCategoryRepository.mockClear();
+
         eventPublisher = new EventPublisher();
         shopClient = new ShopClient();
-        assortmentService = new AssortmentService(shopClient, eventPublisher);
+        categoryRepository = new CategoryRepository();
+        assortmentService = new AssortmentService(shopClient, eventPublisher, categoryRepository);
     });
 
     const givenProductAddedSuccessfully = function () {
@@ -86,6 +95,12 @@ describe("AssortmentService", () => {
 
         return new ProductCouldNotBeAddedAssertion(actual);
     }
+
+    beforeEach(() => {
+        categoryRepository.exist.mockImplementation(category => {
+            return category === VALID_CATEGORY;
+        })
+    });
 
     test("should add product using shop client contract", () => {
         let scenario = new ShopClientContract().successfullyAddProductWithoutDescription();
