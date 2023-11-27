@@ -229,17 +229,18 @@ describe("AssortmentService", () => {
         })
 
         test('when all values are invalid', () => {
-            let command = new AddProductCommand(NO_VALUE, 0, "aaaa", 0, VALID_CATEGORIES);
+            let command = new AddProductCommand(NO_VALUE, 0, "aaaa", 0, "invalid");
 
             assortmentService.addProduct(command);
 
             thenProductNotAdded();
             thenProductCouldNotBeAddedEventPublished()
-                .hasErrors(4)
+                .hasErrors(5)
                 .hasError("assortmentId", "Missing assortment id")
                 .hasError("name", "Invalid product name")
                 .hasError("price", "Invalid product price")
-                .hasError("amount", "Invalid product amount");
+                .hasError("amount", "Invalid product amount")
+                .hasError("categories", "Invalid product categories");
         })
     });
 
