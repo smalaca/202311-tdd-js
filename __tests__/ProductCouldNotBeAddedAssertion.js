@@ -30,6 +30,11 @@ class ProductCouldNotBeAddedAssertion {
         expect(this.#actual.getCreationDate()).toBe(expected);
         return this;
     }
+
+    hasId(expected) {
+        expect(this.#actual.getId()).toBe(expected);
+        return this;
+    }
 }
 
 module.exports = ProductCouldNotBeAddedAssertion;

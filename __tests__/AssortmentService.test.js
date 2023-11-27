@@ -349,6 +349,15 @@ describe("AssortmentService", () => {
             thenProductNotAdded();
             thenProductCouldNotBeAddedEventPublished().hasCreationDate(NOW);
         });
+
+        test("with id", () => {
+            let command = givenAddProductCommand.withoutPrice();
+
+            assortmentService.addProduct(command);
+
+            thenProductNotAdded();
+            thenProductCouldNotBeAddedEventPublished().hasId(ID);
+        });
     });
 
     test('should publish ProductCouldNotBeAdded event when product could not be added', () => {
