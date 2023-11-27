@@ -8,6 +8,7 @@ class ProductAdded {
     #price;
     #description;
     #creationDate;
+    #id;
     constructor(productId, creationDate, assortmentId, amount, name, code, price, categories, description) {
         this.#productId = productId;
         this.#creationDate = creationDate;
@@ -50,6 +51,10 @@ class ProductAdded {
 
     getCreationDate() {
         return this.#creationDate;
+    }
+
+    getId() {
+        return this.#id;
     }
 
     getDescription() {
