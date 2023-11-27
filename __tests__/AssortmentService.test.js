@@ -213,6 +213,18 @@ describe("AssortmentService", () => {
             thenProductCouldNotBeAddedEventPublished().hasOnlyOneError(expectedFieldName, expectedMessage);
         })
 
+        test("when all categories are not allowed", () => {
+            categoryRepository.exist.mockImplementation(category => {
+                return false;
+            })
+            let command = givenAddProductCommand.withCategories(["not allowed one", "not allowed two"]);
+
+            assortmentService.addProduct(command);
+
+            thenProductNotAdded();
+            thenProductCouldNotBeAddedEventPublished().hasOnlyOneError("categories", "Invalid product categories");
+        })
+
         test('when all required values are missing', () => {
             let command = givenAddProductCommand.withoutRequiredValues();
 
