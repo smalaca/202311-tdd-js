@@ -117,6 +117,7 @@ describe("AssortmentService", () => {
             .hasName(VALID_NAME)
             .hasValidCodeFrom(VALID_NAME)
             .hasPrice(VALID_PRICE)
+            .hasCategories(VALID_CATEGORIES)
             .hasNoDescription();
     });
 
@@ -133,6 +134,7 @@ describe("AssortmentService", () => {
                 .hasName(VALID_NAME)
                 .hasValidCodeFrom(VALID_NAME)
                 .hasPrice(VALID_PRICE)
+                .hasCategories(VALID_CATEGORIES)
                 .hasNoDescription();
         });
 
@@ -148,6 +150,7 @@ describe("AssortmentService", () => {
                 .hasName(VALID_NAME)
                 .hasValidCodeFrom(VALID_NAME)
                 .hasPrice(VALID_PRICE)
+                .hasCategories(VALID_CATEGORIES)
                 .hasDescription(VALID_DESCRIPTION);
         });
     });
